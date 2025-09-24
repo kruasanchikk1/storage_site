@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Storage - Сохраним игры прошлого</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'dark-bg': '#0f172a',
+                        'burgundy': '#991b1b',
+                        'gold': '#f59e0b',
+                        'navy': '#1e3a8a'
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-dark-bg text-white min-h-screen">
+    <!-- Шапка -->
+    <header class="bg-dark-bg border-b border-gray-700">
+        <nav class="container mx-auto px-4 py-6">
+            <div class="flex justify-between items-center">
+                <div class="text-2xl font-bold text-gold">Storage</div>
+                <div class="space-x-4">
+                    <a href="#about" class="hover:text-gold transition">О проекте</a>
+                    <a href="#how" class="hover:text-gold transition">Как работает</a>
+                    <a href="#form" class="hover:text-gold transition">Предложить игру</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Главный экран -->
+    <section class="relative py-20 px-4">
+        <div class="container mx-auto text-center">
+            <h1 class="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-gold to-burgundy bg-clip-text text-transparent">
+                Сохраним игры прошлого
+            </h1>
+            <p class="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+                Народные игры — это живая история. Мы оцифровываем культурное наследие, 
+                чтобы традиции наших предков не канули в лету. Присоединяйся к нашему движению!
+            </p>
+            <div class="space-x-4 space-y-4 sm:space-y-0">
+                <a href="game.html" class="bg-burgundy hover:bg-red-800 text-white px-8 py-3 rounded-lg font-semibold transition duration-300">
+                    🎮 Играть сейчас
+                </a>
+                <a href="#form" class="bg-navy hover:bg-blue-800 text-white px-8 py-3 rounded-lg font-semibold transition duration-300">
+                    📖 Предложить игру
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- О проекте -->
+    <section id="about" class="py-16 px-4">
+        <div class="container mx-auto">
+            <h2 class="text-3xl font-bold text-center mb-12 text-gold">Для кого этот проект?</h2>
+            <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                <div class="bg-gray-800 p-6 rounded-lg border-l-4 border-gold">
+                    <h3 class="text-xl font-bold mb-3">👦 Для молодежи</h3>
+                    <p class="text-gray-300">
+                        "Узнай культуру через игру". Современный и увлекательный способ 
+                        изучать традиции разных народов. Не скучные учебники, а живые эмоции!
+                    </p>
+                </div>
+                <div class="bg-gray-800 p-6 rounded-lg border-l-4 border-burgundy">
+                    <h3 class="text-xl font-bold mb-3">👵 Для старшего поколения</h3>
+                    <p class="text-gray-300">
+                        "Передай традиции новым поколениям". Твой опыт бесценен! 
+                        Помоги сохранить игры твоего детства для внуков и правнуков.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Как это работает -->
+    <section id="how" class="py-16 px-4 bg-gray-900">
+        <div class="container mx-auto">
+            <h2 class="text-3xl font-bold text-center mb-12 text-gold">Как это работает?</h2>
+            <div class="grid md:grid-cols-4 gap-6 max-w-4xl mx-auto">
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-burgundy rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span class="text-2xl">🌍</span>
+                    </div>
+                    <h3 class="font-semibold mb-2">Крути глобус</h3>
+                    <p class="text-sm text-gray-400">Выбирай любую страну или регион</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-navy rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span class="text-2xl">👥</span>
+                    </div>
+                    <h3 class="font-semibold mb-2">Найди напарника</h3>
+                    <p class="text-sm text-gray-400">Играй с людьми со всего мира</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-gold rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span class="text-2xl">🎯</span>
+                    </div>
+                    <h3 class="font-semibold mb-2">Играй и узнавай</h3>
+                    <p class="text-sm text-gray-400">Погрузись в культуру через геймплей</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-burgundy rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span class="text-2xl">💬</span>
+                    </div>
+                    <h3 class="font-semibold mb-2">Делись историей</h3>
+                    <p class="text-sm text-gray-400">Расскажи о играх своего детства</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Форма -->
+    <section id="form" class="py-16 px-4">
+        <div class="container mx-auto max-w-2xl">
+            <h2 class="text-3xl font-bold text-center mb-8 text-gold">Расскажи о игре из своего детства!</h2>
+            <p class="text-gray-300 text-center mb-8">
+                Каждая история важна. Помоги нам сохранить культурное наследие для будущих поколений.
+            </p>
+            
+            <!-- Замени этот iframe на свою Google Forms -->
+            <div class="bg-gray-800 rounded-lg p-6">
+                <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSe.../viewform?embedded=true" 
+                        width="100%" height="600" frameborder="0" marginheight="0" marginwidth="0"
+                        class="rounded">
+                    Загрузка формы...
+                </iframe>
+            </div>
+            
+            <div class="text-center mt-6 text-gray-400">
+                <p>Или напиши нам в Telegram: <a href="#" class="text-gold hover:underline">@storage_bot</a></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Футер -->
+    <footer class="bg-gray-900 py-8 px-4 border-t border-gray-700">
+        <div class="container mx-auto text-center">
+            <p class="text-gray-400">© 2024 Storage. Сохраним игровое наследие вместе.</p>
+            <p class="text-gray-500 text-sm mt-2">Проект создан с любовью к культуре и традициям</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
