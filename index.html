@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STORAGE • Цифровой архив народных игр</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'deep-blue': '#0a1644',
+                        'electric-blue': '#6cc3ee',
+                        'ocean-blue': '#1e3a8a',
+                        'light-blue': '#bae6fd',
+                        'navy': '#0f172a',
+                        'medium-blue': '#1e3a8a'
+                    },
+                    fontFamily: {
+                        'tech': ['Orbitron', 'Monaco', 'Courier New', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-deep-blue text-white font-tech min-h-screen">
+    <!-- Шапка -->
+    <header class="bg-deep-blue border-b border-electric-blue/30 backdrop-blur-lg sticky top-0 z-50">
+        <nav class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <div class="text-2xl font-black">
+                    <span class="text-electric-blue">⟁</span>
+                    <span class="text-white ml-2">STORAGE</span>
+                </div>
+                <div class="space-x-8">
+                    <a href="#mission" class="hover:text-electric-blue transition duration-300 text-sm uppercase tracking-widest glow-text">Миссия</a>
+                    <a href="#artifacts" class="hover:text-electric-blue transition duration-300 text-sm uppercase tracking-widest glow-text">Артефакты</a>
+                    <a href="#form" class="hover:text-electric-blue transition duration-300 text-sm uppercase tracking-widest glow-text">Вклад</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Главный экран -->
+    <section class="relative py-16 px-4 bg-gradient-to-br from-deep-blue via-navy to-ocean-blue min-h-screen flex items-center">
+        <div class="container mx-auto text-center">
+            <!-- Увеличенный блок с надписью "Цифровой ковчег активирован" -->
+            <div class="inline-block bg-electric-blue/20 border border-electric-blue/30 px-6 py-3 rounded-full mb-12 backdrop-blur-sm transform translate-y-[-20px]">
+                <span class="text-electric-blue text-lg uppercase tracking-widest font-bold">Цифровой ковчег активирован</span>
+            </div>
+
+            <!-- STOR - белым, AGE - голубым -->
+            <h1 class="text-8xl md:text-9xl font-black mb-8 leading-none hero-title">
+                <span class="text-white">STOR</span>
+                <span class="text-electric-blue">AGE</span>
+            </h1>
+
+            <p class="text-xl text-light-blue mb-12 max-w-3xl mx-auto leading-relaxed">
+                Цифровое хранилище игрового наследия человечества.
+                Сохраняем, оцифровываем, возрождаем народные игры со всего мира.
+            </p>
+
+            <div class="space-x-6">
+                <a href="game.html" class="bg-electric-blue hover:bg-light-blue text-deep-blue px-10 py-5 rounded-lg font-black transition duration-300 border-2 border-electric-blue hover:border-light-blue uppercase tracking-widest text-lg shadow-2xl shadow-electric-blue/30">
+                    <i class="fas fa-play mr-3"></i>Исследовать архив
+                </a>
+                <a href="#artifacts" class="bg-transparent hover:bg-electric-blue/20 text-electric-blue px-10 py-5 rounded-lg font-black transition duration-300 border-2 border-electric-blue hover:border-light-blue uppercase tracking-widest text-lg">
+                    <i class="fas fa-archive mr-3"></i>Смотреть артефакты
+                </a>
+            </div>
+        </div>
+
+        <!-- Анимированный фон -->
+        <div class="absolute inset-0 overflow-hidden z-0">
+            <div class="floating-shapes"></div>
+        </div>
+    </section>
+
+    <!-- Статистика -->
+    <section class="py-16 px-4 bg-gradient-to-r from-ocean-blue/50 to-deep-blue/50 backdrop-blur-lg">
+        <div class="container mx-auto">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                <div class="border-r border-electric-blue/20 last:border-r-0">
+                    <div class="text-4xl font-black text-electric-blue mb-2 glow-text">67</div>
+                    <div class="text-light-blue text-sm uppercase tracking-widest">Сохраненных игр</div>
+                </div>
+                <div class="border-r border-electric-blue/20 last:border-r-0">
+                    <div class="text-4xl font-black text-electric-blue mb-2 glow-text">23</div>
+                    <div class="text-light-blue text-sm uppercase tracking-widest">Культурных региона</div>
+                </div>
+                <div class="border-r border-electric-blue/20 last:border-r-0">
+                    <div class="text-4xl font-black text-electric-blue mb-2 glow-text">1.2K</div>
+                    <div class="text-light-blue text-sm uppercase tracking-widest">Хранителей традиций</div>
+                </div>
+                <div>
+                    <div class="text-4xl font-black text-electric-blue mb-2 glow-text">∞</div>
+                    <div class="text-light-blue text-sm uppercase tracking-widest">Доступ к наследию</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Миссия - в виде исторической ленты -->
+    <section id="mission" class="py-24 px-4 bg-deep-blue relative">
+        <div class="container mx-auto max-w-5xl">
+            <h2 class="text-5xl font-black mb-16 text-center">
+                <span class="text-electric-blue">⊞</span>
+                <span class="text-white">НАША МИССИЯ</span>
+            </h2>
+
+            <!-- Историческая лента с пунктиром -->
+            <div class="relative">
+                <!-- Вертикальная пунктирная линия -->
+                <div class="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-gradient-to-b from-electric-blue via-electric-blue/50 to-electric-blue border-l-2 border-dashed border-electric-blue"></div>
+
+                <!-- Блоки миссии по очереди слева и справа -->
+                <div class="space-y-12">
+                    <!-- Блок 1 -->
+                    <div class="flex items-center">
+                        <div class="w-1/2 pr-8 text-right">
+                            <div class="bg-gradient-to-l from-ocean-blue/30 to-electric-blue/10 p-6 rounded-2xl border border-electric-blue/20 relative">
+                                <div class="absolute -right-2 top-1/2 transform -translate-y-1/2 w-4 h-4 bg-electric-blue rounded-full border-4 border-deep-blue"></div>
+                                <h3 class="text-2xl font-black mb-3 text-electric-blue">ПРОБЛЕМА ИСЧЕЗНОВЕНИЯ</h3>
+                                <p class="text-light-blue leading-relaxed">
+                                    Каждое поколение теряет до 30% игровых традиций. Правила стираются,
+                                    культурный контекст забывается. Мы становимся свидетелями цифрового
+                                    вымирания целых пластов игровой культуры.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="w-1/2 pl-8">
+                            <div class="text-electric-blue text-4xl text-center">⚠️</div>
+                        </div>
+                    </div>
+
+                    <!-- Блок 2 -->
+                    <div class="flex items-center">
+                        <div class="w-1/2 pr-8">
+                            <div class="text-electric-blue text-4xl text-center">🚀</div>
+                        </div>
+                        <div class="w-1/2 pl-8">
+                            <div class="bg-gradient-to-r from-electric-blue/10 to-ocean-blue/30 p-6 rounded-2xl border border-electric-blue/20 relative">
+                                <div class="absolute -left-2 top-1/2 transform -translate-y-1/2 w-4 h-4 bg-electric-blue rounded-full border-4 border-deep-blue"></div>
+                                <h3 class="text-2xl font-black mb-3 text-electric-blue">ЦИФРОВОЕ ВОЗРОЖДЕНИЕ</h3>
+                                <p class="text-light-blue leading-relaxed">
+                                    Используем технологии для сохранения наследия. Оцифровка,
+                                    интерактивные реконструкции, AI-анализ правил. Превращаем
+                                    устные традиции в вечные цифровые артефакты.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Блок 3 -->
+                    <div class="flex items-center">
+                        <div class="w-1/2 pr-8 text-right">
+                            <div class="bg-gradient-to-l from-ocean-blue/30 to-electric-blue/10 p-6 rounded-2xl border border-electric-blue/20 relative">
+                                <div class="absolute -right-2 top-1/2 transform -translate-y-1/2 w-4 h-4 bg-electric-blue rounded-full border-4 border-deep-blue"></div>
+                                <h3 class="text-2xl font-black mb-3 text-electric-blue">ЦЕЛЬ ПРОЕКТА</h3>
+                                <ul class="text-light-blue space-y-2">
+                                    <li>• Сохранить 1000+ народных игр к 2030 году</li>
+                                    <li>• Создать крупнейший цифровой архив</li>
+                                    <li>• Разработать образовательную платформу</li>
+                                    <li>• Объединить хранителей традиций</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="w-1/2 pl-8">
+                            <div class="text-electric-blue text-4xl text-center">🎯</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Артефакты на темно-синем с голубым оттенком -->
+    <section id="artifacts" class="py-16 px-4 bg-medium-blue">
+        <div class="container mx-auto max-w-4xl">
+            <h2 class="text-5xl font-black mb-4 text-center text-white">
+                <span class="text-electric-blue">🗃️</span>
+                <span class="text-white">АРТЕФАКТЫ</span>
+            </h2>
+            <p class="text-light-blue text-center mb-8 text-xl">Сохраненные игровые традиции</p>
+
+            <!-- 3 игры в компактном виде -->
+            <div class="grid md:grid-cols-3 gap-6">
+                <!-- Игра 1 -->
+                <div class="bg-deep-blue rounded-xl p-6 border border-electric-blue/20 hover:border-electric-blue/50 transition duration-300 shadow-lg hover:shadow-xl">
+                    <div class="text-electric-blue text-3xl mb-4">🌲</div>
+                    <h3 class="text-xl font-black mb-2 text-white">СТУНВИНДИСЕП</h3>
+                    <div class="bg-electric-blue/20 px-2 py-1 rounded-full inline-block mb-3">
+                        <span class="text-electric-blue text-xs font-bold">КОМИ • СТРАТЕГИЯ</span>
+                    </div>
+                    <p class="text-light-blue text-sm mb-4 leading-relaxed">
+                        Древняя игра охотников. Тактическое противостояние оленя и преследователей.
+                    </p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-electric-blue font-black text-sm">В АРХИВЕ</span>
+                        <span class="text-electric-blue text-xl">⟫</span>
+                    </div>
+                </div>
+
+                <!-- Игра 2 -->
+                <div class="bg-deep-blue rounded-xl p-6 border border-electric-blue/20 hover:border-electric-blue/50 transition duration-300 shadow-lg hover:shadow-xl">
+                    <div class="text-electric-blue text-3xl mb-4">⚔️</div>
+                    <h3 class="text-xl font-black mb-2 text-white">АСАЛТХАН</h3>
+                    <div class="bg-electric-blue/20 px-2 py-1 rounded-full inline-block mb-3">
+                        <span class="text-electric-blue text-xs font-bold">АДЫГЕЯ • ЧЕСТЬ</span>
+                    </div>
+                    <p class="text-light-blue text-sm mb-4 leading-relaxed">
+                        Догонялки с кодексом чести. Физическая ловкость сочетается с моральными принципами.
+                    </p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-electric-blue font-black text-sm">ОЦИФРОВКА</span>
+                        <span class="text-electric-blue text-xl">⟫</span>
+                    </div>
+                </div>
+
+                <!-- Игра 3 -->
+                <div class="bg-deep-blue rounded-xl p-6 border border-electric-blue/20 hover:border-electric-blue/50 transition duration-300 shadow-lg hover:shadow-xl">
+                    <div class="text-electric-blue text-3xl mb-4">🎋</div>
+                    <h3 class="text-xl font-black mb-2 text-white">ЧХЕСОК</h3>
+                    <div class="bg-electric-blue/20 px-2 py-1 rounded-full inline-block mb-3">
+                        <span class="text-electric-blue text-xs font-bold">КОРЕЯ • МЕДИТАЦИЯ</span>
+                    </div>
+                    <p class="text-light-blue text-sm mb-4 leading-relaxed">
+                        Игра в палочки как искусство терпения. Каждое движение — философия.
+                    </p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-electric-blue font-black text-sm">АНАЛИЗ</span>
+                        <span class="text-electric-blue text-xl">⟫</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Форма - сразу после заголовка -->
+    <section id="form" class="py-16 px-4 bg-deep-blue min-h-[600px] flex items-center">
+        <div class="container mx-auto max-w-2xl w-full">
+            <h2 class="text-5xl font-black mb-4 text-center">
+                <span class="text-electric-blue"></span>
+                <span class="text-white">СДЕЛАЙТЕ СВОЙ ВКЛАД</span>
+            </h2>
+
+            <!-- Форма сразу после заголовка -->
+            <div class="bg-gradient-to-br from-ocean-blue/40 to-electric-blue/20 rounded-2xl p-8 border border-electric-blue/30 backdrop-blur-lg mt-8">
+                <div class="text-center mb-6">
+                    <div class="text-electric-blue text-4xl mb-3">📥</div>
+                    <h3 class="text-xl font-black text-electric-blue">ФОРМА ДЛЯ ПОПОЛНЕНИЯ АРХИВА</h3>
+                </div>
+
+                <!-- Фиксированная высота для формы -->
+                <div class="h-[500px]">
+                    <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdnfOWUIgOaJ3Rasd1xnzt-5mUV7712qIKE-1J1H0aGLm642g/viewform"
+                            width="100%" height="100%" frameborder="0" marginheight="0" marginwidth="0"
+                            class="rounded-xl border border-electric-blue/20">
+                        Загрузка цифрового интерфейса...
+                    </iframe>
+                </div>
+
+                <div class="text-center mt-4">
+                    <p class="text-light-blue text-sm">Альтернативный канал связи:</p>
+                    <a href="#" class="text-electric-blue hover:text-light-blue font-bold transition duration-300">
+                        <i class="fab fa-telegram mr-1"></i>@storage_archive_bot
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Футер -->
+    <footer class="bg-navy py-12 px-4 border-t border-electric-blue/20">
+        <div class="container mx-auto text-center">
+            <div class="text-2xl font-black mb-4">
+                <span class="text-electric-blue">⟁</span>
+                <span class="text-white">STORAGE</span>
+            </div>
+            <p class="text-light-blue mb-2">Цифровой ковчег игровой культуры человечества</p>
+            <p class="text-electric-blue/60 text-sm">© 2025 STORAGE PROJECT • Сохраняя прошлое, создаём будущее</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

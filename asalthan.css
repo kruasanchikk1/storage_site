@@ -1,0 +1,202 @@
+/* Tech-шрифт Orbitron для футуристичного вида */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&display=swap');
+
+/* Глобальные стили */
+body {
+    font-family: 'Orbitron', sans-serif;
+    scroll-behavior: smooth;
+}
+
+/* Свечение для текста */
+.glow-text {
+    text-shadow: 0 0 10px rgba(108, 195, 238, 0.5);
+}
+
+.glow-text:hover {
+    text-shadow: 0 0 20px rgba(108, 195, 238, 0.8), 0 0 30px rgba(108, 195, 238, 0.6);
+}
+
+/* Игровые стили */
+.game-board {
+    background: linear-gradient(45deg, #0a1644 0%, #1a3a5f 100%);
+    border: 3px solid #ffd700;
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+}
+
+.cell {
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    transition: all 0.3s ease;
+    position: relative;
+    cursor: pointer;
+}
+
+.cell:hover {
+    background: rgba(255, 215, 0, 0.1);
+}
+
+.cell.path {
+    background: rgba(255, 215, 0, 0.1);
+}
+
+.player {
+    background: radial-gradient(circle, #6cc3ee 0%, #1e3a8a 100%);
+    border: 2px solid #bae6fd;
+    box-shadow: 0 0 15px rgba(108, 195, 238, 0.5);
+}
+
+.enemy {
+    background: radial-gradient(circle, #ff6b6b 0%, #c44545 100%);
+    border: 2px solid #ff8e8e;
+    box-shadow: 0 0 15px rgba(255, 107, 107, 0.5);
+}
+
+.honor-point {
+    background: radial-gradient(circle, #ffd700 0%, #cd7f32 100%);
+    border: 2px solid #ffeb3b;
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+.valid-move {
+    background: rgba(76, 175, 80, 0.3);
+    border: 2px solid #4caf50;
+    cursor: pointer;
+}
+
+.obstacle {
+    background: radial-gradient(circle, #8b4513 0%, #654321 100%);
+    border: 2px solid #a0522d;
+}
+
+.honor-bar {
+    background: linear-gradient(90deg, #ffd700, #cd7f32);
+    height: 100%;
+    transition: width 0.5s ease;
+    border-radius: 9999px;
+}
+
+/* Анимации */
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.1);
+        opacity: 0.8;
+    }
+}
+
+@keyframes honorGlow {
+    0%, 100% {
+        box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+    }
+    50% {
+        box-shadow: 0 0 20px rgba(255, 215, 0, 0.8), 0 0 30px rgba(255, 215, 0, 0.6);
+    }
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.pulse {
+    animation: pulse 2s infinite ease-in-out;
+}
+
+.honor-glow {
+    animation: honorGlow 2s infinite;
+}
+
+.slide-in {
+    animation: slideIn 0.6s ease-out;
+}
+
+/* Адаптивность */
+@media (max-width: 1024px) {
+    .game-board {
+        width: 400px !important;
+        height: 400px !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .game-board {
+        width: 350px !important;
+        height: 350px !important;
+    }
+
+    h1.text-6xl {
+        font-size: 3rem !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .game-board {
+        width: 300px !important;
+        height: 300px !important;
+    }
+}
+
+/* Стили для модального окна */
+#rulesModal {
+    backdrop-filter: blur(10px);
+}
+
+#rulesModal > div {
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+/* Стили для элементов игры */
+.cell > div {
+    width: 80%;
+    height: 80%;
+    border-radius: 50%;
+}
+
+.cell .obstacle {
+    border-radius: 8px;
+}
+
+/* Состояния игры */
+.game-active .cell:not(.valid-move):not(.obstacle) {
+    cursor: not-allowed;
+}
+
+.game-active .valid-move:hover {
+    transform: scale(1.05);
+    transition: transform 0.2s ease;
+}
+
+/* Эффекты для способностей */
+.shield-active .player {
+    animation: honorGlow 1s infinite;
+}
+
+.slow-active .enemy {
+    opacity: 0.6;
+    filter: blur(1px);
+}
+
+/* Статус игры */
+.game-status {
+    transition: all 0.3s ease;
+}
+
+.game-status.warning {
+    background: linear-gradient(90deg, rgba(255, 215, 0, 0.2), rgba(255, 107, 107, 0.2));
+    border-color: #ff6b6b;
+}
+
+.game-status.critical {
+    background: linear-gradient(90deg, rgba(255, 107, 107, 0.3), rgba(196, 69, 69, 0.3));
+    border-color: #c44545;
+    animation: pulse 0.5s infinite;
+}

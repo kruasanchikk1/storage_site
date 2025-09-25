@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>АСАЛТХАН • STORAGE</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'deep-blue': '#0a1644',
+            'electric-blue': '#6cc3ee',
+            'ocean-blue': '#1e3a8a',
+            'light-blue': '#bae6fd',
+            'navy': '#0f172a',
+            'honor-gold': '#ffd700',
+            'honor-bronze': '#cd7f32',
+            'game-bg': '#0a0f2a'
+          },
+          fontFamily: {
+            'tech': ['Orbitron', 'system-ui', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="asalthan.css">
+</head>
+<body class="bg-deep-blue text-white font-tech min-h-screen">
+
+  <!-- Шапка -->
+  <header class="bg-deep-blue border-b border-electric-blue/30 backdrop-blur-lg sticky top-0 z-50">
+    <nav class="container mx-auto px-4 py-4">
+      <div class="flex justify-between items-center">
+        <a href="index.html" class="text-2xl font-black hover:text-electric-blue transition">
+          <span class="text-electric-blue">⟁</span>
+          <span class="text-white ml-2">STORAGE</span>
+        </a>
+        <div class="space-x-6">
+          <a href="index.html#artifacts" class="hover:text-electric-blue text-sm uppercase tracking-widest">Артефакты</a>
+          <a href="index.html#form" class="hover:text-electric-blue text-sm uppercase tracking-widest">Вклад</a>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Основной контент -->
+  <main class="container mx-auto px-4 py-8">
+    <!-- Заголовок -->
+    <div class="text-center mb-10">
+      <div class="inline-block bg-gradient-to-r from-honor-gold/20 to-honor-bronze/20 border border-honor-gold/30 px-6 py-3 rounded-full mb-6">
+        <span class="text-honor-gold text-lg uppercase tracking-widest font-bold">ИГРА НАРОДОВ АДЫГЕИ</span>
+      </div>
+      <h1 class="text-5xl md:text-6xl font-black mb-4">
+        <span class="text-white">АСАЛТ</span><span class="text-honor-gold">ХАН</span>
+      </h1>
+      <p class="text-light-blue max-w-2xl mx-auto">
+        Догонялки с кодексом чести. Где ловкость сочетается с моралью.
+      </p>
+    </div>
+
+    <!-- Игровая зона -->
+    <div class="grid lg:grid-cols-3 gap-8">
+      <!-- Игровое поле -->
+      <div class="lg:col-span-2">
+        <div class="bg-game-bg rounded-2xl p-6 border border-honor-gold/30">
+          <div class="flex justify-between items-center mb-4">
+            <h2 class="text-xl font-bold text-honor-gold">ПОЛЕ ЧЕСТИ</h2>
+            <div class="text-light-blue">Раунд: <span id="roundCounter">1</span></div>
+          </div>
+
+          <!-- Шкала чести -->
+          <div class="mb-6">
+            <div class="flex justify-between mb-2">
+              <span class="text-honor-gold font-bold">КОДЕКС ЧЕСТИ</span>
+              <span id="honorValue" class="text-honor-gold font-bold">100%</span>
+            </div>
+            <div class="w-full bg-gray-800 rounded-full h-3">
+              <div id="honorBar" class="honor-bar rounded-full h-3" style="width: 100%"></div>
+            </div>
+          </div>
+
+          <!-- Игровое поле -->
+          <div id="gameBoard" class="game-board mx-auto rounded-lg overflow-hidden"></div>
+
+          <!-- Статус -->
+          <div id="gameStatus" class="text-center mt-4 p-3 bg-honor-gold/10 rounded border border-honor-gold/20">
+            <p class="text-honor-gold font-bold">УКЛОНЯЙСЯ ОТ ПРЕСЛЕДОВАТЕЛЕЙ!</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Панель управления -->
+      <div class="space-y-6">
+        <!-- Управление -->
+        <div class="bg-game-bg rounded-2xl p-6 border border-honor-gold/30">
+          <h3 class="text-xl font-bold text-honor-gold mb-4">УПРАВЛЕНИЕ</h3>
+          <div class="space-y-3">
+            <button onclick="game.startGame()" class="w-full bg-honor-gold text-deep-blue px-4 py-2 rounded font-bold">
+              <i class="fas fa-play mr-2"></i>Начать
+            </button>
+            <button onclick="game.resetGame()" class="w-full bg-transparent border border-honor-gold text-honor-gold px-4 py-2 rounded font-bold">
+              <i class="fas fa-redo mr-2"></i>Перезапуск
+            </button>
+          </div>
+
+          <!-- Статистика -->
+          <div class="mt-6 pt-4 border-t border-honor-gold/20">
+            <div class="grid grid-cols-2 gap-4 text-center">
+              <div>
+                <div class="text-xl font-bold text-honor-gold" id="score">0</div>
+                <div class="text-light-blue text-sm">ОЧКИ</div>
+              </div>
+              <div>
+                <div class="text-xl font-bold text-honor-gold" id="timeSurvived">
