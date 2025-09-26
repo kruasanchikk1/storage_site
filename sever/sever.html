@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>СТУНВИНДИСЕП • STORAGE</title>
+    <link rel="stylesheet" href="style.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -28,49 +29,31 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        .game-board {
-            background: linear-gradient(45deg, #0a1644 0%, #1e3a8a 100%);
-            border: 3px solid #6cc3ee;
-            box-shadow: 0 0 30px rgba(108, 195, 238, 0.3);
+        /* Дополнительные стили для анимаций */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeOut {
+            from { opacity: 1; transform: translateY(0); }
+            to { opacity: 0; transform: translateY(-20px); }
+        }
+
+        .modal-enter {
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .modal-exit {
+            animation: fadeOut 0.3s ease-out;
         }
 
         .cell {
-            border: 1px solid rgba(108, 195, 238, 0.3);
             transition: all 0.3s ease;
         }
 
-        .cell:hover {
-            background: rgba(108, 195, 238, 0.1);
-        }
-
-        .deer {
-            background: radial-gradient(circle, #ff6b6b 0%, #c44545 100%);
-            border: 2px solid #ff8e8e;
-            box-shadow: 0 0 15px rgba(255, 107, 107, 0.5);
-        }
-
-        .hunter {
-            background: radial-gradient(circle, #6cc3ee 0%, #1e3a8a 100%);
-            border: 2px solid #bae6fd;
-            box-shadow: 0 0 15px rgba(108, 195, 238, 0.5);
-        }
-
-        .valid-move {
-            background: rgba(76, 175, 80, 0.3);
-            border: 2px solid #4caf50;
-        }
-
-        .glow-text {
-            text-shadow: 0 0 10px rgba(108, 195, 238, 0.5);
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-
-        .pulse {
-            animation: pulse 2s infinite;
+        .piece {
+            transition: all 0.3s ease;
         }
     </style>
 </head>
@@ -80,13 +63,13 @@
     <header class="bg-deep-blue border-b border-electric-blue/30 backdrop-blur-lg sticky top-0 z-50">
         <nav class="container mx-auto px-4 py-4">
             <div class="flex justify-between items-center">
-                <a href="index.html" class="text-2xl font-black hover:text-electric-blue transition duration-300">
+                <a href="/storage_site/main.html" class="text-2xl font-black hover:text-electric-blue transition duration-300">
                     <span class="text-electric-blue">⟁</span>
                     <span class="text-white ml-2">STORAGE</span>
                 </a>
                 <div class="space-x-8">
-                    <a href="index.html#artifacts" class="hover:text-electric-blue transition duration-300 text-sm uppercase tracking-widest glow-text">Артефакты</a>
-                    <a href="index.html#form" class="hover:text-electric-blue transition duration-300 text-sm uppercase tracking-widest glow-text">Вклад</a>
+                    <a href="/storage_site/main.html#artifacts" class="hover:text-electric-blue transition duration-300 text-sm uppercase tracking-widest">Артефакты</a>
+                    <a href="/storage_site/main.html#form" class="hover:text-electric-blue transition duration-300 text-sm uppercase tracking-widest">Вклад</a>
                 </div>
             </div>
         </nav>
@@ -124,7 +107,7 @@
                     </div>
 
                     <!-- Игровое поле 5x5 -->
-                    <div id="gameBoard" class="game-board mx-auto rounded-lg overflow-hidden">
+                    <div id="gameBoard" class="game-board mx-auto rounded-lg overflow-hidden grid grid-cols-5 gap-2" style="max-width: 400px; aspect-ratio: 1;">
                         <!-- Поле генерируется через JavaScript -->
                     </div>
 
@@ -141,10 +124,10 @@
                 <div class="bg-game-bg rounded-2xl p-6 border border-electric-blue/30 backdrop-blur-lg">
                     <h3 class="text-xl font-black text-electric-blue mb-4">УПРАВЛЕНИЕ</h3>
                     <div class="space-y-4">
-                        <button onclick="resetGame()" class="w-full bg-electric-blue hover:bg-light-blue text-deep-blue px-6 py-3 rounded-lg font-bold transition duration-300 border-2 border-electric-blue uppercase tracking-widest">
+                        <button id="resetBtn" class="w-full bg-electric-blue hover:bg-light-blue text-deep-blue px-6 py-3 rounded-lg font-bold transition duration-300 border-2 border-electric-blue uppercase tracking-widest">
                             <i class="fas fa-redo mr-2"></i>Новая игра
                         </button>
-                        <button onclick="showRules()" class="w-full bg-transparent hover:bg-electric-blue/20 text-electric-blue px-6 py-3 rounded-lg font-bold transition duration-300 border-2 border-electric-blue uppercase tracking-widest">
+                        <button id="rulesBtn" class="w-full bg-transparent hover:bg-electric-blue/20 text-electric-blue px-6 py-3 rounded-lg font-bold transition duration-300 border-2 border-electric-blue uppercase tracking-widest">
                             <i class="fas fa-book mr-2"></i>Правила
                         </button>
                     </div>
@@ -169,11 +152,11 @@
                     <h3 class="text-xl font-black text-electric-blue mb-4">ЛЕГЕНДА</h3>
                     <div class="space-y-3">
                         <div class="flex items-center space-x-3">
-                            <div class="w-6 h-6 rounded-full deer"></div>
+                            <div class="w-6 h-6 rounded-full bg-red-500 border-2 border-red-300"></div>
                             <span class="text-light-blue">Олень (игрок)</span>
                         </div>
                         <div class="flex items-center space-x-3">
-                            <div class="w-6 h-6 rounded-full hunter"></div>
+                            <div class="w-6 h-6 rounded-full bg-blue-500 border-2 border-blue-300"></div>
                             <span class="text-light-blue">Охотники (ИИ)</span>
                         </div>
                         <div class="flex items-center space-x-3">
@@ -226,21 +209,375 @@
         <div class="bg-deep-blue rounded-2xl p-8 max-w-2xl w-full border border-electric-blue/30">
             <div class="flex justify-between items-center mb-6">
                 <h3 class="text-2xl font-black text-electric-blue">ПРАВИЛА ИГРЫ СТУНВИНДИСЕП</h3>
-                <button onclick="hideRules()" class="text-electric-blue hover:text-light-blue text-2xl">×</button>
+                <button id="closeRules" class="text-electric-blue hover:text-light-blue text-2xl">×</button>
             </div>
             <div class="space-y-4 text-light-blue">
-                <p><strong>Цель оленя:</strong> Достичь противоположного края доски.</p>
-                <p><strong>Цель охотников:</strong> Окружить оленя так, чтобы у него не осталось ходов.</p>
-                <p><strong>Ход оленя:</strong> По диагонали на одну клетку.</p>
+                <p><strong>Цель игры:</strong> Тактическое противостояние между оленем и охотниками.</p>
+                <p><strong>Цель оленя:</strong> Достичь противоположного края доски (нижнего ряда).</p>
+                <p><strong>Цель охотников:</strong> Окружить оленя так, чтобы у него не осталось возможных ходов.</p>
+                <p><strong>Ход оленя:</strong> По диагонали на одну клетку в любом направлении.</p>
                 <p><strong>Ход охотников:</strong> По вертикали или горизонтали на одну клетку.</p>
-                <p><strong>Особенности:</strong> Олень ходит первым. Охотники не могут прыгать через другие фигуры.</p>
+                <p><strong>Начало игры:</strong> Олень ходит первым. Охотники ходят по очереди после хода оленя.</p>
+                <p><strong>Особенности:</strong> Охотники не могут прыгать через другие фигуры. Олень может перемещаться только на свободные клетки.</p>
+                <p class="text-electric-blue font-bold">Игра заканчивается, когда олень достигает противоположного края (победа оленя) или когда у оленя не остается возможных ходов (победа охотников).</p>
             </div>
-            <button onclick="hideRules()" class="w-full mt-6 bg-electric-blue hover:bg-light-blue text-deep-blue px-6 py-3 rounded-lg font-bold transition duration-300">
-                НАЧАТЬ ИГРУ
+            <button id="startGameBtn" class="w-full mt-6 bg-electric-blue hover:bg-light-blue text-deep-blue px-6 py-3 rounded-lg font-bold transition duration-300">
+                ПОНЯТНО, НАЧАТЬ ИГРУ
             </button>
         </div>
     </div>
 
-    <script src="sever.js"></script>
+    <!-- Всплывающее окно при загрузке -->
+    <div id="welcomeModal" class="fixed inset-0 bg-black/80 flex items-center justify-center z-[100] p-4">
+        <div class="bg-deep-blue rounded-2xl p-8 max-w-2xl w-full border border-electric-blue/30">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-black text-electric-blue">ДОБРО ПОЖАЛОВАТЬ В СТУНВИНДИСЕП</h3>
+                <button id="closeWelcome" class="text-electric-blue hover:text-light-blue text-2xl">×</button>
+            </div>
+            <div class="space-y-4 text-light-blue">
+                <p class="text-lg">Вы играете за <strong class="text-red-400">оленя</strong>, который пытается прорваться через строй охотников к противоположному краю доски.</p>
+                <p>Четыре <strong class="text-electric-blue">охотника</strong> пытаются окружить вас и заблокировать все возможные пути к отступлению.</p>
+                <p class="font-bold text-electric-blue">Олень ходит по диагонали, охотники — по вертикали и горизонтали.</p>
+                <p>Эта древняя игра народов Коми развивает стратегическое мышление и тактическое планирование.</p>
+            </div>
+            <div class="mt-6">
+                <button id="playBtn" class="w-full bg-electric-blue hover:bg-light-blue text-deep-blue px-6 py-3 rounded-lg font-bold transition duration-300">
+                    <i class="fas fa-play mr-2"></i>Играть
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Полная логика игры Стунвиндисеп
+        class StunvindisepGame {
+            constructor() {
+                this.boardSize = 5;
+                this.board = [];
+                this.deerPosition = { row: 0, col: 2 };
+                this.hunterPositions = [
+                    { row: 4, col: 0 },
+                    { row: 4, col: 1 },
+                    { row: 4, col: 3 },
+                    { row: 4, col: 4 }
+                ];
+                this.currentPlayer = 'deer';
+                this.gameActive = true;
+                this.turnCount = 1;
+                this.deerWins = parseInt(localStorage.getItem('deerWins')) || 0;
+                this.hunterWins = parseInt(localStorage.getItem('hunterWins')) || 0;
+                this.selectedHunter = null;
+
+                this.init();
+            }
+
+            init() {
+                this.createBoard();
+                this.renderBoard();
+                this.updateStats();
+                this.updateGameStatus();
+                this.setupEventListeners();
+            }
+
+            createBoard() {
+                this.board = Array(this.boardSize).fill().map(() => Array(this.boardSize).fill(null));
+
+                // Расставляем оленя
+                this.board[this.deerPosition.row][this.deerPosition.col] = 'deer';
+
+                // Расставляем охотников
+                this.hunterPositions.forEach(pos => {
+                    this.board[pos.row][pos.col] = 'hunter';
+                });
+            }
+
+            renderBoard() {
+                const gameBoard = document.getElementById('gameBoard');
+                gameBoard.innerHTML = '';
+
+                for (let row = 0; row < this.boardSize; row++) {
+                    for (let col = 0; col < this.boardSize; col++) {
+                        const cell = document.createElement('div');
+                        cell.className = 'cell relative flex items-center justify-center transition-all duration-300';
+                        cell.dataset.row = row;
+                        cell.dataset.col = col;
+
+                        // Стилизация клетки
+                        cell.style.background = 'rgba(108, 195, 238, 0.05)';
+                        cell.style.border = '1px solid rgba(108, 195, 238, 0.2)';
+                        cell.style.minHeight = '60px';
+                        cell.style.cursor = 'pointer';
+
+                        // Добавляем фигуры
+                        if (this.board[row][col] === 'deer') {
+                            const deer = document.createElement('div');
+                            deer.className = 'piece deer absolute w-4/5 h-4/5 rounded-full bg-red-500 border-2 border-red-300 flex items-center justify-center';
+                            deer.innerHTML = '🦌';
+                            deer.style.fontSize = '20px';
+                            cell.appendChild(deer);
+                        } else if (this.board[row][col] === 'hunter') {
+                            const hunter = document.createElement('div');
+                            hunter.className = 'piece hunter absolute w-4/5 h-4/5 rounded-full bg-blue-500 border-2 border-blue-300 flex items-center justify-center';
+                            hunter.innerHTML = '🎯';
+                            hunter.style.fontSize = '16px';
+                            cell.appendChild(hunter);
+                        }
+
+                        // Подсветка возможных ходов
+                        if (this.isValidMove(row, col)) {
+                            cell.classList.add('available');
+                            cell.style.background = 'rgba(16, 185, 129, 0.2)';
+                            cell.style.borderColor = '#10b981';
+                            cell.style.boxShadow = '0 0 10px rgba(16, 185, 129, 0.3)';
+                        }
+
+                        // Обработка кликов
+                        cell.addEventListener('click', () => this.handleCellClick(row, col));
+
+                        gameBoard.appendChild(cell);
+                    }
+                }
+            }
+
+            isValidMove(targetRow, targetCol) {
+                if (!this.gameActive) return false;
+                if (this.board[targetRow][targetCol] !== null) return false;
+
+                if (this.currentPlayer === 'deer') {
+                    // Олень ходит по диагонали
+                    const rowDiff = Math.abs(targetRow - this.deerPosition.row);
+                    const colDiff = Math.abs(targetCol - this.deerPosition.col);
+                    return rowDiff === 1 && colDiff === 1;
+                } else {
+                    // Охотники ходят по вертикали/горизонтали
+                    return this.hunterPositions.some(hunter => {
+                        const rowDiff = Math.abs(targetRow - hunter.row);
+                        const colDiff = Math.abs(targetCol - hunter.col);
+                        return (rowDiff === 1 && colDiff === 0) || (rowDiff === 0 && colDiff === 1);
+                    });
+                }
+            }
+
+            handleCellClick(row, col) {
+                if (!this.gameActive) return;
+
+                if (this.currentPlayer === 'deer') {
+                    if (this.isValidMove(row, col)) {
+                        this.moveDeer(row, col);
+                        this.checkGameEnd();
+                        if (this.gameActive) {
+                            // Переключаем на охотников
+                            this.currentPlayer = 'hunters';
+                            this.updateGameStatus();
+                            this.renderBoard();
+                            
+                            // Делаем ход охотников через задержку
+                            setTimeout(() => this.makeAIMove(), 500);
+                        }
+                    }
+                }
+            }
+
+            moveDeer(targetRow, targetCol) {
+                this.board[this.deerPosition.row][this.deerPosition.col] = null;
+                this.deerPosition = { row: targetRow, col: targetCol };
+                this.board[targetRow][targetCol] = 'deer';
+                this.turnCount++;
+
+                this.renderBoard();
+                this.updateGameStatus();
+                document.getElementById('turnCounter').textContent = this.turnCount;
+            }
+
+            makeAIMove() {
+                if (!this.gameActive || this.currentPlayer !== 'hunters') return;
+
+                // Простой AI для охотников
+                const possibleMoves = [];
+
+                this.hunterPositions.forEach(hunter => {
+                    const directions = [
+                        { row: -1, col: 0 }, { row: 1, col: 0 },
+                        { row: 0, col: -1 }, { row: 0, col: 1 }
+                    ];
+
+                    directions.forEach(dir => {
+                        const newRow = hunter.row + dir.row;
+                        const newCol = hunter.col + dir.col;
+
+                        if (newRow >= 0 && newRow < this.boardSize &&
+                            newCol >= 0 && newCol < this.boardSize &&
+                            this.board[newRow][newCol] === null) {
+                            possibleMoves.push({ hunter, target: { row: newRow, col: newCol } });
+                        }
+                    });
+                });
+
+                if (possibleMoves.length > 0) {
+                    const randomMove = possibleMoves[Math.floor(Math.random() * possibleMoves.length)];
+                    this.moveHunter(randomMove.hunter, randomMove.target.row, randomMove.target.col);
+                    this.checkGameEnd();
+                    
+                    if (this.gameActive) {
+                        // Переключаем обратно на оленя
+                        this.currentPlayer = 'deer';
+                        this.updateGameStatus();
+                        this.renderBoard();
+                    }
+                }
+            }
+
+            moveHunter(hunter, targetRow, targetCol) {
+                this.board[hunter.row][hunter.col] = null;
+                hunter.row = targetRow;
+                hunter.col = targetCol;
+                this.board[targetRow][targetCol] = 'hunter';
+
+                this.renderBoard();
+                this.updateGameStatus();
+            }
+
+            checkGameEnd() {
+                // Победа оленя
+                if (this.deerPosition.row === this.boardSize - 1) {
+                    this.endGame('deer');
+                    return;
+                }
+
+                // Победа охотников
+                const deerMoves = this.getValidDeerMoves();
+                if (deerMoves.length === 0) {
+                    this.endGame('hunters');
+                }
+            }
+
+            getValidDeerMoves() {
+                const moves = [];
+                const directions = [
+                    { row: -1, col: -1 }, { row: -1, col: 1 },
+                    { row: 1, col: -1 }, { row: 1, col: 1 }
+                ];
+
+                directions.forEach(dir => {
+                    const newRow = this.deerPosition.row + dir.row;
+                    const newCol = this.deerPosition.col + dir.col;
+
+                    if (newRow >= 0 && newRow < this.boardSize &&
+                        newCol >= 0 && newCol < this.boardSize &&
+                        this.board[newRow][newCol] === null) {
+                        moves.push({ row: newRow, col: newCol });
+                    }
+                });
+
+                return moves;
+            }
+
+            endGame(winner) {
+                this.gameActive = false;
+                const statusElement = document.getElementById('gameStatus');
+
+                if (winner === 'deer') {
+                    this.deerWins++;
+                    localStorage.setItem('deerWins', this.deerWins.toString());
+                    statusElement.innerHTML = '<p class="text-green-400 font-bold text-lg">ОЛЕНЬ ПОБЕДИЛ! 🦌🎉</p>';
+                } else {
+                    this.hunterWins++;
+                    localStorage.setItem('hunterWins', this.hunterWins.toString());
+                    statusElement.innerHTML = '<p class="text-blue-400 font-bold text-lg">ОХОТНИКИ ПОБЕДИЛИ! 🏹</p>';
+                }
+
+                this.updateStats();
+            }
+
+            updateGameStatus() {
+                const status = document.getElementById('gameStatus');
+                if (this.gameActive) {
+                    status.innerHTML = `<p class="text-electric-blue font-bold text-lg">${
+                        this.currentPlayer === 'deer' ? 'ХОД ОЛЕНЯ' : 'ХОД ОХОТНИКОВ'
+                    }</p>`;
+                }
+            }
+
+            updateStats() {
+                document.getElementById('deerWins').textContent = this.deerWins;
+                document.getElementById('hunterWins').textContent = this.hunterWins;
+            }
+
+            setupEventListeners() {
+                // Добавляем обработчик для кнопки Новая игра
+                document.getElementById('resetBtn').addEventListener('click', () => {
+                    this.reset();
+                });
+            }
+
+            reset() {
+                this.deerPosition = { row: 0, col: 2 };
+                this.hunterPositions = [
+                    { row: 4, col: 0 },
+                    { row: 4, col: 1 },
+                    { row: 4, col: 3 },
+                    { row: 4, col: 4 }
+                ];
+                this.currentPlayer = 'deer';
+                this.gameActive = true;
+                this.turnCount = 1;
+
+                this.createBoard();
+                this.renderBoard();
+                this.updateGameStatus();
+                document.getElementById('turnCounter').textContent = '1';
+            }
+        }
+
+        // Глобальные функции
+        let game;
+
+        function initGame() {
+            game = new StunvindisepGame();
+        }
+
+        function resetGame() {
+            if (game) {
+                game.reset();
+            } else {
+                initGame();
+            }
+        }
+
+        function showRules() {
+            document.getElementById('rulesModal').classList.remove('hidden');
+        }
+
+        function hideRules() {
+            document.getElementById('rulesModal').classList.add('hidden');
+        }
+
+        function hideWelcome() {
+            document.getElementById('welcomeModal').classList.add('hidden');
+        }
+
+        // Инициализация при загрузке
+        document.addEventListener('DOMContentLoaded', function() {
+            // Назначаем обработчики
+            document.getElementById('resetBtn').addEventListener('click', resetGame);
+            document.getElementById('rulesBtn').addEventListener('click', showRules);
+            document.getElementById('closeRules').addEventListener('click', hideRules);
+            document.getElementById('startGameBtn').addEventListener('click', hideRules);
+            document.getElementById('closeWelcome').addEventListener('click', hideWelcome);
+            document.getElementById('playBtn').addEventListener('click', hideWelcome);
+
+            // Закрытие по клику вне модального окна
+            document.getElementById('welcomeModal').addEventListener('click', function(e) {
+                if (e.target === this) hideWelcome();
+            });
+
+            document.getElementById('rulesModal').addEventListener('click', function(e) {
+                if (e.target === this) hideRules();
+            });
+
+            // Запускаем игру
+            initGame();
+        });
+    </script>
 </body>
 </html>

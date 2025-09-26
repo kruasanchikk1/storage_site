@@ -6,6 +6,17 @@
   <title>АСАЛТХАН • STORAGE</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
+    // Отключаем предупреждение о production использовании Tailwind CDN
+    if (typeof tailwind !== 'undefined') {
+      tailwind.config = {
+        ...tailwind.config,
+        corePlugins: {
+          preflight: false,
+        }
+      };
+    }
+  </script>
+  <script>
     tailwind.config = {
       theme: {
         extend: {
@@ -36,17 +47,34 @@
   <header class="bg-deep-blue border-b border-electric-blue/30 backdrop-blur-lg sticky top-0 z-50">
     <nav class="container mx-auto px-4 py-4">
       <div class="flex justify-between items-center">
-        <a href="index.html" class="text-2xl font-black hover:text-electric-blue transition">
+        <a href="../main.html" class="text-2xl font-black hover:text-electric-blue transition">
           <span class="text-electric-blue">⟁</span>
           <span class="text-white ml-2">STORAGE</span>
         </a>
         <div class="space-x-6">
-          <a href="index.html#artifacts" class="hover:text-electric-blue text-sm uppercase tracking-widest">Артефакты</a>
-          <a href="index.html#form" class="hover:text-electric-blue text-sm uppercase tracking-widest">Вклад</a>
+          <a href="../main.html#artifacts" class="hover:text-electric-blue text-sm uppercase tracking-widest">Артефакты</a>
+          <a href="../main.html#form" class="hover:text-electric-blue text-sm uppercase tracking-widest">Вклад</a>
+          <a href="../main.html#about" class="hover:text-electric-blue text-sm uppercase tracking-widest">О проекте</a>
         </div>
       </div>
     </nav>
   </header>
+
+  <!-- Плашка с правилами -->
+  <div id="rulesBanner" class="bg-gradient-to-r from-honor-gold/20 to-honor-bronze/20 border-y border-honor-gold/30">
+    <div class="container mx-auto px-4 py-3">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center space-x-4">
+          <i class="fas fa-info-circle text-honor-gold text-xl"></i>
+          <span class="font-bold text-honor-gold">ПРАВИЛА ИГРЫ:</span>
+          <span class="text-light-blue text-sm">Уклоняйся от преследователей, собирай точки чести. Честь убывает при столкновениях!</span>
+        </div>
+        <button onclick="toggleRulesModal()" class="text-honor-gold hover:text-white transition">
+          <i class="fas fa-book-open mr-2"></i>Подробнее
+        </button>
+      </div>
+    </div>
+  </div>
 
   <!-- Основной контент -->
   <main class="container mx-auto px-4 py-8">
@@ -58,9 +86,30 @@
       <h1 class="text-5xl md:text-6xl font-black mb-4">
         <span class="text-white">АСАЛТ</span><span class="text-honor-gold">ХАН</span>
       </h1>
-      <p class="text-light-blue max-w-2xl mx-auto">
+      <p class="text-light-blue max-w-2xl mx-auto text-lg">
         Догонялки с кодексом чести. Где ловкость сочетается с моралью.
       </p>
+      
+      <!-- Краткое описание игры -->
+      <div class="mt-6 bg-honor-gold/10 border border-honor-gold/30 rounded-lg p-4 max-w-4xl mx-auto">
+        <div class="grid md:grid-cols-3 gap-4 text-center">
+          <div class="flex flex-col items-center">
+            <div class="text-3xl mb-2">🏃</div>
+            <h3 class="font-bold text-honor-gold mb-1">ВЫ - БЕГУН</h3>
+            <p class="text-light-blue text-sm">Кликайте на зеленые клетки для движения</p>
+          </div>
+          <div class="flex flex-col items-center">
+            <div class="text-3xl mb-2">⭐</div>
+            <h3 class="font-bold text-honor-gold mb-1">СОБИРАЙТЕ ЗВЕЗДЫ</h3>
+            <p class="text-light-blue text-sm">Золотые звезды дают очки и честь</p>
+          </div>
+          <div class="flex flex-col items-center">
+            <div class="text-3xl mb-2">🏹</div>
+            <h3 class="font-bold text-honor-gold mb-1">ИЗБЕГАЙТЕ ОХОТНИКОВ</h3>
+            <p class="text-light-blue text-sm">Красные стрелки преследуют вас</p>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- Игровая зона -->
@@ -101,11 +150,27 @@
           <h3 class="text-xl font-bold text-honor-gold mb-4">УПРАВЛЕНИЕ</h3>
           <div class="space-y-3">
             <button onclick="game.startGame()" class="w-full bg-honor-gold text-deep-blue px-4 py-2 rounded font-bold">
-              <i class="fas fa-play mr-2"></i>Начать
+              <i class="fas fa-play mr-2"></i>Начать игру
             </button>
             <button onclick="game.resetGame()" class="w-full bg-transparent border border-honor-gold text-honor-gold px-4 py-2 rounded font-bold">
               <i class="fas fa-redo mr-2"></i>Перезапуск
             </button>
+            <button onclick="toggleRulesModal()" class="w-full bg-transparent border border-electric-blue text-electric-blue px-4 py-2 rounded font-bold">
+              <i class="fas fa-book mr-2"></i>Правила
+            </button>
+          </div>
+
+          <!-- Способности -->
+          <div class="mt-6 pt-4 border-t border-honor-gold/20">
+            <h4 class="text-lg font-bold text-honor-gold mb-3">СПОСОБНОСТИ</h4>
+            <div class="space-y-2">
+              <button id="shieldBtn" disabled class="w-full bg-electric-blue/20 border border-electric-blue text-electric-blue px-3 py-2 rounded text-sm hover:bg-electric-blue/30 transition opacity-50 cursor-not-allowed">
+                <i class="fas fa-shield-alt mr-2"></i>Щит чести (<span id="shieldCount">3</span>)
+              </button>
+              <button id="slowBtn" disabled class="w-full bg-honor-gold/20 border border-honor-gold text-honor-gold px-3 py-2 rounded text-sm hover:bg-honor-gold/30 transition opacity-50 cursor-not-allowed">
+                <i class="fas fa-clock mr-2"></i>Замедление (<span id="slowCount">2</span>)
+              </button>
+            </div>
           </div>
 
           <!-- Статистика -->
@@ -116,4 +181,159 @@
                 <div class="text-light-blue text-sm">ОЧКИ</div>
               </div>
               <div>
-                <div class="text-xl font-bold text-honor-gold" id="timeSurvived">
+                <div class="text-xl font-bold text-honor-gold" id="timeSurvived">0</div>
+                <div class="text-light-blue text-sm">СЕКУНДЫ</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Культурный контекст -->
+        <div class="bg-game-bg rounded-2xl p-6 border border-honor-gold/30">
+          <h3 class="text-xl font-bold text-honor-gold mb-3">ИСТОРИЧЕСКИЙ КОНТЕКСТ</h3>
+          <p class="text-light-blue text-sm">
+            Асалтыхан — традиционная адыгская игра, воспитывающая не только физическую ловкость,
+            но и моральные качества. Игрок учится принимать решения в соответствии с кодексом чести «Адыгэ Хабзэ».
+          </p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Модальное окно с правилами -->
+  <div id="rulesModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4">
+    <div class="bg-deep-blue border border-honor-gold/30 rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto">
+      <div class="p-6">
+        <div class="flex justify-between items-center mb-6">
+          <h3 class="text-3xl font-bold text-honor-gold">ПРАВИЛА АСАЛТХАН</h3>
+          <button onclick="closeRulesModal(); console.log('Крестик clicked');" class="text-gray-400 hover:text-white text-2xl">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+
+        <div class="space-y-6">
+          <!-- Цель игры -->
+          <div class="bg-honor-gold/10 border border-honor-gold/30 rounded-lg p-4">
+            <h4 class="text-xl font-bold text-honor-gold mb-3 flex items-center">
+              <i class="fas fa-target mr-3"></i>ЦЕЛЬ ИГРЫ
+            </h4>
+            <p class="text-light-blue text-lg">Продержаться как можно дольше, уклоняясь от преследователей и сохраняя честь. Собирайте золотые звезды для очков!</p>
+          </div>
+
+          <!-- Управление -->
+          <div class="bg-electric-blue/10 border border-electric-blue/30 rounded-lg p-4">
+            <h4 class="text-xl font-bold text-electric-blue mb-3 flex items-center">
+              <i class="fas fa-gamepad mr-3"></i>УПРАВЛЕНИЕ
+            </h4>
+            <ul class="text-light-blue space-y-2 text-lg">
+              <li class="flex items-center"><i class="fas fa-mouse-pointer mr-3 text-honor-gold"></i>Кликайте на соседние зеленые клетки для движения</li>
+              <li class="flex items-center"><i class="fas fa-star mr-3 text-honor-gold"></i>Собирайте золотые звезды (⭐) для очков и чести</li>
+              <li class="flex items-center"><i class="fas fa-running mr-3 text-honor-gold"></i>Избегайте красных охотников (🏹)</li>
+              <li class="flex items-center"><i class="fas fa-magic mr-3 text-honor-gold"></i>Используйте способности в критических ситуациях</li>
+            </ul>
+          </div>
+
+          <!-- Система чести -->
+          <div class="bg-red-500/10 border border-red-500/30 rounded-lg p-4">
+            <h4 class="text-xl font-bold text-red-400 mb-3 flex items-center">
+              <i class="fas fa-shield-alt mr-3"></i>СИСТЕМА ЧЕСТИ
+            </h4>
+            <div class="text-light-blue space-y-2 text-lg">
+              <p>• <strong class="text-honor-gold">Честь начинается с 100%</strong></p>
+              <p>• <strong class="text-red-400">При столкновении с охотником честь уменьшается на 25%</strong></p>
+              <p>• <strong class="text-green-400">Сбор звезды восстанавливает 20% чести</strong></p>
+              <p>• <strong class="text-red-500">При нулевой чести игра заканчивается!</strong></p>
+            </div>
+          </div>
+
+          <!-- Способности -->
+          <div class="bg-purple-500/10 border border-purple-500/30 rounded-lg p-4">
+            <h4 class="text-xl font-bold text-purple-400 mb-3 flex items-center">
+              <i class="fas fa-magic mr-3"></i>СПОСОБНОСТИ
+            </h4>
+            <div class="grid md:grid-cols-2 gap-4">
+              <div class="bg-electric-blue/20 border border-electric-blue/30 rounded p-3">
+                <h5 class="font-bold text-electric-blue mb-2">🛡️ Щит чести (3 раза)</h5>
+                <p class="text-light-blue text-sm">Защищает от потери чести при столкновениях на 5 секунд</p>
+              </div>
+              <div class="bg-honor-gold/20 border border-honor-gold/30 rounded p-3">
+                <h5 class="font-bold text-honor-gold mb-2">⏰ Замедление (2 раза)</h5>
+                <p class="text-light-blue text-sm">Замедляет всех охотников на 3 секунды</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Раунды -->
+          <div class="bg-green-500/10 border border-green-500/30 rounded-lg p-4">
+            <h4 class="text-xl font-bold text-green-400 mb-3 flex items-center">
+              <i class="fas fa-trophy mr-3"></i>РАУНДЫ
+            </h4>
+            <p class="text-light-blue text-lg">С каждым раундом появляется больше охотников, игра становится быстрее, но и больше звезд для сбора!</p>
+          </div>
+        </div>
+
+        <div class="flex gap-4 mt-8">
+          <button onclick="closeRulesModal(); console.log('Понятно clicked');" class="flex-1 bg-honor-gold text-deep-blue py-3 rounded-lg font-bold text-lg hover:bg-honor-gold/80 transition">
+            <i class="fas fa-check mr-2"></i>Понятно, играть!
+          </button>
+          <button onclick="if(window.game) window.game.startGame(); closeRulesModal(); console.log('Начать игру clicked');" class="flex-1 bg-electric-blue text-deep-blue py-3 rounded-lg font-bold text-lg hover:bg-electric-blue/80 transition">
+            <i class="fas fa-play mr-2"></i>Начать игру
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="asalthan.js"></script>
+  <script>
+    // Глобальные функции для модального окна
+    function toggleRulesModal() {
+      const modal = document.getElementById('rulesModal');
+      if (modal.classList.contains('hidden')) {
+        modal.classList.remove('hidden');
+      } else {
+        closeRulesModal();
+      }
+    }
+
+    function closeRulesModal() {
+      console.log('closeRulesModal called');
+      const modal = document.getElementById('rulesModal');
+      if (modal) {
+        console.log('Modal found, closing...');
+        // Простое закрытие без анимации для отладки
+        modal.classList.add('hidden');
+        modal.classList.remove('closing');
+        console.log('Modal closed');
+      } else {
+        console.log('Modal not found!');
+      }
+    }
+
+    // Инициализация игры при загрузке
+    document.addEventListener('DOMContentLoaded', function() {
+      // Инициализируем игру (переменная game уже объявлена в asalthan.js)
+      if (typeof AsalthanGame !== 'undefined') {
+        window.game = new AsalthanGame();
+      }
+      
+      // Добавляем обработчики для закрытия модального окна
+      const modal = document.getElementById('rulesModal');
+      
+      // Закрытие по клику вне модального окна
+      modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+          closeRulesModal();
+        }
+      });
+      
+      // Закрытие по клавише Escape
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+          closeRulesModal();
+        }
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,202 +1,238 @@
-/* Tech-шрифт Orbitron для футуристичного вида */
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&display=swap');
+/* asalthan.css - стили для игры Асалтыхан */
 
-/* Глобальные стили */
-body {
-    font-family: 'Orbitron', sans-serif;
-    scroll-behavior: smooth;
+/* Стили для плашки с правилами */
+.rules-banner {
+    background: linear-gradient(90deg, rgba(255, 215, 0, 0.1), rgba(205, 127, 50, 0.1));
+    border-top: 1px solid rgba(255, 215, 0, 0.3);
+    border-bottom: 1px solid rgba(255, 215, 0, 0.3);
 }
 
-/* Свечение для текста */
-.glow-text {
-    text-shadow: 0 0 10px rgba(108, 195, 238, 0.5);
+/* Анимация появления модального окна */
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9) translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
 }
 
-.glow-text:hover {
-    text-shadow: 0 0 20px rgba(108, 195, 238, 0.8), 0 0 30px rgba(108, 195, 238, 0.6);
+@keyframes modalSlideOut {
+    from {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: scale(0.9) translateY(-20px);
+    }
 }
 
-/* Игровые стили */
+#rulesModal:not(.hidden) > div {
+    animation: modalSlideIn 0.3s ease-out;
+}
+
+#rulesModal.closing > div {
+    animation: modalSlideOut 0.2s ease-in;
+}
+
+#rulesModal.hidden {
+    display: none !important;
+}
+
+/* Адаптивность для плашки */
+@media (max-width: 768px) {
+    .rules-banner .flex {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+}
+
+/* Дополнительные стили для кнопок способностей */
+.ability-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.ability-btn:disabled:hover {
+    transform: none !important;
+}
+
+/* Стили для игрового поля */
 .game-board {
-    background: linear-gradient(45deg, #0a1644 0%, #1a3a5f 100%);
-    border: 3px solid #ffd700;
-    box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+    background: linear-gradient(135deg, rgba(10, 22, 68, 0.8), rgba(30, 58, 138, 0.6));
+    border: 2px solid rgba(255, 215, 0, 0.3);
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.1);
 }
 
+/* Стили для клеток */
 .cell {
-    border: 1px solid rgba(255, 215, 0, 0.3);
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
     position: relative;
-    cursor: pointer;
+    overflow: hidden;
 }
 
 .cell:hover {
-    background: rgba(255, 215, 0, 0.1);
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(108, 195, 238, 0.4);
 }
 
-.cell.path {
-    background: rgba(255, 215, 0, 0.1);
-}
-
+/* Стили для фигур */
 .player {
-    background: radial-gradient(circle, #6cc3ee 0%, #1e3a8a 100%);
-    border: 2px solid #bae6fd;
-    box-shadow: 0 0 15px rgba(108, 195, 238, 0.5);
+    animation: pulse 2s infinite;
+    box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
 }
 
-.enemy {
-    background: radial-gradient(circle, #ff6b6b 0%, #c44545 100%);
-    border: 2px solid #ff8e8e;
-    box-shadow: 0 0 15px rgba(255, 107, 107, 0.5);
+.hunter {
+    animation: shake 0.5s infinite;
 }
 
-.honor-point {
-    background: radial-gradient(circle, #ffd700 0%, #cd7f32 100%);
-    border: 2px solid #ffeb3b;
-    box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
-}
-
-.valid-move {
-    background: rgba(76, 175, 80, 0.3);
-    border: 2px solid #4caf50;
-    cursor: pointer;
-}
-
-.obstacle {
-    background: radial-gradient(circle, #8b4513 0%, #654321 100%);
-    border: 2px solid #a0522d;
-}
-
-.honor-bar {
-    background: linear-gradient(90deg, #ffd700, #cd7f32);
-    height: 100%;
-    transition: width 0.5s ease;
-    border-radius: 9999px;
+.honor {
+    animation: sparkle 1.5s infinite;
 }
 
 /* Анимации */
 @keyframes pulse {
     0%, 100% {
         transform: scale(1);
-        opacity: 1;
     }
     50% {
         transform: scale(1.1);
+    }
+}
+
+@keyframes shake {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    25% {
+        transform: translateX(-1px);
+    }
+    75% {
+        transform: translateX(1px);
+    }
+}
+
+@keyframes sparkle {
+    0%, 100% {
+        transform: scale(1) rotate(0deg);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.2) rotate(180deg);
         opacity: 0.8;
     }
 }
 
-@keyframes honorGlow {
-    0%, 100% {
-        box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
-    }
-    50% {
-        box-shadow: 0 0 20px rgba(255, 215, 0, 0.8), 0 0 30px rgba(255, 215, 0, 0.6);
-    }
+/* Стили для шкалы чести */
+.honor-bar {
+    background: linear-gradient(90deg, #ffd700, #ffed4e);
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+    transition: width 0.3s ease;
 }
 
-@keyframes slideIn {
-    from {
-        opacity: 0;
-        transform: translateY(-20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+/* Стили для кнопок */
+button {
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
 }
 
-.pulse {
-    animation: pulse 2s infinite ease-in-out;
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
-.honor-glow {
-    animation: honorGlow 2s infinite;
+button:active {
+    transform: translateY(0);
 }
 
-.slide-in {
-    animation: slideIn 0.6s ease-out;
+/* Стили для модального окна */
+#rulesModal {
+    backdrop-filter: blur(5px);
+}
+
+#rulesModal > div {
+    background: linear-gradient(135deg, rgba(10, 22, 68, 0.95), rgba(30, 58, 138, 0.9));
+    border: 2px solid rgba(255, 215, 0, 0.3);
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.2);
+}
+
+/* Стили для статистики */
+.stat-item {
+    background: rgba(255, 215, 0, 0.1);
+    border: 1px solid rgba(255, 215, 0, 0.2);
+    border-radius: 8px;
+    padding: 8px;
+    text-align: center;
 }
 
 /* Адаптивность */
 @media (max-width: 1024px) {
-    .game-board {
-        width: 400px !important;
-        height: 400px !important;
-    }
-}
-
-@media (max-width: 768px) {
-    .game-board {
-        width: 350px !important;
-        height: 350px !important;
-    }
-
-    h1.text-6xl {
-        font-size: 3rem !important;
-    }
-}
-
-@media (max-width: 480px) {
     .game-board {
         width: 300px !important;
         height: 300px !important;
     }
 }
 
-/* Стили для модального окна */
-#rulesModal {
-    backdrop-filter: blur(10px);
+@media (max-width: 768px) {
+    .game-board {
+        width: 250px !important;
+        height: 250px !important;
+    }
+    
+    .cell {
+        font-size: 12px;
+    }
 }
 
-#rulesModal > div {
-    max-height: 90vh;
-    overflow-y: auto;
+/* Стили для способностей */
+.ability-btn {
+    position: relative;
+    overflow: hidden;
 }
 
-/* Стили для элементов игры */
-.cell > div {
-    width: 80%;
-    height: 80%;
-    border-radius: 50%;
+.ability-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
 }
 
-.cell .obstacle {
-    border-radius: 8px;
+.ability-btn:hover::before {
+    left: 100%;
 }
 
-/* Состояния игры */
-.game-active .cell:not(.valid-move):not(.obstacle) {
-    cursor: not-allowed;
+/* Стили для эффектов */
+.shield-effect {
+    animation: shieldGlow 0.5s infinite alternate;
 }
 
-.game-active .valid-move:hover {
-    transform: scale(1.05);
-    transition: transform 0.2s ease;
+@keyframes shieldGlow {
+    from {
+        box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+    }
+    to {
+        box-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+    }
 }
 
-/* Эффекты для способностей */
-.shield-active .player {
-    animation: honorGlow 1s infinite;
+.slow-effect {
+    animation: slowPulse 1s infinite;
 }
 
-.slow-active .enemy {
-    opacity: 0.6;
-    filter: blur(1px);
-}
-
-/* Статус игры */
-.game-status {
-    transition: all 0.3s ease;
-}
-
-.game-status.warning {
-    background: linear-gradient(90deg, rgba(255, 215, 0, 0.2), rgba(255, 107, 107, 0.2));
-    border-color: #ff6b6b;
-}
-
-.game-status.critical {
-    background: linear-gradient(90deg, rgba(255, 107, 107, 0.3), rgba(196, 69, 69, 0.3));
-    border-color: #c44545;
-    animation: pulse 0.5s infinite;
+@keyframes slowPulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.6;
+    }
 }

@@ -1,1 +1,481 @@
-45ipgnfn4f njrfe
+/* style.css */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+
+/* Базовые стили */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Orbitron', 'Monaco', 'Courier New', monospace;
+    background: linear-gradient(135deg, #0a1644 0%, #1e3a8a 50%, #0f172a 100%);
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* Анимации */
+@keyframes glow {
+    0% {
+        text-shadow: 0 0 5px #6cc3ee, 0 0 10px #6cc3ee;
+    }
+    50% {
+        text-shadow: 0 0 20px #6cc3ee, 0 0 30px #6cc3ee;
+    }
+    100% {
+        text-shadow: 0 0 5px #6cc3ee, 0 0 10px #6cc3ee;
+    }
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(108, 195, 238, 0.7);
+    }
+    70% {
+        transform: scale(1.05);
+        box-shadow: 0 0 0 15px rgba(108, 195, 238, 0);
+    }
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(108, 195, 238, 0);
+    }
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes ripple {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(3);
+        opacity: 0;
+    }
+}
+
+/* Модальные окна */
+.modal-transition {
+    animation: slideIn 0.3s ease-out;
+}
+
+.modal-backdrop {
+    backdrop-filter: blur(10px);
+    background: rgba(0, 0, 0, 0.8);
+}
+
+/* Игровое поле */
+.game-board {
+    width: 100%;
+    max-width: 500px;
+    aspect-ratio: 1;
+    background: linear-gradient(145deg, #0a0f2a 0%, #1a1f3a 100%);
+    border: 3px solid #6cc3ee;
+    box-shadow: 
+        0 0 30px rgba(108, 195, 238, 0.3),
+        inset 0 0 30px rgba(108, 195, 238, 0.1);
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    gap: 2px;
+    padding: 8px;
+}
+
+.cell {
+    background: rgba(108, 195, 238, 0.05);
+    border: 1px solid rgba(108, 195, 238, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.cell::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: radial-gradient(circle, rgba(108, 195, 238, 0.3) 0%, transparent 70%);
+    transition: all 0.3s ease;
+    transform: translate(-50%, -50%);
+}
+
+.cell:hover::before {
+    width: 100%;
+    height: 100%;
+}
+
+.cell.available {
+    background: rgba(16, 185, 129, 0.2);
+    border-color: #10b981;
+    cursor: pointer;
+    animation: pulse 2s infinite;
+}
+
+.cell.available:hover {
+    background: rgba(16, 185, 129, 0.3);
+    transform: scale(1.1);
+}
+
+/* Фигуры */
+.piece {
+    width: 80%;
+    height: 80%;
+    border-radius: 50%;
+    position: relative;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.piece::after {
+    content: '';
+    position: absolute;
+    top: 10%;
+    left: 10%;
+    right: 10%;
+    bottom: 10%;
+    border-radius: 50%;
+    background: linear-gradient(145deg, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0.2) 100%);
+}
+
+.piece.deer {
+    background: linear-gradient(145deg, #dc2626 0%, #b91c1c 100%);
+    border: 2px solid #fecaca;
+    animation: float 3s ease-in-out infinite;
+}
+
+.piece.hunter {
+    background: linear-gradient(145deg, #6cc3ee 0%, #3b82f6 100%);
+    border: 2px solid #bae6fd;
+}
+
+.piece.selected {
+    transform: scale(1.2);
+    box-shadow: 
+        0 0 20px currentColor,
+        0 0 40px rgba(108, 195, 238, 0.5);
+    z-index: 10;
+}
+
+/* Эффекты для фигур */
+.piece.deer::before {
+    content: '🦌';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 0.8em;
+    z-index: 2;
+}
+
+.piece.hunter::before {
+    content: '🎯';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 0.7em;
+    z-index: 2;
+}
+
+/* Анимация хода */
+@keyframes movePiece {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.3);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.piece-move {
+    animation: movePiece 0.5s ease;
+}
+
+/* Специальные эффекты */
+.glow-text {
+    animation: glow 2s ease-in-out infinite;
+}
+
+.float-animation {
+    animation: float 3s ease-in-out infinite;
+}
+
+.pulse-animation {
+    animation: pulse 2s infinite;
+}
+
+/* Статус игры */
+#gameStatus {
+    animation: slideIn 0.5s ease;
+}
+
+#gameStatus.win {
+    background: linear-gradient(145deg, rgba(16, 185, 129, 0.3) 0%, rgba(5, 150, 105, 0.2) 100%);
+    border-color: #10b981;
+}
+
+#gameStatus.lose {
+    background: linear-gradient(145deg, rgba(220, 38, 38, 0.3) 0%, rgba(185, 28, 28, 0.2) 100%);
+    border-color: #dc2626;
+}
+
+/* Кнопки */
+button {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+button::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
+    transition: all 0.3s ease;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+}
+
+button:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+button:active {
+    transform: translateY(2px);
+}
+
+/* Заголовки и текст */
+h1 {
+    text-shadow: 0 0 10px rgba(108, 195, 238, 0.5);
+    background: linear-gradient(45deg, #ffffff 30%, #6cc3ee 70%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+h2, h3 {
+    text-shadow: 0 0 5px rgba(108, 195, 238, 0.3);
+}
+
+/* Сетка игрового поля с узором */
+.cell:nth-child(odd) {
+    background: rgba(108, 195, 238, 0.03);
+}
+
+.cell:nth-child(even) {
+    background: rgba(108, 195, 238, 0.07);
+}
+
+/* Эффект при наведении на игровое поле */
+.game-board:hover {
+    box-shadow: 
+        0 0 40px rgba(108, 195, 238, 0.5),
+        inset 0 0 40px rgba(108, 195, 238, 0.15);
+}
+
+/* Анимация появления клеток */
+.cell {
+    animation: fadeIn 0.5s ease forwards;
+}
+
+.cell:nth-child(1) { animation-delay: 0.1s; }
+.cell:nth-child(2) { animation-delay: 0.2s; }
+.cell:nth-child(3) { animation-delay: 0.3s; }
+.cell:nth-child(4) { animation-delay: 0.4s; }
+.cell:nth-child(5) { animation-delay: 0.5s; }
+.cell:nth-child(6) { animation-delay: 0.6s; }
+.cell:nth-child(7) { animation-delay: 0.7s; }
+.cell:nth-child(8) { animation-delay: 0.8s; }
+.cell:nth-child(9) { animation-delay: 0.9s; }
+.cell:nth-child(10) { animation-delay: 1.0s; }
+
+/* Счетчики */
+#turnCounter, #deerWins, #hunterWins {
+    animation: pulse 2s infinite;
+    text-shadow: 0 0 10px rgba(108, 195, 238, 0.5);
+}
+
+/* Легенда */
+.deer {
+    background: linear-gradient(145deg, #dc2626 0%, #b91c1c 100%);
+    border: 2px solid #fecaca;
+    animation: float 3s ease-in-out infinite;
+}
+
+.hunter {
+    background: linear-gradient(145deg, #6cc3ee 0%, #3b82f6 100%);
+    border: 2px solid #bae6fd;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .game-board {
+        max-width: 350px;
+        padding: 4px;
+    }
+    
+    h1 {
+        font-size: 3rem;
+    }
+    
+    .grid-cols-2 {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .game-board {
+        max-width: 300px;
+    }
+    
+    h1 {
+        font-size: 2.5rem;
+    }
+    
+    .piece {
+        width: 70%;
+        height: 70%;
+    }
+}
+
+/* Специальные классы для Tailwind */
+.backdrop-blur-lg {
+    backdrop-filter: blur(16px);
+}
+
+.border-electric-blue\/30 {
+    border-color: rgba(108, 195, 238, 0.3);
+}
+
+.bg-electric-blue\/20 {
+    background-color: rgba(108, 195, 238, 0.2);
+}
+
+/* Эффект параллакса для фона */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at 20% 80%, rgba(108, 195, 238, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(220, 38, 38, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(30, 58, 138, 0.2) 0%, transparent 50%);
+    z-index: -1;
+    animation: float 20s ease-in-out infinite;
+}
+
+/* Скроллбар */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(10, 22, 68, 0.5);
+}
+
+::-webkit-scrollbar-thumb {
+    background: #6cc3ee;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #bae6fd;
+}
+
+/* Selection */
+::selection {
+    background: rgba(108, 195, 238, 0.3);
+    color: white;
+}
+
+/* Фокус для доступности */
+button:focus, 
+select:focus, 
+a:focus {
+    outline: 2px solid #6cc3ee;
+    outline-offset: 2px;
+}
+
+/* Анимация победы */
+@keyframes victory {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+    }
+    50% {
+        transform: scale(1.1);
+        box-shadow: 0 0 30px 10px rgba(16, 185, 129, 0.5);
+    }
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+    }
+}
+
+.victory-animation {
+    animation: victory 1s ease;
+}
+
+/* Анимация поражения */
+@keyframes defeat {
+    0% {
+        transform: translateX(0);
+    }
+    25% {
+        transform: translateX(-10px);
+    }
+    75% {
+        transform: translateX(10px);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
+.defeat-animation {
+    animation: defeat 0.5s ease;
+}
