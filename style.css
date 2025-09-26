@@ -298,3 +298,30 @@ a, button, .game-card {
         transform: none;
     }
 }
+/* Добавьте в конец style.css */
+
+/* Исправление проблемы с кликабельностью кнопок */
+.relative.py-16.px-4 .container {
+    position: relative;
+    z-index: 10; /* Поднимаем контент над фоном */
+}
+
+/* Убедитесь, что кнопки кликабельны */
+.space-x-6 a {
+    position: relative;
+    z-index: 20;
+    pointer-events: auto !important;
+}
+
+/* Фон должен быть под всем */
+.floating-shapes {
+    z-index: 1 !important; /* Понижаем z-index фона */
+}
+
+/* Отключаем клики на анимированном фоне */
+.starfield,
+.floating-shapes,
+.floating-shapes::before,
+.floating-shapes::after {
+    pointer-events: none !important;
+}

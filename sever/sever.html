@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>СТУНВИНДИСЕП • STORAGE</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'deep-blue': '#0a1644',
+                        'electric-blue': '#6cc3ee',
+                        'ocean-blue': '#1e3a8a',
+                        'light-blue': '#bae6fd',
+                        'navy': '#0f172a',
+                        'medium-blue': '#1e3a8a',
+                        'game-bg': '#0a0f2a'
+                    },
+                    fontFamily: {
+                        'tech': ['Orbitron', 'Monaco', 'Courier New', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .game-board {
+            background: linear-gradient(45deg, #0a1644 0%, #1e3a8a 100%);
+            border: 3px solid #6cc3ee;
+            box-shadow: 0 0 30px rgba(108, 195, 238, 0.3);
+        }
+
+        .cell {
+            border: 1px solid rgba(108, 195, 238, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .cell:hover {
+            background: rgba(108, 195, 238, 0.1);
+        }
+
+        .deer {
+            background: radial-gradient(circle, #ff6b6b 0%, #c44545 100%);
+            border: 2px solid #ff8e8e;
+            box-shadow: 0 0 15px rgba(255, 107, 107, 0.5);
+        }
+
+        .hunter {
+            background: radial-gradient(circle, #6cc3ee 0%, #1e3a8a 100%);
+            border: 2px solid #bae6fd;
+            box-shadow: 0 0 15px rgba(108, 195, 238, 0.5);
+        }
+
+        .valid-move {
+            background: rgba(76, 175, 80, 0.3);
+            border: 2px solid #4caf50;
+        }
+
+        .glow-text {
+            text-shadow: 0 0 10px rgba(108, 195, 238, 0.5);
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+    </style>
+</head>
+<body class="bg-deep-blue text-white font-tech min-h-screen">
+
+    <!-- Шапка -->
+    <header class="bg-deep-blue border-b border-electric-blue/30 backdrop-blur-lg sticky top-0 z-50">
+        <nav class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <a href="index.html" class="text-2xl font-black hover:text-electric-blue transition duration-300">
+                    <span class="text-electric-blue">⟁</span>
+                    <span class="text-white ml-2">STORAGE</span>
+                </a>
+                <div class="space-x-8">
+                    <a href="index.html#artifacts" class="hover:text-electric-blue transition duration-300 text-sm uppercase tracking-widest glow-text">Артефакты</a>
+                    <a href="index.html#form" class="hover:text-electric-blue transition duration-300 text-sm uppercase tracking-widest glow-text">Вклад</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Основной контент -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Заголовок и описание -->
+        <div class="text-center mb-8">
+            <div class="inline-block bg-electric-blue/20 border border-electric-blue/30 px-6 py-3 rounded-full mb-6">
+                <span class="text-electric-blue text-lg uppercase tracking-widest font-bold">ИГРА НАРОДОВ КОМИ</span>
+            </div>
+
+            <h1 class="text-6xl md:text-7xl font-black mb-4 leading-none">
+                <span class="text-white">СТУНВИНДИ</span>
+                <span class="text-electric-blue">СЕП</span>
+            </h1>
+
+            <p class="text-xl text-light-blue max-w-3xl mx-auto leading-relaxed">
+                Древняя игра охотников. Тактическое противостояние оленя и преследователей.
+                Олень должен прорваться к противоположному краю, охотники — окружить его.
+            </p>
+        </div>
+
+        <!-- Игровая зона -->
+        <div class="grid lg:grid-cols-3 gap-8 items-start">
+            <!-- Игровое поле -->
+            <div class="lg:col-span-2">
+                <div class="bg-game-bg rounded-2xl p-8 border border-electric-blue/30 backdrop-blur-lg">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-2xl font-black text-electric-blue">ИГРОВОЕ ПОЛЕ</h2>
+                        <div class="text-light-blue">
+                            Ход: <span id="turnCounter" class="text-electric-blue font-bold">1</span>
+                        </div>
+                    </div>
+
+                    <!-- Игровое поле 5x5 -->
+                    <div id="gameBoard" class="game-board mx-auto rounded-lg overflow-hidden">
+                        <!-- Поле генерируется через JavaScript -->
+                    </div>
+
+                    <!-- Статус игры -->
+                    <div id="gameStatus" class="text-center mt-6 p-4 bg-electric-blue/10 rounded-lg border border-electric-blue/20">
+                        <p class="text-electric-blue font-bold text-lg">ОЛЕНЬ ХОДИТ ПЕРВЫМ</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Панель управления и правила -->
+            <div class="space-y-6">
+                <!-- Управление -->
+                <div class="bg-game-bg rounded-2xl p-6 border border-electric-blue/30 backdrop-blur-lg">
+                    <h3 class="text-xl font-black text-electric-blue mb-4">УПРАВЛЕНИЕ</h3>
+                    <div class="space-y-4">
+                        <button onclick="resetGame()" class="w-full bg-electric-blue hover:bg-light-blue text-deep-blue px-6 py-3 rounded-lg font-bold transition duration-300 border-2 border-electric-blue uppercase tracking-widest">
+                            <i class="fas fa-redo mr-2"></i>Новая игра
+                        </button>
+                        <button onclick="showRules()" class="w-full bg-transparent hover:bg-electric-blue/20 text-electric-blue px-6 py-3 rounded-lg font-bold transition duration-300 border-2 border-electric-blue uppercase tracking-widest">
+                            <i class="fas fa-book mr-2"></i>Правила
+                        </button>
+                    </div>
+
+                    <!-- Статистика -->
+                    <div class="mt-6 pt-6 border-t border-electric-blue/20">
+                        <div class="grid grid-cols-2 gap-4 text-center">
+                            <div>
+                                <div class="text-2xl font-black text-electric-blue" id="deerWins">0</div>
+                                <div class="text-light-blue text-sm">ПОБЕД ОЛЕНЯ</div>
+                            </div>
+                            <div>
+                                <div class="text-2xl font-black text-electric-blue" id="hunterWins">0</div>
+                                <div class="text-light-blue text-sm">ПОБЕД ОХОТНИКОВ</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Легенда -->
+                <div class="bg-game-bg rounded-2xl p-6 border border-electric-blue/30 backdrop-blur-lg">
+                    <h3 class="text-xl font-black text-electric-blue mb-4">ЛЕГЕНДА</h3>
+                    <div class="space-y-3">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-6 h-6 rounded-full deer"></div>
+                            <span class="text-light-blue">Олень (игрок)</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <div class="w-6 h-6 rounded-full hunter"></div>
+                            <span class="text-light-blue">Охотники (ИИ)</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <div class="w-6 h-6 rounded-full border-2 border-green-500 bg-green-500/20"></div>
+                            <span class="text-light-blue">Возможные ходы</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Историческая справка -->
+        <section class="mt-12 bg-gradient-to-r from-ocean-blue/30 to-electric-blue/20 rounded-2xl p-8 border border-electric-blue/30">
+            <h2 class="text-3xl font-black mb-6 text-electric-blue text-center">ИСТОРИЧЕСКАЯ СПРАВКА</h2>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div>
+                    <h3 class="text-xl font-black mb-3 text-light-blue">ПРОИСХОЖДЕНИЕ</h3>
+                    <p class="text-light-blue leading-relaxed">
+                        "Стунвиндисеп" — традиционная игра народов Коми, имитирующая охоту на оленя.
+                        Название переводится как "оленья тропа". Игра развивала стратегическое мышление
+                        у молодых охотников.
+                    </p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-black mb-3 text-light-blue">КУЛЬТУРНОЕ ЗНАЧЕНИЕ</h3>
+                    <p class="text-light-blue leading-relaxed">
+                        Игра отражает глубокую связь коми народа с природой и оленеводством.
+                        Каждое движение на поле соответствует реальным тактикам охоты и защиты,
+                        передаваемым из поколения в поколение.
+                    </p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Футер -->
+    <footer class="bg-navy py-12 px-4 border-t border-electric-blue/20 mt-12">
+        <div class="container mx-auto text-center">
+            <div class="text-2xl font-black mb-4">
+                <span class="text-electric-blue">⟁</span>
+                <span class="text-white">STORAGE</span>
+            </div>
+            <p class="text-light-blue mb-2">Цифровой ковчег игровой культуры человечества</p>
+            <p class="text-electric-blue/60 text-sm">© 2025 STORAGE PROJECT • Сохраняя прошлое, создаём будущее</p>
+        </div>
+    </footer>
+
+    <!-- Модальное окно правил -->
+    <div id="rulesModal" class="fixed inset-0 bg-black/80 hidden items-center justify-center z-50 p-4">
+        <div class="bg-deep-blue rounded-2xl p-8 max-w-2xl w-full border border-electric-blue/30">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-black text-electric-blue">ПРАВИЛА ИГРЫ СТУНВИНДИСЕП</h3>
+                <button onclick="hideRules()" class="text-electric-blue hover:text-light-blue text-2xl">×</button>
+            </div>
+            <div class="space-y-4 text-light-blue">
+                <p><strong>Цель оленя:</strong> Достичь противоположного края доски.</p>
+                <p><strong>Цель охотников:</strong> Окружить оленя так, чтобы у него не осталось ходов.</p>
+                <p><strong>Ход оленя:</strong> По диагонали на одну клетку.</p>
+                <p><strong>Ход охотников:</strong> По вертикали или горизонтали на одну клетку.</p>
+                <p><strong>Особенности:</strong> Олень ходит первым. Охотники не могут прыгать через другие фигуры.</p>
+            </div>
+            <button onclick="hideRules()" class="w-full mt-6 bg-electric-blue hover:bg-light-blue text-deep-blue px-6 py-3 rounded-lg font-bold transition duration-300">
+                НАЧАТЬ ИГРУ
+            </button>
+        </div>
+    </div>
+
+    <script src="sever.js"></script>
+</body>
+</html>
