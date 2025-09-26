@@ -124,7 +124,7 @@
                     </div>
 
                     <!-- Игровое поле 5x5 -->
-                    <div id="gameBoard" class="game-board mx-auto rounded-lg overflow-hidden grid grid-cols-5 gap-1 md:gap-2" style="max-width: 300px; aspect-ratio: 1;">
+                    <div id="gameBoard" class="game-board mx-auto rounded-lg overflow-hidden grid grid-cols-5 gap-1 md:gap-2" style="aspect-ratio: 1;">
                         <!-- Поле генерируется через JavaScript -->
                     </div>
 
@@ -330,8 +330,10 @@
                             cell.style.minHeight = '40px';
                         } else if (window.innerWidth < 1024) {
                             cell.style.minHeight = '50px';
-                        } else {
+                        } else if (window.innerWidth < 1200) {
                             cell.style.minHeight = '60px';
+                        } else {
+                            cell.style.minHeight = '70px';
                         }
                         
                         cell.style.cursor = 'pointer';
