@@ -629,38 +629,36 @@
                 });
             }
             
-            // Плавная прокрутка для ссылок на главную страницу
+            // Обработка ссылок на главную страницу
             const scrollLinks = document.querySelectorAll('.scroll-link');
             console.log('Найдено ссылок с классом scroll-link:', scrollLinks.length);
             
             scrollLinks.forEach(link => {
+                const href = link.getAttribute('href');
+                console.log('Обрабатываем ссылку:', href);
+                
+                // Если ссылка ведет на главную страницу - не добавляем обработчик
+                // Позволяем браузеру обработать переход естественным образом
+                if (href.includes('../main.html#')) {
+                    console.log('Ссылка на главную страницу - пропускаем обработчик');
+                    return;
+                }
+                
+                // Добавляем обработчик только для ссылок на текущую страницу
                 link.addEventListener('click', function(e) {
                     e.preventDefault();
-                    const href = this.getAttribute('href');
-                    console.log('Клик по ссылке:', href);
-                    
-                    // Если ссылка ведет на главную страницу с якорем
-                    if (href.includes('../main.html#')) {
-                        const targetId = href.split('#')[1];
-                        console.log('Переход на главную страницу к разделу:', targetId);
-                        // Переходим на главную страницу с якорем
-                        window.location.href = href;
-                    }
-                    // Если ссылка ведет на текущую страницу с якорем
-                    else if (href.includes('#')) {
-                        const targetId = href.split('#')[1];
-                        const targetElement = document.getElementById(targetId);
-                        if (targetElement) {
-                            console.log('Прокрутка к элементу:', targetId);
-                            // Прокручиваем к элементу с точным позиционированием
-                            const headerHeight = 80; // Высота фиксированного хедера
-                            const targetPosition = targetElement.offsetTop - headerHeight;
-                            
-                            window.scrollTo({
-                                top: targetPosition,
-                                behavior: 'smooth'
-                            });
-                        }
+                    const targetId = href.split('#')[1];
+                    const targetElement = document.getElementById(targetId);
+                    if (targetElement) {
+                        console.log('Прокрутка к элементу:', targetId);
+                        // Прокручиваем к элементу с точным позиционированием
+                        const headerHeight = 80; // Высота фиксированного хедера
+                        const targetPosition = targetElement.offsetTop - headerHeight;
+                        
+                        window.scrollTo({
+                            top: targetPosition,
+                            behavior: 'smooth'
+                        });
                     }
                 });
             });
