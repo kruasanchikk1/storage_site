@@ -426,3 +426,33 @@ a, button, .game-card {
         grid-template-columns: repeat(4, 1fr);
     }
 }
+
+/* Исправление проблемы с кнопками */
+.space-x-6 a,
+.flex.flex-col.sm\\:flex-row a {
+    position: relative !important;
+    z-index: 30 !important;
+    pointer-events: auto !important;
+    cursor: pointer !important;
+}
+
+/* Убеждаемся, что кнопки кликабельны */
+a[href="#mission"],
+a[href="#artifacts"] {
+    position: relative !important;
+    z-index: 30 !important;
+    pointer-events: auto !important;
+    cursor: pointer !important;
+}
+
+/* Контейнер с кнопками должен быть выше фона */
+.container.mx-auto.text-center {
+    position: relative !important;
+    z-index: 20 !important;
+}
+
+/* Анимированный фон должен быть ниже всего */
+.floating-shapes {
+    z-index: 1 !important;
+    pointer-events: none !important;
+}
