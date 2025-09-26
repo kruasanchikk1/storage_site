@@ -63,13 +63,30 @@
     <header class="bg-deep-blue border-b border-electric-blue/30 backdrop-blur-lg sticky top-0 z-50">
         <nav class="container mx-auto px-4 py-4">
             <div class="flex justify-between items-center">
-                <a href="/storage_site/main.html" class="text-2xl font-black hover:text-electric-blue transition duration-300">
+                <a href="../main.html" class="text-xl md:text-2xl font-black hover:text-electric-blue transition duration-300">
                     <span class="text-electric-blue">⟁</span>
                     <span class="text-white ml-2">STORAGE</span>
                 </a>
-                <div class="space-x-8">
-                    <a href="/storage_site/main.html#artifacts" class="hover:text-electric-blue transition duration-300 text-sm uppercase tracking-widest">Артефакты</a>
-                    <a href="/storage_site/main.html#form" class="hover:text-electric-blue transition duration-300 text-sm uppercase tracking-widest">Вклад</a>
+                
+                <!-- Мобильное меню -->
+                <div class="md:hidden">
+                    <button id="mobileMenuBtn" class="text-electric-blue hover:text-white transition duration-300">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+                
+                <!-- Десктопное меню -->
+                <div class="hidden md:flex space-x-6 lg:space-x-8">
+                    <a href="../main.html#artifacts" class="hover:text-electric-blue transition duration-300 text-sm uppercase tracking-widest">Артефакты</a>
+                    <a href="../main.html#form" class="hover:text-electric-blue transition duration-300 text-sm uppercase tracking-widest">Вклад</a>
+                </div>
+            </div>
+            
+            <!-- Мобильное меню (скрыто по умолчанию) -->
+            <div id="mobileMenu" class="md:hidden hidden mt-4 pb-4 border-t border-electric-blue/20">
+                <div class="flex flex-col space-y-4 pt-4">
+                    <a href="../main.html#artifacts" class="hover:text-electric-blue transition duration-300 text-sm uppercase tracking-widest">Артефакты</a>
+                    <a href="../main.html#form" class="hover:text-electric-blue transition duration-300 text-sm uppercase tracking-widest">Вклад</a>
                 </div>
             </div>
         </nav>
@@ -78,90 +95,90 @@
     <!-- Основной контент -->
     <main class="container mx-auto px-4 py-8">
         <!-- Заголовок и описание -->
-        <div class="text-center mb-8">
-            <div class="inline-block bg-electric-blue/20 border border-electric-blue/30 px-6 py-3 rounded-full mb-6">
-                <span class="text-electric-blue text-lg uppercase tracking-widest font-bold">ИГРА НАРОДОВ КОМИ</span>
+        <div class="text-center mb-6 md:mb-8">
+            <div class="inline-block bg-electric-blue/20 border border-electric-blue/30 px-4 md:px-6 py-2 md:py-3 rounded-full mb-4 md:mb-6">
+                <span class="text-electric-blue text-sm md:text-lg uppercase tracking-widest font-bold">ИГРА НАРОДОВ КОМИ</span>
             </div>
 
-            <h1 class="text-6xl md:text-7xl font-black mb-4 leading-none">
+            <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black mb-4 leading-none">
                 <span class="text-white">СТУНВИНДИ</span>
                 <span class="text-electric-blue">СЕП</span>
             </h1>
 
-            <p class="text-xl text-light-blue max-w-3xl mx-auto leading-relaxed">
+            <p class="text-base md:text-xl text-light-blue max-w-3xl mx-auto leading-relaxed px-4">
                 Древняя игра охотников. Тактическое противостояние оленя и преследователей.
                 Олень должен прорваться к противоположному краю, охотники — окружить его.
             </p>
         </div>
 
         <!-- Игровая зона -->
-        <div class="grid lg:grid-cols-3 gap-8 items-start">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8 items-start">
             <!-- Игровое поле -->
-            <div class="lg:col-span-2">
-                <div class="bg-game-bg rounded-2xl p-8 border border-electric-blue/30 backdrop-blur-lg">
-                    <div class="flex justify-between items-center mb-6">
-                        <h2 class="text-2xl font-black text-electric-blue">ИГРОВОЕ ПОЛЕ</h2>
-                        <div class="text-light-blue">
+            <div class="lg:col-span-2 order-1 lg:order-1">
+                <div class="bg-game-bg rounded-2xl p-4 md:p-8 border border-electric-blue/30 backdrop-blur-lg">
+                    <div class="flex flex-col sm:flex-row justify-between items-center mb-4 md:mb-6 gap-4">
+                        <h2 class="text-xl md:text-2xl font-black text-electric-blue">ИГРОВОЕ ПОЛЕ</h2>
+                        <div class="text-light-blue text-sm md:text-base">
                             Ход: <span id="turnCounter" class="text-electric-blue font-bold">1</span>
                         </div>
                     </div>
 
                     <!-- Игровое поле 5x5 -->
-                    <div id="gameBoard" class="game-board mx-auto rounded-lg overflow-hidden grid grid-cols-5 gap-2" style="max-width: 400px; aspect-ratio: 1;">
+                    <div id="gameBoard" class="game-board mx-auto rounded-lg overflow-hidden grid grid-cols-5 gap-1 md:gap-2" style="max-width: 300px; aspect-ratio: 1;">
                         <!-- Поле генерируется через JavaScript -->
                     </div>
 
                     <!-- Статус игры -->
-                    <div id="gameStatus" class="text-center mt-6 p-4 bg-electric-blue/10 rounded-lg border border-electric-blue/20">
-                        <p class="text-electric-blue font-bold text-lg">ОЛЕНЬ ХОДИТ ПЕРВЫМ</p>
+                    <div id="gameStatus" class="text-center mt-4 md:mt-6 p-3 md:p-4 bg-electric-blue/10 rounded-lg border border-electric-blue/20">
+                        <p class="text-electric-blue font-bold text-base md:text-lg">ОЛЕНЬ ХОДИТ ПЕРВЫМ</p>
                     </div>
                 </div>
             </div>
 
             <!-- Панель управления и правила -->
-            <div class="space-y-6">
+            <div class="space-y-4 md:space-y-6 order-2 lg:order-2">
                 <!-- Управление -->
-                <div class="bg-game-bg rounded-2xl p-6 border border-electric-blue/30 backdrop-blur-lg">
-                    <h3 class="text-xl font-black text-electric-blue mb-4">УПРАВЛЕНИЕ</h3>
-                    <div class="space-y-4">
-                        <button id="resetBtn" class="w-full bg-electric-blue hover:bg-light-blue text-deep-blue px-6 py-3 rounded-lg font-bold transition duration-300 border-2 border-electric-blue uppercase tracking-widest">
+                <div class="bg-game-bg rounded-2xl p-4 md:p-6 border border-electric-blue/30 backdrop-blur-lg">
+                    <h3 class="text-lg md:text-xl font-black text-electric-blue mb-4">УПРАВЛЕНИЕ</h3>
+                    <div class="space-y-3 md:space-y-4">
+                        <button id="resetBtn" class="w-full bg-electric-blue hover:bg-light-blue text-deep-blue px-4 md:px-6 py-2 md:py-3 rounded-lg font-bold transition duration-300 border-2 border-electric-blue uppercase tracking-widest text-sm md:text-base">
                             <i class="fas fa-redo mr-2"></i>Новая игра
                         </button>
-                        <button id="rulesBtn" class="w-full bg-transparent hover:bg-electric-blue/20 text-electric-blue px-6 py-3 rounded-lg font-bold transition duration-300 border-2 border-electric-blue uppercase tracking-widest">
+                        <button id="rulesBtn" class="w-full bg-transparent hover:bg-electric-blue/20 text-electric-blue px-4 md:px-6 py-2 md:py-3 rounded-lg font-bold transition duration-300 border-2 border-electric-blue uppercase tracking-widest text-sm md:text-base">
                             <i class="fas fa-book mr-2"></i>Правила
                         </button>
                     </div>
 
                     <!-- Статистика -->
-                    <div class="mt-6 pt-6 border-t border-electric-blue/20">
-                        <div class="grid grid-cols-2 gap-4 text-center">
+                    <div class="mt-4 md:mt-6 pt-4 md:pt-6 border-t border-electric-blue/20">
+                        <div class="grid grid-cols-2 gap-3 md:gap-4 text-center">
                             <div>
-                                <div class="text-2xl font-black text-electric-blue" id="deerWins">0</div>
-                                <div class="text-light-blue text-sm">ПОБЕД ОЛЕНЯ</div>
+                                <div class="text-xl md:text-2xl font-black text-electric-blue" id="deerWins">0</div>
+                                <div class="text-light-blue text-xs md:text-sm">ПОБЕД ОЛЕНЯ</div>
                             </div>
                             <div>
-                                <div class="text-2xl font-black text-electric-blue" id="hunterWins">0</div>
-                                <div class="text-light-blue text-sm">ПОБЕД ОХОТНИКОВ</div>
+                                <div class="text-xl md:text-2xl font-black text-electric-blue" id="hunterWins">0</div>
+                                <div class="text-light-blue text-xs md:text-sm">ПОБЕД ОХОТНИКОВ</div>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Легенда -->
-                <div class="bg-game-bg rounded-2xl p-6 border border-electric-blue/30 backdrop-blur-lg">
-                    <h3 class="text-xl font-black text-electric-blue mb-4">ЛЕГЕНДА</h3>
-                    <div class="space-y-3">
-                        <div class="flex items-center space-x-3">
-                            <div class="w-6 h-6 rounded-full bg-red-500 border-2 border-red-300"></div>
-                            <span class="text-light-blue">Олень (игрок)</span>
+                <div class="bg-game-bg rounded-2xl p-4 md:p-6 border border-electric-blue/30 backdrop-blur-lg">
+                    <h3 class="text-lg md:text-xl font-black text-electric-blue mb-4">ЛЕГЕНДА</h3>
+                    <div class="space-y-2 md:space-y-3">
+                        <div class="flex items-center space-x-2 md:space-x-3">
+                            <div class="w-5 h-5 md:w-6 md:h-6 rounded-full bg-red-500 border-2 border-red-300"></div>
+                            <span class="text-light-blue text-sm md:text-base">Олень (игрок)</span>
                         </div>
-                        <div class="flex items-center space-x-3">
-                            <div class="w-6 h-6 rounded-full bg-blue-500 border-2 border-blue-300"></div>
-                            <span class="text-light-blue">Охотники (ИИ)</span>
+                        <div class="flex items-center space-x-2 md:space-x-3">
+                            <div class="w-5 h-5 md:w-6 md:h-6 rounded-full bg-blue-500 border-2 border-blue-300"></div>
+                            <span class="text-light-blue text-sm md:text-base">Охотники (ИИ)</span>
                         </div>
-                        <div class="flex items-center space-x-3">
-                            <div class="w-6 h-6 rounded-full border-2 border-green-500 bg-green-500/20"></div>
-                            <span class="text-light-blue">Возможные ходы</span>
+                        <div class="flex items-center space-x-2 md:space-x-3">
+                            <div class="w-5 h-5 md:w-6 md:h-6 rounded-full border-2 border-green-500 bg-green-500/20"></div>
+                            <span class="text-light-blue text-sm md:text-base">Возможные ходы</span>
                         </div>
                     </div>
                 </div>
@@ -169,20 +186,20 @@
         </div>
 
         <!-- Историческая справка -->
-        <section class="mt-12 bg-gradient-to-r from-ocean-blue/30 to-electric-blue/20 rounded-2xl p-8 border border-electric-blue/30">
-            <h2 class="text-3xl font-black mb-6 text-electric-blue text-center">ИСТОРИЧЕСКАЯ СПРАВКА</h2>
-            <div class="grid md:grid-cols-2 gap-8">
+        <section class="mt-8 md:mt-12 bg-gradient-to-r from-ocean-blue/30 to-electric-blue/20 rounded-2xl p-4 md:p-8 border border-electric-blue/30">
+            <h2 class="text-2xl md:text-3xl font-black mb-4 md:mb-6 text-electric-blue text-center">ИСТОРИЧЕСКАЯ СПРАВКА</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
                 <div>
-                    <h3 class="text-xl font-black mb-3 text-light-blue">ПРОИСХОЖДЕНИЕ</h3>
-                    <p class="text-light-blue leading-relaxed">
+                    <h3 class="text-lg md:text-xl font-black mb-3 text-light-blue">ПРОИСХОЖДЕНИЕ</h3>
+                    <p class="text-light-blue leading-relaxed text-sm md:text-base">
                         "Стунвиндисеп" — традиционная игра народов Коми, имитирующая охоту на оленя.
                         Название переводится как "оленья тропа". Игра развивала стратегическое мышление
                         у молодых охотников.
                     </p>
                 </div>
                 <div>
-                    <h3 class="text-xl font-black mb-3 text-light-blue">КУЛЬТУРНОЕ ЗНАЧЕНИЕ</h3>
-                    <p class="text-light-blue leading-relaxed">
+                    <h3 class="text-lg md:text-xl font-black mb-3 text-light-blue">КУЛЬТУРНОЕ ЗНАЧЕНИЕ</h3>
+                    <p class="text-light-blue leading-relaxed text-sm md:text-base">
                         Игра отражает глубокую связь коми народа с природой и оленеводством.
                         Каждое движение на поле соответствует реальным тактикам охоты и защиты,
                         передаваемым из поколения в поколение.
@@ -193,25 +210,25 @@
     </main>
 
     <!-- Футер -->
-    <footer class="bg-navy py-12 px-4 border-t border-electric-blue/20 mt-12">
+    <footer class="bg-navy py-8 md:py-12 px-4 border-t border-electric-blue/20 mt-8 md:mt-12">
         <div class="container mx-auto text-center">
-            <div class="text-2xl font-black mb-4">
+            <div class="text-xl md:text-2xl font-black mb-4">
                 <span class="text-electric-blue">⟁</span>
                 <span class="text-white">STORAGE</span>
             </div>
-            <p class="text-light-blue mb-2">Цифровой ковчег игровой культуры человечества</p>
-            <p class="text-electric-blue/60 text-sm">© 2025 STORAGE PROJECT • Сохраняя прошлое, создаём будущее</p>
+            <p class="text-light-blue mb-2 text-sm md:text-base">Цифровой ковчег игровой культуры человечества</p>
+            <p class="text-electric-blue/60 text-xs md:text-sm">© 2025 STORAGE PROJECT • Сохраняя прошлое, создаём будущее</p>
         </div>
     </footer>
 
     <!-- Модальное окно правил -->
     <div id="rulesModal" class="fixed inset-0 bg-black/80 hidden items-center justify-center z-50 p-4">
-        <div class="bg-deep-blue rounded-2xl p-8 max-w-2xl w-full border border-electric-blue/30">
-            <div class="flex justify-between items-center mb-6">
-                <h3 class="text-2xl font-black text-electric-blue">ПРАВИЛА ИГРЫ СТУНВИНДИСЕП</h3>
-                <button id="closeRules" class="text-electric-blue hover:text-light-blue text-2xl">×</button>
+        <div class="bg-deep-blue rounded-2xl p-4 md:p-8 max-w-2xl w-full border border-electric-blue/30 max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center mb-4 md:mb-6">
+                <h3 class="text-lg md:text-2xl font-black text-electric-blue">ПРАВИЛА ИГРЫ СТУНВИНДИСЕП</h3>
+                <button id="closeRules" class="text-electric-blue hover:text-light-blue text-xl md:text-2xl">×</button>
             </div>
-            <div class="space-y-4 text-light-blue">
+            <div class="space-y-3 md:space-y-4 text-light-blue text-sm md:text-base">
                 <p><strong>Цель игры:</strong> Тактическое противостояние между оленем и охотниками.</p>
                 <p><strong>Цель оленя:</strong> Достичь противоположного края доски (нижнего ряда).</p>
                 <p><strong>Цель охотников:</strong> Окружить оленя так, чтобы у него не осталось возможных ходов.</p>
@@ -221,7 +238,7 @@
                 <p><strong>Особенности:</strong> Охотники не могут прыгать через другие фигуры. Олень может перемещаться только на свободные клетки.</p>
                 <p class="text-electric-blue font-bold">Игра заканчивается, когда олень достигает противоположного края (победа оленя) или когда у оленя не остается возможных ходов (победа охотников).</p>
             </div>
-            <button id="startGameBtn" class="w-full mt-6 bg-electric-blue hover:bg-light-blue text-deep-blue px-6 py-3 rounded-lg font-bold transition duration-300">
+            <button id="startGameBtn" class="w-full mt-4 md:mt-6 bg-electric-blue hover:bg-light-blue text-deep-blue px-4 md:px-6 py-2 md:py-3 rounded-lg font-bold transition duration-300 text-sm md:text-base">
                 ПОНЯТНО, НАЧАТЬ ИГРУ
             </button>
         </div>
@@ -229,19 +246,19 @@
 
     <!-- Всплывающее окно при загрузке -->
     <div id="welcomeModal" class="fixed inset-0 bg-black/80 flex items-center justify-center z-[100] p-4">
-        <div class="bg-deep-blue rounded-2xl p-8 max-w-2xl w-full border border-electric-blue/30">
-            <div class="flex justify-between items-center mb-6">
-                <h3 class="text-2xl font-black text-electric-blue">ДОБРО ПОЖАЛОВАТЬ В СТУНВИНДИСЕП</h3>
-                <button id="closeWelcome" class="text-electric-blue hover:text-light-blue text-2xl">×</button>
+        <div class="bg-deep-blue rounded-2xl p-4 md:p-8 max-w-2xl w-full border border-electric-blue/30 max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center mb-4 md:mb-6">
+                <h3 class="text-lg md:text-2xl font-black text-electric-blue">ДОБРО ПОЖАЛОВАТЬ В СТУНВИНДИСЕП</h3>
+                <button id="closeWelcome" class="text-electric-blue hover:text-light-blue text-xl md:text-2xl">×</button>
             </div>
-            <div class="space-y-4 text-light-blue">
-                <p class="text-lg">Вы играете за <strong class="text-red-400">оленя</strong>, который пытается прорваться через строй охотников к противоположному краю доски.</p>
+            <div class="space-y-3 md:space-y-4 text-light-blue text-sm md:text-base">
+                <p class="text-base md:text-lg">Вы играете за <strong class="text-red-400">оленя</strong>, который пытается прорваться через строй охотников к противоположному краю доски.</p>
                 <p>Четыре <strong class="text-electric-blue">охотника</strong> пытаются окружить вас и заблокировать все возможные пути к отступлению.</p>
                 <p class="font-bold text-electric-blue">Олень ходит по диагонали, охотники — по вертикали и горизонтали.</p>
                 <p>Эта древняя игра народов Коми развивает стратегическое мышление и тактическое планирование.</p>
             </div>
-            <div class="mt-6">
-                <button id="playBtn" class="w-full bg-electric-blue hover:bg-light-blue text-deep-blue px-6 py-3 rounded-lg font-bold transition duration-300">
+            <div class="mt-4 md:mt-6">
+                <button id="playBtn" class="w-full bg-electric-blue hover:bg-light-blue text-deep-blue px-4 md:px-6 py-2 md:py-3 rounded-lg font-bold transition duration-300 text-sm md:text-base">
                     <i class="fas fa-play mr-2"></i>Играть
                 </button>
             </div>
@@ -305,7 +322,7 @@
                         // Стилизация клетки
                         cell.style.background = 'rgba(108, 195, 238, 0.05)';
                         cell.style.border = '1px solid rgba(108, 195, 238, 0.2)';
-                        cell.style.minHeight = '60px';
+                        cell.style.minHeight = window.innerWidth < 768 ? '40px' : '60px';
                         cell.style.cursor = 'pointer';
 
                         // Добавляем фигуры
@@ -577,6 +594,34 @@
 
             // Запускаем игру
             initGame();
+            
+            // Мобильное меню
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const mobileMenu = document.getElementById('mobileMenu');
+            
+            if (mobileMenuBtn && mobileMenu) {
+                mobileMenuBtn.addEventListener('click', function() {
+                    mobileMenu.classList.toggle('hidden');
+                    
+                    // Меняем иконку
+                    const icon = mobileMenuBtn.querySelector('i');
+                    if (mobileMenu.classList.contains('hidden')) {
+                        icon.className = 'fas fa-bars text-xl';
+                    } else {
+                        icon.className = 'fas fa-times text-xl';
+                    }
+                });
+                
+                // Закрываем меню при клике на ссылку
+                const menuLinks = mobileMenu.querySelectorAll('a');
+                menuLinks.forEach(link => {
+                    link.addEventListener('click', function() {
+                        mobileMenu.classList.add('hidden');
+                        const icon = mobileMenuBtn.querySelector('i');
+                        icon.className = 'fas fa-bars text-xl';
+                    });
+                });
+            }
         });
     </script>
 </body>

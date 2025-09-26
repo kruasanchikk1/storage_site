@@ -479,3 +479,187 @@ a:focus {
 .defeat-animation {
     animation: defeat 0.5s ease;
 }
+
+/* Дополнительные стили для мобильной адаптации */
+@media (max-width: 768px) {
+    /* Мобильное меню */
+    #mobileMenu {
+        animation: slideDown 0.3s ease-out;
+    }
+    
+    @keyframes slideDown {
+        from {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    /* Улучшаем игровое поле на мобильных */
+    .game-board {
+        max-width: 280px;
+        padding: 6px;
+        gap: 1px;
+    }
+    
+    .cell {
+        min-height: 35px;
+    }
+    
+    .piece {
+        width: 75%;
+        height: 75%;
+    }
+    
+    /* Адаптируем модальные окна */
+    .modal-content {
+        margin: 1rem;
+        max-height: calc(100vh - 2rem);
+        overflow-y: auto;
+    }
+    
+    /* Улучшаем кнопки на мобильных */
+    button {
+        padding: 0.75rem 1rem;
+        font-size: 0.875rem;
+    }
+    
+    /* Адаптируем заголовки */
+    h1 {
+        font-size: 2.5rem;
+        line-height: 1.1;
+    }
+    
+    h2 {
+        font-size: 1.5rem;
+    }
+    
+    h3 {
+        font-size: 1.25rem;
+    }
+    
+    /* Улучшаем статистику */
+    .grid.grid-cols-2 {
+        gap: 1rem;
+    }
+    
+    /* Адаптируем легенду */
+    .legend-item {
+        font-size: 0.875rem;
+    }
+}
+
+/* Дополнительные стили для очень маленьких экранов */
+@media (max-width: 480px) {
+    /* Уменьшаем отступы */
+    .container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+    
+    /* Улучшаем читаемость текста */
+    .text-light-blue {
+        font-size: 0.875rem;
+    }
+    
+    /* Адаптируем кнопки */
+    button {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.8rem;
+    }
+    
+    /* Улучшаем мобильное меню */
+    #mobileMenu {
+        padding: 1rem 0;
+    }
+    
+    #mobileMenu a {
+        padding: 0.5rem 0;
+        font-size: 0.875rem;
+    }
+    
+    /* Игровое поле для очень маленьких экранов */
+    .game-board {
+        max-width: 250px;
+        padding: 4px;
+    }
+    
+    .cell {
+        min-height: 30px;
+    }
+    
+    .piece {
+        width: 70%;
+        height: 70%;
+    }
+    
+    /* Адаптируем заголовки */
+    h1 {
+        font-size: 2rem;
+    }
+    
+    h2 {
+        font-size: 1.25rem;
+    }
+    
+    h3 {
+        font-size: 1.125rem;
+    }
+}
+
+/* Улучшения для планшетов */
+@media (min-width: 768px) and (max-width: 1024px) {
+    /* Адаптируем игровое поле */
+    .game-board {
+        max-width: 400px;
+    }
+    
+    /* Улучшаем статистику */
+    .grid.grid-cols-2 {
+        gap: 1.5rem;
+    }
+}
+
+/* Улучшения для больших экранов */
+@media (min-width: 1024px) {
+    /* Восстанавливаем полные размеры */
+    .game-board {
+        max-width: 500px;
+    }
+    
+    .cell {
+        min-height: 60px;
+    }
+    
+    .piece {
+        width: 80%;
+        height: 80%;
+    }
+}
+
+/* Улучшения для touch устройств */
+@media (hover: none) and (pointer: coarse) {
+    /* Увеличиваем области касания */
+    button {
+        min-height: 44px;
+        min-width: 44px;
+    }
+    
+    .cell {
+        min-height: 44px;
+    }
+    
+    /* Убираем hover эффекты на touch устройствах */
+    .cell:hover::before {
+        width: 0;
+        height: 0;
+    }
+    
+    button:hover::before {
+        width: 0;
+        height: 0;
+    }
+}
