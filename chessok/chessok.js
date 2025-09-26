@@ -1,274 +1,377 @@
-// game.js - логика игры Стунвиндисеп
-class StunvindisepGame {
+// Игра МИКАДО - корейская версия
+class MikadoGame {
     constructor() {
-        this.boardSize = 5;
-        this.board = [];
-        this.deerPosition = { row: 0, col: 2 };
-        this.hunterPositions = [
-            { row: 4, col: 0 },
-            { row: 4, col: 1 },
-            { row: 4, col: 3 },
-            { row: 4, col: 4 }
-        ];
-        this.currentPlayer = 'deer'; // deer или hunters
-        this.gameActive = true;
-        this.turnCount = 1;
-        this.deerWins = 0;
-        this.hunterWins = 0;
+        this.canvas = document.getElementById('gameCanvas');
+        this.ctx = this.canvas.getContext('2d');
+        this.sticks = [];
+        this.score = 0;
+        this.moves = 0;
+        this.totalSticks = 20;
+        this.gameActive = false;
+        this.mode = 'meditation';
+        this.selectedStick = null;
+
+        // Типы палочек с философскими значениями
+        this.stickTypes = {
+            red: {
+                points: 10,
+                color: '#ff6b6b',
+                message: "Удача сопутствует терпеливым. Твоё спокойствие привлекает успех.",
+                title: "Палочка Удачи 🍀",
+                wisdom: "Удача приходит к тем, кто умеет ждать"
+            },
+            blue: {
+                points: 5,
+                color: '#4ecdc4',
+                message: "Мудрость в каждом движении. Ты учишься видеть глубину в простоте.",
+                title: "Палочка Мудрости 📜",
+                wisdom: "Знание - это не количество, а качество понимания"
+            },
+            black: {
+                points: 0,
+                color: '#2d3436',
+                message: "Испытание делает сильнее. Иногда проигрыш - лучший учитель.",
+                title: "Палочка Испытания ⚡",
+                wisdom: "Препятствия - это ступени к мудрости"
+            },
+            green: {
+                points: 2,
+                color: '#00b894',
+                message: "Мир в душе - мир в игре. Ты находишь гармонию в каждом действии.",
+                title: "Палочка Мира ☮️",
+                wisdom: "Внутренний покой - основа всех достижений"
+            },
+            yellow: {
+                points: 3,
+                color: '#fdcb6e',
+                message: "Предки наблюдают за тобой. Их мудрость направляет твою руку.",
+                title: "Палочка Предков 👵",
+                wisdom: "Уважение к прошлому открывает путь в будущее"
+            }
+        };
 
         this.init();
     }
 
     init() {
-        this.createBoard();
-        this.renderBoard();
-        this.updateStats();
         this.setupEventListeners();
-    }
+        this.showRulesModal();
+        this.resizeCanvas();
 
-    createBoard() {
-        this.board = Array(this.boardSize).fill().map(() => Array(this.boardSize).fill(null));
-
-        // Расставляем оленя
-        this.board[this.deerPosition.row][this.deerPosition.col] = 'deer';
-
-        // Расставляем охотников
-        this.hunterPositions.forEach(pos => {
-            this.board[pos.row][pos.col] = 'hunter';
-        });
-    }
-
-    renderBoard() {
-        const gameBoard = document.getElementById('gameBoard');
-        gameBoard.innerHTML = '';
-
-        // Создаем сетку 5x5
-        gameBoard.style.display = 'grid';
-        gameBoard.style.gridTemplateColumns = `repeat(${this.boardSize}, 1fr)`;
-        gameBoard.style.gap = '4px';
-        gameBoard.style.width = '400px';
-        gameBoard.style.height = '400px';
-        gameBoard.style.margin = '0 auto';
-
-        for (let row = 0; row < this.boardSize; row++) {
-            for (let col = 0; col < this.boardSize; col++) {
-                const cell = document.createElement('div');
-                cell.className = 'cell rounded-lg flex items-center justify-center';
-                cell.style.aspectRatio = '1';
-
-                // Добавляем фигуры
-                if (this.board[row][col] === 'deer') {
-                    const deer = document.createElement('div');
-                    deer.className = 'deer w-4/5 h-4/5 rounded-full pulse';
-                    cell.appendChild(deer);
-                } else if (this.board[row][col] === 'hunter') {
-                    const hunter = document.createElement('div');
-                    hunter.className = 'hunter w-4/5 h-4/5 rounded-full';
-                    cell.appendChild(hunter);
-                }
-
-                // Обработка кликов
-                if (this.gameActive) {
-                    cell.addEventListener('click', () => this.handleCellClick(row, col));
-                }
-
-                // Подсветка возможных ходов
-                if (this.isValidMove(row, col)) {
-                    cell.classList.add('valid-move');
-                }
-
-                gameBoard.appendChild(cell);
-            }
-        }
-    }
-
-    isValidMove(targetRow, targetCol) {
-        if (!this.gameActive) return false;
-        if (this.board[targetRow][targetCol] !== null) return false;
-
-        if (this.currentPlayer === 'deer') {
-            // Олень ходит по диагонали
-            const rowDiff = Math.abs(targetRow - this.deerPosition.row);
-            const colDiff = Math.abs(targetCol - this.deerPosition.col);
-            return rowDiff === 1 && colDiff === 1;
-        } else {
-            // Охотники ходят по вертикали/горизонтали
-            return this.hunterPositions.some(hunter => {
-                const rowDiff = Math.abs(targetRow - hunter.row);
-                const colDiff = Math.abs(targetCol - hunter.col);
-                return (rowDiff === 1 && colDiff === 0) || (rowDiff === 0 && colDiff === 1);
-            });
-        }
-    }
-
-    handleCellClick(row, col) {
-        if (!this.gameActive || !this.isValidMove(row, col)) return;
-
-        if (this.currentPlayer === 'deer') {
-            this.moveDeer(row, col);
-        } else {
-            this.moveHunter(row, col);
-        }
-
-        this.checkGameEnd();
-        this.switchPlayer();
-        this.renderBoard();
-        this.updateGameStatus();
-    }
-
-    moveDeer(targetRow, targetCol) {
-        this.board[this.deerPosition.row][this.deerPosition.col] = null;
-        this.deerPosition = { row: targetRow, col: targetCol };
-        this.board[targetRow][targetCol] = 'deer';
-    }
-
-    moveHunter(targetRow, targetCol) {
-        // Находим ближайшего охотника, который может сделать ход
-        const movingHunter = this.hunterPositions.find(hunter => {
-            const rowDiff = Math.abs(targetRow - hunter.row);
-            const colDiff = Math.abs(targetCol - hunter.col);
-            return (rowDiff === 1 && colDiff === 0) || (rowDiff === 0 && colDiff === 1);
-        });
-
-        if (movingHunter) {
-            this.board[movingHunter.row][movingHunter.col] = null;
-            movingHunter.row = targetRow;
-            movingHunter.col = targetCol;
-            this.board[targetRow][targetCol] = 'hunter';
-        }
-    }
-
-    switchPlayer() {
-        this.currentPlayer = this.currentPlayer === 'deer' ? 'hunters' : 'deer';
-        if (this.currentPlayer === 'deer') {
-            this.turnCount++;
-            document.getElementById('turnCounter').textContent = this.turnCount;
-        }
-    }
-
-    checkGameEnd() {
-        // Проверка победы оленя (достиг противоположного края)
-        if (this.deerPosition.row === this.boardSize - 1) {
-            this.endGame('deer');
-            return;
-        }
-
-        // Проверка победы охотников (олень окружен)
-        const deerMoves = this.getValidDeerMoves();
-        if (deerMoves.length === 0) {
-            this.endGame('hunters');
-        }
-    }
-
-    getValidDeerMoves() {
-        const moves = [];
-        const directions = [
-            { row: -1, col: -1 }, { row: -1, col: 1 },
-            { row: 1, col: -1 }, { row: 1, col: 1 }
-        ];
-
-        directions.forEach(dir => {
-            const newRow = this.deerPosition.row + dir.row;
-            const newCol = this.deerPosition.col + dir.col;
-
-            if (newRow >= 0 && newRow < this.boardSize &&
-                newCol >= 0 && newCol < this.boardSize &&
-                this.board[newRow][newCol] === null) {
-                moves.push({ row: newRow, col: newCol });
-            }
-        });
-
-        return moves;
-    }
-
-    endGame(winner) {
-        this.gameActive = false;
-
-        if (winner === 'deer') {
-            this.deerWins++;
-            document.getElementById('gameStatus').innerHTML =
-                '<p class="text-green-400 font-bold text-lg pulse">ОЛЕНЬ ПОБЕДИЛ! 🎉</p>';
-        } else {
-            this.hunterWins++;
-            document.getElementById('gameStatus').innerHTML =
-                '<p class="text-electric-blue font-bold text-lg pulse">ОХОТНИКИ ПОБЕДИЛИ! 🏹</p>';
-        }
-
-        this.updateStats();
-    }
-
-    updateGameStatus() {
-        const status = document.getElementById('gameStatus');
-        if (this.gameActive) {
-            status.innerHTML = `<p class="text-electric-blue font-bold text-lg">${
-                this.currentPlayer === 'deer' ? 'ХОД ОЛЕНЯ' : 'ХОД ОХОТНИКОВ'
-            }</p>`;
-        }
-    }
-
-    updateStats() {
-        document.getElementById('deerWins').textContent = this.deerWins;
-        document.getElementById('hunterWins').textContent = this.hunterWins;
+        // Обработка изменения размера окна
+        window.addEventListener('resize', () => this.resizeCanvas());
     }
 
     setupEventListeners() {
-        // Добавляем обработчики для модального окна
-        window.showRules = () => {
-            document.getElementById('rulesModal').classList.remove('hidden');
-            document.getElementById('rulesModal').classList.add('flex');
-        };
+        // Кнопка начала игры
+        document.getElementById('startGame').addEventListener('click', () => {
+            this.closeRulesModal();
+        });
 
-        window.hideRules = () => {
-            document.getElementById('rulesModal').classList.add('hidden');
-            document.getElementById('rulesModal').classList.remove('flex');
-        };
+        // Кнопка закрытия правил
+        document.getElementById('closeRules').addEventListener('click', () => {
+            this.closeRulesModal();
+        });
+
+        // Кнопка новой игры
+        document.getElementById('throwBtn').addEventListener('click', () => {
+            this.startGame();
+        });
+
+        // Выбор режима
+        document.getElementById('modeSelect').addEventListener('change', (e) => {
+            this.mode = e.target.value;
+            this.updateGameMode();
+        });
+
+        // Обработка кликов по canvas
+        this.canvas.addEventListener('click', (e) => {
+            if (!this.gameActive) return;
+            this.handleCanvasClick(e);
+        });
+
+        // Кнопка продолжения в сообщениях
+        document.getElementById('continueBtn').addEventListener('click', () => {
+            this.hideMessage();
+        });
+
+        // Закрытие модального окна при клике вне его
+        document.getElementById('rulesModal').addEventListener('click', (e) => {
+            if (e.target.id === 'rulesModal') {
+                this.closeRulesModal();
+            }
+        });
     }
 
-    reset() {
-        this.deerPosition = { row: 0, col: 2 };
-        this.hunterPositions = [
-            { row: 4, col: 0 },
-            { row: 4, col: 1 },
-            { row: 4, col: 3 },
-            { row: 4, col: 4 }
-        ];
-        this.currentPlayer = 'deer';
+    closeRulesModal() {
+        document.getElementById('rulesModal').classList.add('hidden');
+        this.startGame();
+    }
+
+    resizeCanvas() {
+        const container = this.canvas.parentElement;
+        const rect = container.getBoundingClientRect();
+        this.canvas.width = rect.width - 40;
+        this.canvas.height = Math.min(400, rect.width * 0.5);
+
+        if (this.gameActive) {
+            this.draw();
+        }
+    }
+
+    startGame() {
+        this.score = 0;
+        this.moves = 0;
+        this.totalSticks = 20;
         this.gameActive = true;
-        this.turnCount = 1;
+        this.selectedStick = null;
 
-        this.createBoard();
-        this.renderBoard();
-        this.updateGameStatus();
-        document.getElementById('turnCounter').textContent = '1';
+        this.generateSticks();
+        this.updateUI();
+        this.hideMessage();
+
+        document.getElementById('currentPlayer').innerHTML =
+            `Режим: <span class="text-landing-primary font-black">${this.mode === 'meditation' ? 'Медитация' : 'Соревнование'}</span>`;
     }
-}
 
-// Глобальные функции для кнопок
-let game;
+    generateSticks() {
+        this.sticks = [];
+        const padding = 50;
 
-function initGame() {
-    game = new StunvindisepGame();
-}
+        for (let i = 0; i < this.totalSticks; i++) {
+            const typeKeys = Object.keys(this.stickTypes);
+            const randomType = typeKeys[Math.floor(Math.random() * typeKeys.length)];
 
-function resetGame() {
-    if (game) {
-        game.reset();
-    } else {
-        initGame();
+            let x, y, rotation, validPosition;
+            let attempts = 0;
+
+            // Генерация позиции без пересечений
+            do {
+                x = padding + Math.random() * (this.canvas.width - padding * 2);
+                y = padding + Math.random() * (this.canvas.height - padding * 2);
+                rotation = Math.random() * Math.PI;
+                validPosition = this.isPositionValid(x, y, rotation);
+                attempts++;
+            } while (!validPosition && attempts < 100);
+
+            this.sticks.push({
+                x: x,
+                y: y,
+                rotation: rotation,
+                type: randomType,
+                id: i,
+                isSelected: false,
+                isRemoved: false
+            });
+        }
+
+        this.draw();
     }
-}
 
-function showRules() {
-    const modal = document.getElementById('rulesModal');
-    modal.classList.remove('hidden');
-    modal.classList.add('flex');
-}
+    isPositionValid(x, y, rotation) {
+        // Проверка на пересечение с существующими палочками
+        for (const stick of this.sticks) {
+            if (this.checkStickCollision(x, y, rotation, stick.x, stick.y, stick.rotation)) {
+                return false;
+            }
+        }
+        return true;
+    }
 
-function hideRules() {
-    const modal = document.getElementById('rulesModal');
-    modal.classList.add('hidden');
-    modal.classList.remove('flex');
-}
+    checkStickCollision(x1, y1, rot1, x2, y2, rot2) {
+        // Упрощенная проверка коллизии между двумя палочками
+        const distance = Math.sqrt((x1 - x2) ** 2 + (y1 - y2) ** 2);
+        return distance < 30; // Минимальное расстояние между палочками
+    }
 
-// Запуск игры при загрузке страницы
-document.addEventListener('DOMContentLoaded', initGame);
+    handleCanvasClick(e) {
+        const rect = this.canvas.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        // Проверяем клик по палочке (с конца массива для верхних палочек)
+        for (let i = this.sticks.length - 1; i >= 0; i--) {
+            const stick = this.sticks[i];
+            if (!stick.isRemoved && this.isClickOnStick(x, y, stick)) {
+                this.selectStick(stick);
+                return;
+            }
+        }
+    }
+
+    isClickOnStick(x, y, stick) {
+        // Преобразование координат в систему палочки
+        const cos = Math.cos(-stick.rotation);
+        const sin = Math.sin(-stick.rotation);
+        const dx = x - stick.x;
+        const dy = y - stick.y;
+
+        const localX = dx * cos - dy * sin;
+        const localY = dx * sin + dy * cos;
+
+        // Проверка попадания в границы палочки
+        return Math.abs(localX) < 30 && Math.abs(localY) < 3;
+    }
+
+    selectStick(stick) {
+        if (stick.isSelected || stick.isRemoved) return;
+
+        // Проверяем, нет ли палочек сверху
+        if (this.hasSticksAbove(stick)) {
+            this.showMessage("Осторожно!", "Сначала извлеките верхние палочки", 'error');
+            return;
+        }
+
+        stick.isSelected = true;
+        this.draw();
+
+        // Имитация задержки для драматизма
+        setTimeout(() => {
+            this.removeStick(stick);
+        }, 300);
+    }
+
+    hasSticksAbove(stick) {
+        // Проверка, есть ли палочки над текущей
+        for (const otherStick of this.sticks) {
+            if (!otherStick.isRemoved && otherStick.id !== stick.id) {
+                // Простая проверка по Y координате
+                if (otherStick.y < stick.y - 5) {
+                    const distance = Math.sqrt((stick.x - otherStick.x) ** 2 + (stick.y - otherStick.y) ** 2);
+                    if (distance < 40) return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    removeStick(stick) {
+        if (this.checkCollision(stick)) {
+            this.showMessage("Неудача!", "Вы задели другие палочки. Ход завершен.", 'error');
+            this.moves++;
+            stick.isSelected = false;
+            this.draw();
+            this.updateUI();
+            return;
+        }
+
+        // Успешное извлечение
+        stick.isRemoved = true;
+        const stickType = this.stickTypes[stick.type];
+        this.score += stickType.points;
+        this.moves++;
+        this.totalSticks--;
+
+        this.showStickMessage(stick);
+        this.draw();
+        this.updateUI();
+
+        // Проверка конца игры
+        if (this.totalSticks === 0) {
+            setTimeout(() => this.endGame(), 1000);
+        }
+    }
+
+    checkCollision(stick) {
+        // Упрощенная проверка коллизии при извлечении
+        // В реальной игре здесь была бы сложная физика
+        return Math.random() < 0.2; // 20% шанс на ошибку для демонстрации
+    }
+
+    showStickMessage(stick) {
+        const stickType = this.stickTypes[stick.type];
+        this.showMessage(stickType.title, stickType.message, 'success');
+    }
+
+    showMessage(title, text, type = 'info') {
+        document.getElementById('messageTitle').textContent = title;
+        document.getElementById('messageText').textContent = text;
+        document.getElementById('gameMessage').classList.remove('hidden');
+
+        // Добавляем класс в зависимости от типа сообщения
+        const message = document.getElementById('gameMessage');
+        message.className = 'absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-black/80 text-white p-6 rounded-lg text-center';
+        if (type === 'error') {
+            message.classList.add('shake');
+        }
+    }
+
+    hideMessage() {
+        document.getElementById('gameMessage').classList.add('hidden');
+    }
+
+    endGame() {
+        this.gameActive = false;
+
+        let message = "";
+        if (this.score >= 80) {
+            message = "Великая мудрость! Вы достигли гармонии с игрой.";
+        } else if (this.score >= 50) {
+            message = "Хороший результат! Вы на пути к мастерству.";
+        } else {
+            message = "Практика ведет к совершенству. Попробуйте еще раз!";
+        }
+
+        this.showMessage("Игра завершена!", `Ваш результат: ${this.score} очков мудрости. ${message}`, 'info');
+    }
+
+    updateUI() {
+        document.getElementById('score').textContent = this.score;
+        document.getElementById('moves').textContent = this.moves;
+        document.getElementById('remaining').textContent = this.totalSticks;
+    }
+
+    updateGameMode() {
+        if (this.mode === 'competitive') {
+            // Добавляем таймер для соревновательного режима
+            document.getElementById('currentPlayer').innerHTML +=
+                ' • <span class="text-stick-red">Таймер: 60с</span>';
+        }
+    }
+
+    draw() {
+        // Очистка canvas
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+        // Рисуем фон (корейский узор)
+        this.drawBackground();
+
+        // Рисуем палочки
+        this.sticks.forEach(stick => {
+            if (!stick.isRemoved) {
+                this.drawStick(stick);
+            }
+        });
+    }
+
+    drawBackground() {
+        // Градиентный фон
+        const gradient = this.ctx.createLinearGradient(0, 0, this.canvas.width, this.canvas.height);
+        gradient.addColorStop(0, 'rgba(14, 165, 233, 0.05)');
+        gradient.addColorStop(1, 'rgba(6, 182, 212, 0.05)');
+
+        this.ctx.fillStyle = gradient;
+        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+
+        // Тонкий узор в виде сетки
+        this.ctx.strokeStyle = 'rgba(14, 165, 233, 0.1)';
+        this.ctx.lineWidth = 1;
+
+        for (let x = 0; x < this.canvas.width; x += 20) {
+            this.ctx.beginPath();
+            this.ctx.moveTo(x, 0);
+            this.ctx.lineTo(x, this.canvas.height);
+            this.ctx.stroke();
+        }
+
+        for (let y = 0; y < this.canvas.height; y += 20) {
+            this.ctx.beginPath();
+            this.ctx.moveTo(0, y);
+            this.ctx.lineTo(this.canvas.width, y);
+            this.ctx.stroke();
+        }
+    }
+
+    drawStick(stick) {
+        this.ctx.save();
+        this.ctx.translate(stick.x, stick.y

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>СТУНВИНДИСЕП • STORAGE</title>
+    <title>МИКАДО • Корейская игра • STORAGE</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -11,198 +11,305 @@
                 extend: {
                     colors: {
                         'deep-blue': '#0a1644',
-                        'electric-blue': '#6cc3ee',
-                        'ocean-blue': '#1e3a8a',
+                        'electric-blue': '#00d4ff',
                         'light-blue': '#bae6fd',
                         'navy': '#0f172a',
-                        'medium-blue': '#1e3a8a',
-                        'game-bg': '#0a0f2a'
+                        'bamboo-green': '#10b981',
+                        'bamboo-light': '#34d399',
+                        'zen-gray': '#1f2937',
+                        'landing-primary': '#0ea5e9',
+                        'landing-secondary': '#06b6d4',
+                        'stick-red': '#ff6b6b',
+                        'stick-blue': '#4ecdc4',
+                        'stick-black': '#2d3436',
+                        'stick-green': '#00b894',
+                        'stick-yellow': '#fdcb6e'
                     },
                     fontFamily: {
-                        'tech': ['Orbitron', 'Monaco', 'Courier New', 'monospace'],
+                        'tech': ['Orbitron', 'monospace'],
+                        'korean': ['Nanum Gothic', 'sans-serif']
                     }
                 }
             }
         }
     </script>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        .game-board {
-            background: linear-gradient(45deg, #0a1644 0%, #1e3a8a 100%);
-            border: 3px solid #6cc3ee;
-            box-shadow: 0 0 30px rgba(108, 195, 238, 0.3);
+        .modal-hidden {
+            display: none !important;
         }
 
-        .cell {
-            border: 1px solid rgba(108, 195, 238, 0.3);
+        .modal-visible {
+            display: flex !important;
+            animation: modalFadeIn 0.3s ease-out;
+        }
+
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        #gameCanvas {
             transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         }
 
-        .cell:hover {
-            background: rgba(108, 195, 238, 0.1);
+        .shake {
+            animation: shake 0.3s ease-in-out;
         }
 
-        .deer {
-            background: radial-gradient(circle, #ff6b6b 0%, #c44545 100%);
-            border: 2px solid #ff8e8e;
-            box-shadow: 0 0 15px rgba(255, 107, 107, 0.5);
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
         }
 
-        .hunter {
-            background: radial-gradient(circle, #6cc3ee 0%, #1e3a8a 100%);
-            border: 2px solid #bae6fd;
-            box-shadow: 0 0 15px rgba(108, 195, 238, 0.5);
-        }
-
-        .valid-move {
-            background: rgba(76, 175, 80, 0.3);
-            border: 2px solid #4caf50;
-        }
-
-        .glow-text {
-            text-shadow: 0 0 10px rgba(108, 195, 238, 0.5);
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-
-        .pulse {
-            animation: pulse 2s infinite;
+        .stick-selected {
+            filter: brightness(1.3);
+            transform: scale(1.05);
+            transition: all 0.2s ease;
         }
     </style>
 </head>
-<body class="bg-deep-blue text-white font-tech min-h-screen">
-
+<body class="bg-gradient-to-br from-zen-gray to-deep-blue text-white font-korean min-h-screen">
     <!-- Шапка -->
-    <header class="bg-deep-blue border-b border-electric-blue/30 backdrop-blur-lg sticky top-0 z-50">
+    <header class="bg-zen-gray/80 border-b border-landing-primary/30 backdrop-blur-lg sticky top-0 z-50">
         <nav class="container mx-auto px-4 py-4">
             <div class="flex justify-between items-center">
-                <a href="index.html" class="text-2xl font-black hover:text-electric-blue transition duration-300">
-                    <span class="text-electric-blue">⟁</span>
+                <div class="text-2xl font-black cursor-pointer" onclick="window.location.href='../main.html'">
+                    <span class="text-landing-primary">⟁</span>
                     <span class="text-white ml-2">STORAGE</span>
-                </a>
-                <div class="space-x-8">
-                    <a href="index.html#artifacts" class="hover:text-electric-blue transition duration-300 text-sm uppercase tracking-widest glow-text">Артефакты</a>
-                    <a href="index.html#form" class="hover:text-electric-blue transition duration-300 text-sm uppercase tracking-widest glow-text">Вклад</a>
+                    <span class="text-landing-secondary text-sm ml-3">/ МИКАДО</span>
+                </div>
+                <div class="space-x-6">
+                    <a href="../main.html" class="hover:text-landing-secondary transition duration-300 text-sm uppercase tracking-widest">
+                        <i class="fas fa-arrow-left mr-2"></i>Назад к архиву
+                    </a>
+                    <a href="../main.html#artifacts" class="hover:text-landing-secondary transition duration-300 text-sm uppercase tracking-widest">
+                        <i class="fas fa-gem mr-2"></i>К артефактам
+                    </a>
                 </div>
             </div>
         </nav>
     </header>
 
-    <!-- Основной контент -->
+    <!-- Модальное окно с правилами -->
+    <div id="rulesModal" class="modal-visible fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-gradient-to-br from-zen-gray to-deep-blue border-2 border-landing-primary/50 rounded-2xl max-w-4xl w-full p-8 relative">
+            <button id="closeRules" class="absolute top-4 right-4 text-landing-secondary hover:text-landing-primary text-2xl transition duration-300">
+                <i class="fas fa-times"></i>
+            </button>
+
+            <div class="text-center mb-6">
+                <div class="inline-block bg-landing-primary/20 border border-landing-primary/30 px-6 py-2 rounded-full mb-4">
+                    <span class="text-landing-primary text-lg uppercase tracking-widest">Правила Корейского Микадо</span>
+                </div>
+                <h2 class="text-3xl font-black text-landing-secondary">МИКАДО</h2>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6 mb-6">
+                <div class="space-y-4">
+                    <div class="flex items-start bg-landing-primary/10 p-4 rounded-lg">
+                        <span class="text-landing-primary text-xl mr-3 mt-1">🎯</span>
+                        <div>
+                            <h3 class="font-black text-landing-primary mb-1">Цель игры</h3>
+                            <p>Аккуратно извлекать палочки, не задевая соседние. Каждая палочка имеет свою ценность и мудрость.</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start bg-landing-primary/10 p-4 rounded-lg">
+                        <span class="text-landing-primary text-xl mr-3 mt-1">⚡</span>
+                        <div>
+                            <h3 class="font-black text-landing-primary mb-1">Как играть</h3>
+                            <p>Кликайте на палочки, чтобы извлечь их. Если заденете другие палочки - ход переходит к следующему игроку.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+                    <div class="bg-landing-primary/10 p-4 rounded-lg">
+                        <h4 class="font-black text-landing-primary mb-3">🎋 Ценность палочек</h4>
+                        <div class="space-y-2 text-sm">
+                            <div class="flex items-center justify-between">
+                                <span class="text-stick-red">🔴 Красная</span>
+                                <span class="font-black">10 очков</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-stick-blue">🔵 Синяя</span>
+                                <span class="font-black">5 очков</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-white bg-stick-black px-2 py-1 rounded">⚫ Черная</span>
+                                <span class="font-black">0 очков</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-stick-green">🟢 Зеленая</span>
+                                <span class="font-black">2 очка</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-stick-yellow">🟡 Желтая</span>
+                                <span class="font-black">3 очка</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-landing-primary/10 p-4 rounded-lg mb-6">
+                <h4 class="font-black text-landing-primary mb-2">📜 Философия игры</h4>
+                <p class="text-sm text-landing-secondary">
+                    Микадо учит терпению, точности и уважению к хрупкому равновесию.
+                    Каждая палочка - это урок, а каждый ход - медитация.
+                </p>
+            </div>
+
+            <div class="text-center">
+                <button id="startGame" class="bg-landing-primary hover:bg-landing-secondary text-white px-8 py-3 rounded-lg font-black transition duration-300 text-lg">
+                    <i class="fas fa-play mr-2"></i>Начать медитацию
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Главный экран игры -->
     <main class="container mx-auto px-4 py-8">
         <!-- Заголовок и описание -->
-        <div class="text-center mb-8">
-            <div class="inline-block bg-electric-blue/20 border border-electric-blue/30 px-6 py-3 rounded-full mb-6">
-                <span class="text-electric-blue text-lg uppercase tracking-widest font-bold">ИГРА НАРОДОВ КОМИ</span>
+        <section class="text-center mb-8">
+            <div class="inline-block bg-landing-primary/20 border border-landing-primary/30 px-6 py-3 rounded-full mb-4">
+                <span class="text-landing-primary text-lg uppercase tracking-widest">КОРЕЙСКИЙ МИКАДО • ИСКУССТВО ТЕРПЕНИЯ</span>
             </div>
 
-            <h1 class="text-6xl md:text-7xl font-black mb-4 leading-none">
-                <span class="text-white">СТУНВИНДИ</span>
-                <span class="text-electric-blue">СЕП</span>
+            <h1 class="text-5xl md:text-6xl font-black mb-4">
+                <span class="text-landing-secondary">МИ</span>
+                <span class="text-landing-primary">КАДО</span>
             </h1>
 
-            <p class="text-xl text-light-blue max-w-3xl mx-auto leading-relaxed">
-                Древняя игра охотников. Тактическое противостояние оленя и преследователей.
-                Олень должен прорваться к противоположному краю, охотники — окружить его.
+            <p class="text-lg text-landing-secondary mb-6 max-w-3xl mx-auto leading-relaxed">
+                Древняя корейская игра на ловкость. Искусство извлекать палочки, не нарушая гармонии.
+                Медитация в движении, мудрость в простоте.
             </p>
-        </div>
+        </section>
 
         <!-- Игровая зона -->
-        <div class="grid lg:grid-cols-3 gap-8 items-start">
-            <!-- Игровое поле -->
-            <div class="lg:col-span-2">
-                <div class="bg-game-bg rounded-2xl p-8 border border-electric-blue/30 backdrop-blur-lg">
-                    <div class="flex justify-between items-center mb-6">
-                        <h2 class="text-2xl font-black text-electric-blue">ИГРОВОЕ ПОЛЕ</h2>
-                        <div class="text-light-blue">
-                            Ход: <span id="turnCounter" class="text-electric-blue font-bold">1</span>
-                        </div>
+        <section class="mb-8">
+            <div class="bg-zen-gray/30 rounded-2xl p-6 border border-landing-primary/20">
+                <!-- Статистика игры -->
+                <div class="game-ui grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                    <div class="text-center p-4 bg-landing-primary/10 rounded-lg">
+                        <div class="text-2xl font-black text-landing-primary" id="score">0</div>
+                        <div class="text-sm text-landing-secondary">ОЧКОВ МУДРОСТИ</div>
                     </div>
-
-                    <!-- Игровое поле 5x5 -->
-                    <div id="gameBoard" class="game-board mx-auto rounded-lg overflow-hidden">
-                        <!-- Поле генерируется через JavaScript -->
+                    <div class="text-center p-4 bg-landing-primary/10 rounded-lg">
+                        <div class="text-2xl font-black text-landing-primary" id="moves">0</div>
+                        <div class="text-sm text-landing-secondary">СОВЕРШЕННЫХ ХОДОВ</div>
                     </div>
-
-                    <!-- Статус игры -->
-                    <div id="gameStatus" class="text-center mt-6 p-4 bg-electric-blue/10 rounded-lg border border-electric-blue/20">
-                        <p class="text-electric-blue font-bold text-lg">ОЛЕНЬ ХОДИТ ПЕРВЫМ</p>
+                    <div class="text-center p-4 bg-landing-primary/10 rounded-lg">
+                        <div class="text-2xl font-black text-landing-primary" id="remaining">20</div>
+                        <div class="text-sm text-landing-secondary">ПАЛОЧЕК ОСТАЛОСЬ</div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Панель управления и правила -->
-            <div class="space-y-6">
+                <!-- Игровое поле -->
+                <div class="relative mb-6">
+                    <canvas id="gameCanvas" width="800" height="400" class="w-full bg-gradient-to-br from-landing-primary/5 to-landing-secondary/10 rounded-xl border-2 border-landing-primary/30 cursor-crosshair"></canvas>
+
+                    <!-- Сообщения игры -->
+                    <div id="gameMessage" class="modal-hidden absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-black/80 text-white p-6 rounded-lg text-center">
+                        <h3 class="text-xl font-black mb-2" id="messageTitle"></h3>
+                        <p id="messageText" class="text-landing-secondary"></p>
+                        <button id="continueBtn" class="mt-4 bg-landing-primary hover:bg-landing-secondary text-white px-6 py-2 rounded-lg transition duration-300">
+                            Продолжить
+                        </button>
+                    </div>
+                </div>
+
                 <!-- Управление -->
-                <div class="bg-game-bg rounded-2xl p-6 border border-electric-blue/30 backdrop-blur-lg">
-                    <h3 class="text-xl font-black text-electric-blue mb-4">УПРАВЛЕНИЕ</h3>
-                    <div class="space-y-4">
-                        <button onclick="resetGame()" class="w-full bg-electric-blue hover:bg-light-blue text-deep-blue px-6 py-3 rounded-lg font-bold transition duration-300 border-2 border-electric-blue uppercase tracking-widest">
+                <div class="text-center space-y-4">
+                    <div class="flex flex-wrap justify-center gap-4">
+                        <button id="throwBtn" class="bg-landing-primary hover:bg-landing-secondary text-white px-6 py-3 rounded-lg font-black transition duration-300">
                             <i class="fas fa-redo mr-2"></i>Новая игра
                         </button>
-                        <button onclick="showRules()" class="w-full bg-transparent hover:bg-electric-blue/20 text-electric-blue px-6 py-3 rounded-lg font-bold transition duration-300 border-2 border-electric-blue uppercase tracking-widest">
-                            <i class="fas fa-book mr-2"></i>Правила
-                        </button>
+                        <select id="modeSelect" class="bg-zen-gray border border-landing-primary/30 text-white px-4 py-3 rounded-lg">
+                            <option value="meditation">🧘 Режим медитации</option>
+                            <option value="competitive">⚡ Соревновательный режим</option>
+                        </select>
                     </div>
 
-                    <!-- Статистика -->
-                    <div class="mt-6 pt-6 border-t border-electric-blue/20">
-                        <div class="grid grid-cols-2 gap-4 text-center">
-                            <div>
-                                <div class="text-2xl font-black text-electric-blue" id="deerWins">0</div>
-                                <div class="text-light-blue text-sm">ПОБЕД ОЛЕНЯ</div>
-                            </div>
-                            <div>
-                                <div class="text-2xl font-black text-electric-blue" id="hunterWins">0</div>
-                                <div class="text-light-blue text-sm">ПОБЕД ОХОТНИКОВ</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Легенда -->
-                <div class="bg-game-bg rounded-2xl p-6 border border-electric-blue/30 backdrop-blur-lg">
-                    <h3 class="text-xl font-black text-electric-blue mb-4">ЛЕГЕНДА</h3>
-                    <div class="space-y-3">
-                        <div class="flex items-center space-x-3">
-                            <div class="w-6 h-6 rounded-full deer"></div>
-                            <span class="text-light-blue">Олень (игрок)</span>
-                        </div>
-                        <div class="flex items-center space-x-3">
-                            <div class="w-6 h-6 rounded-full hunter"></div>
-                            <span class="text-light-blue">Охотники (ИИ)</span>
-                        </div>
-                        <div class="flex items-center space-x-3">
-                            <div class="w-6 h-6 rounded-full border-2 border-green-500 bg-green-500/20"></div>
-                            <span class="text-light-blue">Возможные ходы</span>
-                        </div>
+                    <div id="currentPlayer" class="text-landing-secondary text-sm">
+                        Режим: <span class="text-landing-primary font-black">Медитация</span>
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <!-- Историческая справка -->
-        <section class="mt-12 bg-gradient-to-r from-ocean-blue/30 to-electric-blue/20 rounded-2xl p-8 border border-electric-blue/30">
-            <h2 class="text-3xl font-black mb-6 text-electric-blue text-center">ИСТОРИЧЕСКАЯ СПРАВКА</h2>
-            <div class="grid md:grid-cols-2 gap-8">
+        <!-- Информация о палочках -->
+        <section class="grid md:grid-cols-2 lg:grid-cols-5 gap-4 mb-8">
+            <div class="bg-stick-red/10 p-4 rounded-lg border border-stick-red/30">
+                <div class="text-center mb-2">
+                    <div class="w-8 h-1 bg-stick-red mx-auto mb-1"></div>
+                    <h3 class="font-black text-stick-red">Красная</h3>
+                </div>
+                <p class="text-xs text-stick-red/80 text-center">10 очков • Палочка Удачи</p>
+            </div>
+            <div class="bg-stick-blue/10 p-4 rounded-lg border border-stick-blue/30">
+                <div class="text-center mb-2">
+                    <div class="w-8 h-1 bg-stick-blue mx-auto mb-1"></div>
+                    <h3 class="font-black text-stick-blue">Синяя</h3>
+                </div>
+                <p class="text-xs text-stick-blue/80 text-center">5 очков • Палочка Мудрости</p>
+            </div>
+            <div class="bg-stick-black/10 p-4 rounded-lg border border-stick-black/30">
+                <div class="text-center mb-2">
+                    <div class="w-8 h-1 bg-stick-black mx-auto mb-1"></div>
+                    <h3 class="font-black text-white">Черная</h3>
+                </div>
+                <p class="text-xs text-white/80 text-center">0 очков • Палочка Испытания</p>
+            </div>
+            <div class="bg-stick-green/10 p-4 rounded-lg border border-stick-green/30">
+                <div class="text-center mb-2">
+                    <div class="w-8 h-1 bg-stick-green mx-auto mb-1"></div>
+                    <h3 class="font-black text-stick-green">Зеленая</h3>
+                </div>
+                <p class="text-xs text-stick-green/80 text-center">2 очка • Палочка Мира</p>
+            </div>
+            <div class="bg-stick-yellow/10 p-4 rounded-lg border border-stick-yellow/30">
+                <div class="text-center mb-2">
+                    <div class="w-8 h-1 bg-stick-yellow mx-auto mb-1"></div>
+                    <h3 class="font-black text-stick-yellow">Желтая</h3>
+                </div>
+                <p class="text-xs text-stick-yellow/80 text-center">3 очка • Палочка Предков</p>
+            </div>
+        </section>
+
+        <!-- Философская интерпретация -->
+        <section class="bg-zen-gray/50 rounded-2xl p-6 border border-landing-primary/20">
+            <h2 class="text-2xl font-black mb-4 text-landing-primary">
+                <i class="fas fa-yin-yang mr-3"></i>ФИЛОСОФИЯ МИКАДО
+            </h2>
+            <div class="grid md:grid-cols-2 gap-6">
                 <div>
-                    <h3 class="text-xl font-black mb-3 text-light-blue">ПРОИСХОЖДЕНИЕ</h3>
-                    <p class="text-light-blue leading-relaxed">
-                        "Стунвиндисеп" — традиционная игра народов Коми, имитирующая охоту на оленя.
-                        Название переводится как "оленья тропа". Игра развивала стратегическое мышление
-                        у молодых охотников.
-                    </p>
+                    <h3 class="font-black text-landing-secondary mb-2">🎯 Уроки игры</h3>
+                    <ul class="space-y-2 text-landing-secondary/90 text-sm">
+                        <li>• Терпение побеждает силу</li>
+                        <li>• Каждое действие имеет последствия</li>
+                        <li>• Гармония важнее скорости</li>
+                        <li>• Мудрость в осознанности</li>
+                        <li>• Равновесие - основа всего</li>
+                    </ul>
                 </div>
                 <div>
-                    <h3 class="text-xl font-black mb-3 text-light-blue">КУЛЬТУРНОЕ ЗНАЧЕНИЕ</h3>
-                    <p class="text-light-blue leading-relaxed">
-                        Игра отражает глубокую связь коми народа с природой и оленеводством.
-                        Каждое движение на поле соответствует реальным тактикам охоты и защиты,
-                        передаваемым из поколения в поколение.
+                    <h3 class="font-black text-landing-secondary mb-2">📜 Исторический контекст</h3>
+                    <p class="text-landing-secondary/90 text-sm">
+                        Микадо использовался корейскими монахами для тренировки концентрации.
+                        Игра символизирует жизненный путь: каждая палочка - выбор,
+                        каждое движение - решение, а равновесие - цель.
                     </p>
                 </div>
             </div>
@@ -210,37 +317,385 @@
     </main>
 
     <!-- Футер -->
-    <footer class="bg-navy py-12 px-4 border-t border-electric-blue/20 mt-12">
+    <footer class="bg-zen-gray/80 py-8 px-4 border-t border-landing-primary/20 mt-12">
         <div class="container mx-auto text-center">
-            <div class="text-2xl font-black mb-4">
-                <span class="text-electric-blue">⟁</span>
+            <div class="text-xl font-black mb-2">
+                <span class="text-landing-primary">⟁</span>
                 <span class="text-white">STORAGE</span>
+                <span class="text-landing-secondary"> • МИКАДО</span>
             </div>
-            <p class="text-light-blue mb-2">Цифровой ковчег игровой культуры человечества</p>
-            <p class="text-electric-blue/60 text-sm">© 2025 STORAGE PROJECT • Сохраняя прошлое, создаём будущее</p>
+            <p class="text-landing-secondary mb-2">Корейская игра на ловкость как искусство медитации</p>
+            <p class="text-landing-primary/60 text-sm">© 2025 STORAGE PROJECT • Сохраняя мудрость предков</p>
         </div>
     </footer>
 
-    <!-- Модальное окно правил -->
-    <div id="rulesModal" class="fixed inset-0 bg-black/80 hidden items-center justify-center z-50 p-4">
-        <div class="bg-deep-blue rounded-2xl p-8 max-w-2xl w-full border border-electric-blue/30">
-            <div class="flex justify-between items-center mb-6">
-                <h3 class="text-2xl font-black text-electric-blue">ПРАВИЛА ИГРЫ СТУНВИНДИСЕП</h3>
-                <button onclick="hideRules()" class="text-electric-blue hover:text-light-blue text-2xl">×</button>
-            </div>
-            <div class="space-y-4 text-light-blue">
-                <p><strong>Цель оленя:</strong> Достичь противоположного края доски.</p>
-                <p><strong>Цель охотников:</strong> Окружить оленя так, чтобы у него не осталось ходов.</p>
-                <p><strong>Ход оленя:</strong> По диагонали на одну клетку.</p>
-                <p><strong>Ход охотников:</strong> По вертикали или горизонтали на одну клетку.</p>
-                <p><strong>Особенности:</strong> Олень ходит первым. Охотники не могут прыгать через другие фигуры.</p>
-            </div>
-            <button onclick="hideRules()" class="w-full mt-6 bg-electric-blue hover:bg-light-blue text-deep-blue px-6 py-3 rounded-lg font-bold transition duration-300">
-                НАЧАТЬ ИГРУ
-            </button>
-        </div>
-    </div>
+    <script>
+        // ПОЛНАЯ ИГРОВАЯ ЛОГИКА МИКАДО
+        document.addEventListener('DOMContentLoaded', function() {
+            // Элементы игры
+            const canvas = document.getElementById('gameCanvas');
+            const ctx = canvas.getContext('2d');
+            const rulesModal = document.getElementById('rulesModal');
+            const closeRulesBtn = document.getElementById('closeRules');
+            const startGameBtn = document.getElementById('startGame');
+            const throwBtn = document.getElementById('throwBtn');
+            const modeSelect = document.getElementById('modeSelect');
+            const currentPlayerDisplay = document.getElementById('currentPlayer');
+            const gameMessage = document.getElementById('gameMessage');
+            const messageTitle = document.getElementById('messageTitle');
+            const messageText = document.getElementById('messageText');
+            const continueBtn = document.getElementById('continueBtn');
 
-    <script src="sever.js"></script>
+            // Счетчики
+            const scoreDisplay = document.getElementById('score');
+            const movesDisplay = document.getElementById('moves');
+            const remainingDisplay = document.getElementById('remaining');
+
+            // Игровые переменные
+            let sticks = [];
+            let score = 0;
+            let moves = 0;
+            let remainingSticks = 20;
+            let gameActive = false;
+            let selectedStick = null;
+            let gameMode = 'meditation';
+            let currentPlayer = 1;
+            let playerScores = [0, 0];
+
+            // Цвета и очки для палочек
+            const stickTypes = [
+                { color: '#ff6b6b', points: 10, name: 'Красная', count: 1 },
+                { color: '#4ecdc4', points: 5, name: 'Синяя', count: 5 },
+                { color: '#2d3436', points: 0, name: 'Черная', count: 5 },
+                { color: '#00b894', points: 2, name: 'Зеленая', count: 5 },
+                { color: '#fdcb6e', points: 3, name: 'Желтая', count: 4 }
+            ];
+
+            // Закрытие модального окна
+            function closeRulesModal() {
+                rulesModal.classList.remove('modal-visible');
+                rulesModal.classList.add('modal-hidden');
+                startNewGame();
+            }
+
+            // Обработчики модального окна
+            closeRulesBtn.addEventListener('click', closeRulesModal);
+            startGameBtn.addEventListener('click', closeRulesModal);
+            rulesModal.addEventListener('click', function(e) {
+                if (e.target === rulesModal) closeRulesModal();
+            });
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && rulesModal.classList.contains('modal-visible')) {
+                    closeRulesModal();
+                }
+            });
+
+            // Создание палочек
+            function createSticks() {
+                sticks = [];
+                let stickId = 0;
+
+                stickTypes.forEach((type, typeIndex) => {
+                    for (let i = 0; i < type.count; i++) {
+                        sticks.push({
+                            id: stickId++,
+                            x: Math.random() * (canvas.width - 100) + 50,
+                            y: Math.random() * (canvas.height - 100) + 50,
+                            rotation: Math.random() * Math.PI,
+                            length: 60 + Math.random() * 40,
+                            thickness: 3 + Math.random() * 2,
+                            color: type.color,
+                            points: type.points,
+                            name: type.name,
+                            removed: false,
+                            type: typeIndex
+                        });
+                    }
+                });
+
+                // Перемешиваем палочки
+                sticks.sort(() => Math.random() - 0.5);
+            }
+
+            // Отрисовка палочек
+            function drawSticks() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                // Рисуем фон
+                const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+                gradient.addColorStop(0, 'rgba(14, 165, 233, 0.05)');
+                gradient.addColorStop(1, 'rgba(6, 182, 212, 0.1)');
+                ctx.fillStyle = gradient;
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                // Рисуем палочки
+                sticks.forEach(stick => {
+                    if (stick.removed) return;
+
+                    ctx.save();
+                    ctx.translate(stick.x, stick.y);
+                    ctx.rotate(stick.rotation);
+
+                    // Тень
+                    ctx.shadowColor = 'rgba(0, 0, 0, 0.3)';
+                    ctx.shadowBlur = 5;
+                    ctx.shadowOffsetX = 2;
+                    ctx.shadowOffsetY = 2;
+
+                    // Палочка
+                    ctx.fillStyle = stick.color;
+                    ctx.fillRect(-stick.length/2, -stick.thickness/2, stick.length, stick.thickness);
+
+                    // Выделение выбранной палочки
+                    if (selectedStick === stick.id) {
+                        ctx.strokeStyle = '#ffffff';
+                        ctx.lineWidth = 2;
+                        ctx.strokeRect(-stick.length/2 - 2, -stick.thickness/2 - 2, stick.length + 4, stick.thickness + 4);
+                    }
+
+                    ctx.restore();
+                });
+            }
+
+            // Проверка столкновений
+            function checkCollisions(stick) {
+                const stickPoints = getStickEndpoints(stick);
+
+                for (const otherStick of sticks) {
+                    if (otherStick.removed || otherStick.id === stick.id) continue;
+
+                    const otherPoints = getStickEndpoints(otherStick);
+
+                    if (linesIntersect(stickPoints, otherPoints)) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+
+            // Получение конечных точек палочки
+            function getStickEndpoints(stick) {
+                const cos = Math.cos(stick.rotation);
+                const sin = Math.sin(stick.rotation);
+                const halfLength = stick.length / 2;
+
+                return {
+                    x1: stick.x - halfLength * cos,
+                    y1: stick.y - halfLength * sin,
+                    x2: stick.x + halfLength * cos,
+                    y2: stick.y + halfLength * sin
+                };
+            }
+
+            // Проверка пересечения линий
+            function linesIntersect(line1, line2) {
+                const denominator = ((line2.y2 - line2.y1) * (line1.x2 - line1.x1) -
+                                   (line2.x2 - line2.x1) * (line1.y2 - line1.y1));
+
+                if (denominator === 0) return false;
+
+                const ua = ((line2.x2 - line2.x1) * (line1.y1 - line2.y1) -
+                           (line2.y2 - line2.y1) * (line1.x1 - line2.x1)) / denominator;
+                const ub = ((line1.x2 - line1.x1) * (line1.y1 - line2.y1) -
+                           (line1.y2 - line1.y1) * (line1.x1 - line2.x1)) / denominator;
+
+                return ua >= 0 && ua <= 1 && ub >= 0 && ub <= 1;
+            }
+
+            // Поиск палочки по координатам
+            function findStickAt(x, y) {
+                for (let i = sticks.length - 1; i >= 0; i--) {
+                    const stick = sticks[i];
+                    if (stick.removed) continue;
+
+                    if (isPointNearStick(x, y, stick)) {
+                        return stick;
+                    }
+                }
+                return null;
+            }
+
+            // Проверка близости точки к палочке
+            function isPointNearStick(x, y, stick) {
+                const cos = Math.cos(stick.rotation);
+                const sin = Math.sin(stick.rotation);
+
+                // Преобразование координат в систему палочки
+                const dx = x - stick.x;
+                const dy = y - stick.y;
+                const rotatedX = dx * cos + dy * sin;
+                const rotatedY = -dx * sin + dy * cos;
+
+                return Math.abs(rotatedX) <= stick.length/2 + 10 &&
+                       Math.abs(rotatedY) <= stick.thickness/2 + 10;
+            }
+
+            // Удаление палочки
+            function removeStick(stick) {
+                stick.removed = true;
+                remainingSticks--;
+
+                // Добавление очков
+                if (gameMode === 'competitive') {
+                    playerScores[currentPlayer - 1] += stick.points;
+                    score = playerScores[currentPlayer - 1];
+                } else {
+                    score += stick.points;
+                }
+
+                updateDisplay();
+
+                // Проверка конца игры
+                if (remainingSticks === 0) {
+                    endGame();
+                }
+            }
+
+            // Обновление отображения
+            function updateDisplay() {
+                scoreDisplay.textContent = gameMode === 'competitive' ?
+                    `Игрок 1: ${playerScores[0]} | Игрок 2: ${playerScores[1]}` :
+                    score;
+                movesDisplay.textContent = moves;
+                remainingDisplay.textContent = remainingSticks;
+
+                if (gameMode === 'competitive') {
+                    currentPlayerDisplay.innerHTML = `Ход: <span class="text-landing-primary font-black">Игрок ${currentPlayer}</span>`;
+                }
+            }
+
+            // Показать сообщение
+            function showMessage(title, text) {
+                messageTitle.textContent = title;
+                messageText.textContent = text;
+                gameMessage.classList.remove('modal-hidden');
+                gameMessage.classList.add('modal-visible');
+            }
+
+            // Конец игры
+            function endGame() {
+                gameActive = false;
+
+                if (gameMode === 'competitive') {
+                    let winner = playerScores[0] > playerScores[1] ? 1 :
+                                playerScores[1] > playerScores[0] ? 2 : 0;
+
+                    if (winner === 0) {
+                        showMessage('Ничья!', `Оба игрока набрали по ${playerScores[0]} очков. Истинная гармония!`);
+                    } else {
+                        showMessage(`Победил Игрок ${winner}!`, `Счет: Игрок 1 - ${playerScores[0]}, Игрок 2 - ${playerScores[1]}`);
+                    }
+                } else {
+                    showMessage('Медитация завершена!', `Вы набрали ${score} очков мудрости за ${moves} ходов.`);
+                }
+            }
+
+            // Новая игра
+            function startNewGame() {
+                score = 0;
+                moves = 0;
+                remainingSticks = 20;
+                gameActive = true;
+                selectedStick = null;
+                currentPlayer = 1;
+                playerScores = [0, 0];
+                gameMode = modeSelect.value;
+
+                createSticks();
+                drawSticks();
+                updateDisplay();
+
+                if (gameMode === 'competitive') {
+                    currentPlayerDisplay.innerHTML = `Ход: <span class="text-landing-primary font-black">Игрок ${currentPlayer}</span>`;
+                } else {
+                    currentPlayerDisplay.innerHTML = 'Режим: <span class="text-landing-primary font-black">Медитация</span>';
+                }
+            }
+
+            // Обработка клика по канвасу
+            canvas.addEventListener('click', function(e) {
+                if (!gameActive) return;
+
+                const rect = canvas.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+
+                const stick = findStickAt(x, y);
+                if (stick) {
+                    // Проверяем, можно ли взять палочку (нет столкновений)
+                    if (!checkCollisions(stick)) {
+                        removeStick(stick);
+                        moves++;
+
+                        // В соревновательном режиме передаем ход
+                        if (gameMode === 'competitive') {
+                            currentPlayer = currentPlayer === 1 ? 2 : 1;
+                        }
+
+                        updateDisplay();
+                        drawSticks();
+
+                        // Анимация успеха
+                        canvas.classList.add('shake');
+                        setTimeout(() => canvas.classList.remove('shake'), 300);
+                    } else {
+                        // Столкновение - в соревновательном режиме передаем ход
+                        if (gameMode === 'competitive') {
+                            showMessage('Палочки задели друг друга!', 'Ход переходит следующему игроку.');
+                            currentPlayer = currentPlayer === 1 ? 2 : 1;
+                            updateDisplay();
+                        } else {
+                            showMessage('Осторожно!', 'Палочки задели друг друга. Попробуйте другую палочку.');
+                        }
+                    }
+                }
+            });
+
+            // Выделение палочки при наведении
+            canvas.addEventListener('mousemove', function(e) {
+                if (!gameActive) return;
+
+                const rect = canvas.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+
+                const stick = findStickAt(x, y);
+                if (stick && !checkCollisions(stick)) {
+                    canvas.style.cursor = 'pointer';
+                    selectedStick = stick.id;
+                } else {
+                    canvas.style.cursor = 'crosshair';
+                    selectedStick = null;
+                }
+                drawSticks();
+            });
+
+            // Обработчики кнопок
+            throwBtn.addEventListener('click', startNewGame);
+            modeSelect.addEventListener('change', function() {
+                gameMode = this.value;
+                startNewGame();
+            });
+            continueBtn.addEventListener('click', function() {
+                gameMessage.classList.remove('modal-visible');
+                gameMessage.classList.add('modal-hidden');
+            });
+
+            // Адаптация размера канваса
+            function resizeCanvas() {
+                const container = canvas.parentElement;
+                canvas.width = container.clientWidth;
+                canvas.height = Math.min(400, container.clientWidth * 0.5);
+                drawSticks();
+            }
+
+            window.addEventListener('resize', resizeCanvas);
+            resizeCanvas();
+
+            // Инициализация
+            createSticks();
+            drawSticks();
+        });
+    </script>
 </body>
 </html>

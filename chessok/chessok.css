@@ -1,1 +1,280 @@
-45ipgnfn4f njrfe
+/* Добавьте эти стили в существующую секцию <style> */
+
+/* Анимации для палочек */
+.stick-glow {
+    animation: stickGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes stickGlow {
+    from {
+        filter: drop-shadow(0 0 5px currentColor);
+    }
+    to {
+        filter: drop-shadow(0 0 15px currentColor);
+    }
+}
+
+/* Эффекты при наведении на палочки */
+.stick-hover {
+    transition: all 0.3s ease;
+}
+
+.stick-hover:hover {
+    transform: scale(1.1);
+    filter: brightness(1.2);
+}
+
+/* Анимация извлечения палочки */
+.stick-extract {
+    animation: extractStick 0.5s ease-out forwards;
+}
+
+@keyframes extractStick {
+    0% {
+        transform: translateY(0) rotate(0);
+        opacity: 1;
+    }
+    50% {
+        transform: translateY(-20px) rotate(-5deg);
+        opacity: 0.7;
+    }
+    100% {
+        transform: translateY(-50px) rotate(-10deg);
+        opacity: 0;
+    }
+}
+
+/* Анимация дрожания при ошибке */
+.stick-error {
+    animation: errorShake 0.5s ease-in-out;
+}
+
+@keyframes errorShake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-3px); }
+    75% { transform: translateX(3px); }
+}
+
+/* Градиентный текст */
+.gradient-text {
+    background: linear-gradient(45deg, #00d4ff, #10b981, #0ea5e9);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Пульсирующие кнопки */
+.pulse-button {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(14, 165, 233, 0.7);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(14, 165, 233, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(14, 165, 233, 0);
+    }
+}
+
+/* Анимация появления элементов */
+.fade-in-up {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Анимация вращения для загрузки */
+.spin-slow {
+    animation: spin 3s linear infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Эффект параллакса для фона */
+.parallax-bg {
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+/* Стили для счетчиков */
+.counter-pop {
+    animation: counterPop 0.3s ease-out;
+}
+
+@keyframes counterPop {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Анимация успешного хода */
+.success-flash {
+    animation: successFlash 0.5s ease-out;
+}
+
+@keyframes successFlash {
+    0% {
+        background-color: transparent;
+    }
+    50% {
+        background-color: rgba(16, 185, 129, 0.3);
+    }
+    100% {
+        background-color: transparent;
+    }
+}
+
+/* Эффект типапинга для текста */
+.typewriter {
+    overflow: hidden;
+    border-right: 2px solid #00d4ff;
+    white-space: nowrap;
+    animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+}
+
+@keyframes typing {
+    from { width: 0 }
+    to { width: 100% }
+}
+
+@keyframes blink-caret {
+    from, to { border-color: transparent }
+    50% { border-color: #00d4ff }
+}
+
+/* 3D эффект для карточек */
+.card-3d {
+    transform-style: preserve-3d;
+    transition: transform 0.5s ease;
+}
+
+.card-3d:hover {
+    transform: rotateY(10deg) rotateX(5deg);
+}
+
+/* Градиентные границы */
+.gradient-border {
+    position: relative;
+    background: linear-gradient(45deg, #0ea5e9, #10b981, #06b6d4);
+    padding: 2px;
+    border-radius: 12px;
+}
+
+.gradient-border > div {
+    background: #1f2937;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+/* Анимация волны */
+.wave {
+    animation: wave 2s ease-in-out infinite;
+}
+
+@keyframes wave {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+/* Медитативный эффект дыхания */
+.breathing {
+    animation: breathing 4s ease-in-out infinite;
+}
+
+@keyframes breathing {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 0.7;
+    }
+    50% {
+        transform: scale(1.05);
+        opacity: 1;
+    }
+}
+
+/* Стили для модального окна улучшены */
+.modal-content {
+    transform: perspective(1000px) rotateX(0deg);
+    transition: transform 0.5s ease;
+}
+
+.modal-content:hover {
+    transform: perspective(1000px) rotateX(5deg);
+}
+
+/* Эффект стекла */
+.glass-effect {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Анимация появления палочек */
+.stick-appear {
+    animation: stickAppear 0.6s ease-out;
+}
+
+@keyframes stickAppear {
+    from {
+        opacity: 0;
+        transform: translateY(50px) rotate(180deg);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) rotate(0);
+    }
+}
+
+/* Эффект свечения для активных элементов */
+.glow-blue {
+    box-shadow: 0 0 20px rgba(14, 165, 233, 0.5);
+}
+
+.glow-green {
+    box-shadow: 0 0 20px rgba(16, 185, 129, 0.5);
+}
+
+/* Анимация переливания цвета */
+.color-shift {
+    animation: colorShift 5s ease-in-out infinite;
+}
+
+@keyframes colorShift {
+    0% { color: #00d4ff; }
+    25% { color: #10b981; }
+    50% { color: #0ea5e9; }
+    75% { color: #06b6d4; }
+    100% { color: #00d4ff; }
+}
