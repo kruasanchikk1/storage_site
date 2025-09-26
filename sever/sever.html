@@ -599,8 +599,12 @@
             const mobileMenuBtn = document.getElementById('mobileMenuBtn');
             const mobileMenu = document.getElementById('mobileMenu');
             
+            console.log('Мобильная кнопка меню:', mobileMenuBtn);
+            console.log('Мобильное меню:', mobileMenu);
+            
             if (mobileMenuBtn && mobileMenu) {
                 mobileMenuBtn.addEventListener('click', function() {
+                    console.log('Клик по мобильной кнопке меню');
                     mobileMenu.classList.toggle('hidden');
                     
                     // Меняем иконку
@@ -614,8 +618,10 @@
                 
                 // Закрываем меню при клике на ссылку
                 const menuLinks = mobileMenu.querySelectorAll('a');
+                console.log('Ссылки в мобильном меню:', menuLinks.length);
                 menuLinks.forEach(link => {
                     link.addEventListener('click', function() {
+                        console.log('Клик по ссылке в мобильном меню');
                         mobileMenu.classList.add('hidden');
                         const icon = mobileMenuBtn.querySelector('i');
                         icon.className = 'fas fa-bars text-xl';
@@ -625,14 +631,18 @@
             
             // Плавная прокрутка для ссылок на главную страницу
             const scrollLinks = document.querySelectorAll('.scroll-link');
+            console.log('Найдено ссылок с классом scroll-link:', scrollLinks.length);
+            
             scrollLinks.forEach(link => {
                 link.addEventListener('click', function(e) {
                     e.preventDefault();
                     const href = this.getAttribute('href');
+                    console.log('Клик по ссылке:', href);
                     
                     // Если ссылка ведет на главную страницу с якорем
                     if (href.includes('../main.html#')) {
                         const targetId = href.split('#')[1];
+                        console.log('Переход на главную страницу к разделу:', targetId);
                         // Переходим на главную страницу с якорем
                         window.location.href = href;
                     }
@@ -641,6 +651,7 @@
                         const targetId = href.split('#')[1];
                         const targetElement = document.getElementById(targetId);
                         if (targetElement) {
+                            console.log('Прокрутка к элементу:', targetId);
                             // Прокручиваем к элементу с точным позиционированием
                             const headerHeight = 80; // Высота фиксированного хедера
                             const targetPosition = targetElement.offsetTop - headerHeight;
