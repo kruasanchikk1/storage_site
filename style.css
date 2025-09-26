@@ -427,6 +427,25 @@ a, button, .game-card {
     }
 }
 
+/* Улучшения для плавной прокрутки */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Точное позиционирование для якорных ссылок */
+section[id] {
+    scroll-margin-top: 80px; /* Учитываем высоту фиксированного хедера */
+}
+
+/* Дополнительные стили для точной прокрутки */
+.scroll-link {
+    cursor: pointer;
+}
+
+.scroll-link:hover {
+    text-decoration: none;
+}
+
 /* Исправление проблемы с кнопками */
 .space-x-6 a,
 .flex.flex-col.sm\\:flex-row a {

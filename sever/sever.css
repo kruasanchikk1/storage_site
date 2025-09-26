@@ -640,6 +640,19 @@ a:focus {
     }
 }
 
+/* Исправление размеров игрового поля */
+@media (min-width: 768px) {
+    .game-board {
+        max-width: 400px;
+    }
+}
+
+@media (min-width: 1024px) {
+    .game-board {
+        max-width: 500px;
+    }
+}
+
 /* Улучшения для touch устройств */
 @media (hover: none) and (pointer: coarse) {
     /* Увеличиваем области касания */
