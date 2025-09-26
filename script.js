@@ -171,7 +171,7 @@ class StorageAnimations {
 
                     // Получаем позицию элемента относительно документа
                     const targetRect = target.getBoundingClientRect();
-                    const targetPosition = targetRect.top + window.pageYOffset - headerHeight - 20;
+                    const targetPosition = targetRect.top + window.pageYOffset - headerHeight - 0;
 
                     console.log(`🎯 Прокрутка к ${targetId}:`, {
                         headerHeight,
