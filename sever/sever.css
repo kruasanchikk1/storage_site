@@ -110,37 +110,6 @@ body {
     padding: 8px;
 }
 
-/* Адаптивные размеры игрового поля */
-@media (min-width: 1200px) {
-    .game-board {
-        max-width: 600px;
-    }
-}
-
-@media (min-width: 1024px) and (max-width: 1199px) {
-    .game-board {
-        max-width: 500px;
-    }
-}
-
-@media (min-width: 768px) and (max-width: 1023px) {
-    .game-board {
-        max-width: 400px;
-    }
-}
-
-@media (max-width: 767px) {
-    .game-board {
-        max-width: 300px;
-    }
-}
-
-@media (max-width: 480px) {
-    .game-board {
-        max-width: 250px;
-    }
-}
-
 .cell {
     background: rgba(108, 195, 238, 0.05);
     border: 1px solid rgba(108, 195, 238, 0.2);
@@ -531,12 +500,13 @@ a:focus {
     
     /* Улучшаем игровое поле на мобильных */
     .game-board {
+        max-width: 280px;
         padding: 6px;
         gap: 1px;
     }
     
     .cell {
-        min-height: 40px;
+        min-height: 35px;
     }
     
     .piece {
@@ -613,6 +583,7 @@ a:focus {
     
     /* Игровое поле для очень маленьких экранов */
     .game-board {
+        max-width: 250px;
         padding: 4px;
     }
     
@@ -643,17 +614,7 @@ a:focus {
 @media (min-width: 768px) and (max-width: 1024px) {
     /* Адаптируем игровое поле */
     .game-board {
-        padding: 6px;
-        gap: 1px;
-    }
-    
-    .cell {
-        min-height: 50px;
-    }
-    
-    .piece {
-        width: 80%;
-        height: 80%;
+        max-width: 400px;
     }
     
     /* Улучшаем статистику */
@@ -666,8 +627,7 @@ a:focus {
 @media (min-width: 1024px) {
     /* Восстанавливаем полные размеры */
     .game-board {
-        padding: 8px;
-        gap: 2px;
+        max-width: 500px;
     }
     
     .cell {
@@ -680,20 +640,16 @@ a:focus {
     }
 }
 
-/* Улучшения для очень больших экранов */
-@media (min-width: 1200px) {
+/* Исправление размеров игрового поля */
+@media (min-width: 768px) {
     .game-board {
-        padding: 10px;
-        gap: 3px;
+        max-width: 400px;
     }
-    
-    .cell {
-        min-height: 70px;
-    }
-    
-    .piece {
-        width: 85%;
-        height: 85%;
+}
+
+@media (min-width: 1024px) {
+    .game-board {
+        max-width: 500px;
     }
 }
 
