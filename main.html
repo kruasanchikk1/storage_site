@@ -33,11 +33,29 @@
     <header class="bg-deep-blue border-b border-electric-blue/30 backdrop-blur-lg sticky top-0 z-50">
         <nav class="container mx-auto px-4 py-4">
             <div class="flex justify-between items-center">
-                <div class="text-2xl font-black cursor-pointer" onclick="window.location.href='main.html'">
+                <div class="text-xl md:text-2xl font-black cursor-pointer" onclick="window.location.href='main.html'">
                     <span class="text-electric-blue">⟁</span>
                     <span class="text-white ml-2">STORAGE</span>
                 </div>
-                <div class="space-x-8">
+                
+                <!-- Мобильное меню -->
+                <div class="md:hidden">
+                    <button id="mobileMenuBtn" class="text-electric-blue hover:text-white transition duration-300">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+                
+                <!-- Десктопное меню -->
+                <div class="hidden md:flex space-x-6 lg:space-x-8">
+                    <a href="#mission" class="hover:text-electric-blue transition duration-300 text-sm uppercase tracking-widest glow-text">Миссия</a>
+                    <a href="#artifacts" class="hover:text-electric-blue transition duration-300 text-sm uppercase tracking-widest glow-text">Артефакты</a>
+                    <a href="#form" class="hover:text-electric-blue transition duration-300 text-sm uppercase tracking-widest glow-text">Вклад</a>
+                </div>
+            </div>
+            
+            <!-- Мобильное меню (скрыто по умолчанию) -->
+            <div id="mobileMenu" class="md:hidden hidden mt-4 pb-4 border-t border-electric-blue/20">
+                <div class="flex flex-col space-y-4 pt-4">
                     <a href="#mission" class="hover:text-electric-blue transition duration-300 text-sm uppercase tracking-widest glow-text">Миссия</a>
                     <a href="#artifacts" class="hover:text-electric-blue transition duration-300 text-sm uppercase tracking-widest glow-text">Артефакты</a>
                     <a href="#form" class="hover:text-electric-blue transition duration-300 text-sm uppercase tracking-widest glow-text">Вклад</a>
@@ -47,33 +65,33 @@
     </header>
 
     <!-- Главный экран -->
-    <section class="relative py-16 px-4 bg-gradient-to-br from-deep-blue via-navy to-ocean-blue min-h-screen flex items-center">
+    <section class="relative py-8 md:py-16 px-4 bg-gradient-to-br from-deep-blue via-navy to-ocean-blue min-h-screen flex items-center">
         <div class="container mx-auto text-center">
             <!-- Увеличенный блок с надписью "Цифровой ковчег активирован" -->
-            <div class="inline-block bg-electric-blue/20 border border-electric-blue/30 px-6 py-3 rounded-full mb-12 backdrop-blur-sm transform translate-y-[-20px]">
-                <span class="text-electric-blue text-lg uppercase tracking-widest font-bold">Цифровой ковчег активирован</span>
+            <div class="inline-block bg-electric-blue/20 border border-electric-blue/30 px-4 md:px-6 py-2 md:py-3 rounded-full mb-8 md:mb-12 backdrop-blur-sm transform translate-y-[-10px] md:translate-y-[-20px]">
+                <span class="text-electric-blue text-sm md:text-lg uppercase tracking-widest font-bold">Цифровой ковчег активирован</span>
             </div>
 
             <!-- STOR - белым, AGE - голубым -->
-            <h1 class="text-8xl md:text-9xl font-black mb-8 leading-none hero-title">
+            <h1 class="text-5xl sm:text-6xl md:text-8xl lg:text-9xl font-black mb-6 md:mb-8 leading-none hero-title">
                 <span class="text-white">STOR</span>
                 <span class="text-electric-blue">AGE</span>
             </h1>
 
-            <p class="text-xl text-light-blue mb-12 max-w-3xl mx-auto leading-relaxed">
+            <p class="text-base md:text-xl text-light-blue mb-8 md:mb-12 max-w-3xl mx-auto leading-relaxed px-4">
                 Цифровое хранилище игрового наследия человечества.
                 Сохраняем, оцифровываем, возрождаем народные игры со всего мира.
             </p>
 
-            <div class="space-x-6">
+            <div class="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center">
                 <!-- Задача 1: О проекте с ссылкой на миссию -->
-                <a href="#mission" class="bg-electric-blue hover:bg-light-blue text-deep-blue px-10 py-5 rounded-lg font-black transition duration-300 border-2 border-electric-blue hover:border-light-blue uppercase tracking-widest text-lg shadow-2xl shadow-electric-blue/30">
-                    <i class="fas fa-info-circle mr-3"></i>О проекте
+                <a href="#mission" class="w-full sm:w-auto bg-electric-blue hover:bg-light-blue text-deep-blue px-6 md:px-10 py-4 md:py-5 rounded-lg font-black transition duration-300 border-2 border-electric-blue hover:border-light-blue uppercase tracking-widest text-base md:text-lg shadow-2xl shadow-electric-blue/30">
+                    <i class="fas fa-info-circle mr-2 md:mr-3"></i>О проекте
                 </a>
 
                 <!-- Задача 2: Исследовать артефакты с иконкой play -->
-                <a href="#artifacts" class="bg-transparent hover:bg-electric-blue/20 text-electric-blue px-10 py-5 rounded-lg font-black transition duration-300 border-2 border-electric-blue hover:border-light-blue uppercase tracking-widest text-lg">
-                    <i class="fas fa-play mr-3"></i>Исследовать артефакты
+                <a href="#artifacts" class="w-full sm:w-auto bg-transparent hover:bg-electric-blue/20 text-electric-blue px-6 md:px-10 py-4 md:py-5 rounded-lg font-black transition duration-300 border-2 border-electric-blue hover:border-light-blue uppercase tracking-widest text-base md:text-lg">
+                    <i class="fas fa-play mr-2 md:mr-3"></i>Исследовать артефакты
                 </a>
             </div>
         </div>
@@ -85,72 +103,71 @@
     </section>
 
     <!-- Статистика -->
-    <section class="py-16 px-4 bg-gradient-to-r from-ocean-blue/50 to-deep-blue/50 backdrop-blur-lg">
+    <section class="py-8 md:py-16 px-4 bg-gradient-to-r from-ocean-blue/50 to-deep-blue/50 backdrop-blur-lg">
         <div class="container mx-auto">
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-                <div class="border-r border-electric-blue/20 last:border-r-0">
-                    <div class="text-4xl font-black text-electric-blue mb-2 glow-text">67</div>
-                    <div class="text-light-blue text-sm uppercase tracking-widest">Сохраненных игр</div>
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8 text-center">
+                <div class="border-r border-electric-blue/20 last:border-r-0 pb-4 md:pb-0">
+                    <div class="text-2xl md:text-4xl font-black text-electric-blue mb-2 glow-text">67</div>
+                    <div class="text-light-blue text-xs md:text-sm uppercase tracking-widest">Сохраненных игр</div>
                 </div>
-                <div class="border-r border-electric-blue/20 last:border-r-0">
-                    <div class="text-4xl font-black text-electric-blue mb-2 glow-text">23</div>
-                    <div class="text-light-blue text-sm uppercase tracking-widest">Культурных региона</div>
+                <div class="border-r border-electric-blue/20 last:border-r-0 pb-4 md:pb-0">
+                    <div class="text-2xl md:text-4xl font-black text-electric-blue mb-2 glow-text">23</div>
+                    <div class="text-light-blue text-xs md:text-sm uppercase tracking-widest">Культурных региона</div>
                 </div>
-                <div class="border-r border-electric-blue/20 last:border-r-0">
-                    <div class="text-4xl font-black text-electric-blue mb-2 glow-text">1.2K</div>
-                    <div class="text-light-blue text-sm uppercase tracking-widest">Хранителей традиций</div>
+                <div class="border-r border-electric-blue/20 last:border-r-0 pb-4 md:pb-0">
+                    <div class="text-2xl md:text-4xl font-black text-electric-blue mb-2 glow-text">1.2K</div>
+                    <div class="text-light-blue text-xs md:text-sm uppercase tracking-widest">Хранителей традиций</div>
                 </div>
-                <div>
-                    <div class="text-4xl font-black text-electric-blue mb-2 glow-text">∞</div>
-                    <div class="text-light-blue text-sm uppercase tracking-widest">Доступ к наследию</div>
+                <div class="pb-4 md:pb-0">
+                    <div class="text-2xl md:text-4xl font-black text-electric-blue mb-2 glow-text">∞</div>
+                    <div class="text-light-blue text-xs md:text-sm uppercase tracking-widest">Доступ к наследию</div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Миссия - в виде исторической ленты -->
-    <section id="mission" class="py-24 px-4 bg-deep-blue relative">
+    <section id="mission" class="py-12 md:py-24 px-4 bg-deep-blue relative">
         <div class="container mx-auto max-w-5xl">
-            <h2 class="text-5xl font-black mb-16 text-center">
+            <h2 class="text-3xl md:text-5xl font-black mb-8 md:mb-16 text-center">
                 <span class="text-electric-blue">⊞</span>
                 <span class="text-white">НАША МИССИЯ</span>
             </h2>
 
             <!-- Историческая лента с пунктиром -->
             <div class="relative">
-                <!-- Вертикальная пунктирная линия -->
-                <!-- Вертикальная пунктирная линия -->
-                <div class="absolute left-1/2 transform -translate-x-1/2 w-1 h-full border-l-2 border-dashed border-electric-blue"></div>
+                <!-- Вертикальная пунктирная линия (скрыта на мобильных) -->
+                <div class="hidden md:block absolute left-1/2 transform -translate-x-1/2 w-1 h-full border-l-2 border-dashed border-electric-blue"></div>
                 <!-- Блоки миссии по очереди слева и справа -->
-                <div class="space-y-12">
+                <div class="space-y-8 md:space-y-12">
                     <!-- Блок 1 -->
-                    <div class="flex items-center">
-                        <div class="w-1/2 pr-8 text-right">
-                            <div class="bg-gradient-to-l from-ocean-blue/30 to-electric-blue/10 p-6 rounded-2xl border border-electric-blue/20 relative">
-                                <div class="absolute -right-2 top-1/2 transform -translate-y-1/2 w-4 h-4 bg-electric-blue rounded-full border-4 border-deep-blue"></div>
-                                <h3 class="text-2xl font-black mb-3 text-electric-blue">ПРОБЛЕМА ИСЧЕЗНОВЕНИЯ</h3>
-                                <p class="text-light-blue leading-relaxed">
+                    <div class="flex flex-col md:flex-row items-center">
+                        <div class="w-full md:w-1/2 md:pr-8 text-center md:text-right order-2 md:order-1">
+                            <div class="bg-gradient-to-l from-ocean-blue/30 to-electric-blue/10 p-4 md:p-6 rounded-2xl border border-electric-blue/20 relative">
+                                <div class="hidden md:block absolute -right-2 top-1/2 transform -translate-y-1/2 w-4 h-4 bg-electric-blue rounded-full border-4 border-deep-blue"></div>
+                                <h3 class="text-xl md:text-2xl font-black mb-3 text-electric-blue">ПРОБЛЕМА ИСЧЕЗНОВЕНИЯ</h3>
+                                <p class="text-light-blue leading-relaxed text-sm md:text-base">
                                     Каждое поколение теряет до 30% игровых традиций. Правила стираются,
                                     культурный контекст забывается. Мы становимся свидетелями цифрового
                                     вымирания целых пластов игровой культуры.
                                 </p>
                             </div>
                         </div>
-                        <div class="w-1/2 pl-8">
-                            <div class="text-electric-blue text-4xl text-center">⚠️</div>
+                        <div class="w-full md:w-1/2 md:pl-8 order-1 md:order-2 mb-4 md:mb-0">
+                            <div class="text-electric-blue text-3xl md:text-4xl text-center">⚠️</div>
                         </div>
                     </div>
 
                     <!-- Блок 2 -->
-                    <div class="flex items-center">
-                        <div class="w-1/2 pr-8">
-                            <div class="text-electric-blue text-4xl text-center">🚀</div>
+                    <div class="flex flex-col md:flex-row items-center">
+                        <div class="w-full md:w-1/2 md:pr-8 order-1 md:order-1 mb-4 md:mb-0">
+                            <div class="text-electric-blue text-3xl md:text-4xl text-center">🚀</div>
                         </div>
-                        <div class="w-1/2 pl-8">
-                            <div class="bg-gradient-to-r from-electric-blue/10 to-ocean-blue/30 p-6 rounded-2xl border border-electric-blue/20 relative">
-                                <div class="absolute -left-2 top-1/2 transform -translate-y-1/2 w-4 h-4 bg-electric-blue rounded-full border-4 border-deep-blue"></div>
-                                <h3 class="text-2xl font-black mb-3 text-electric-blue">ЦИФРОВОЕ ВОЗРОЖДЕНИЕ</h3>
-                                <p class="text-light-blue leading-relaxed">
+                        <div class="w-full md:w-1/2 md:pl-8 order-2 md:order-2">
+                            <div class="bg-gradient-to-r from-electric-blue/10 to-ocean-blue/30 p-4 md:p-6 rounded-2xl border border-electric-blue/20 relative">
+                                <div class="hidden md:block absolute -left-2 top-1/2 transform -translate-y-1/2 w-4 h-4 bg-electric-blue rounded-full border-4 border-deep-blue"></div>
+                                <h3 class="text-xl md:text-2xl font-black mb-3 text-electric-blue">ЦИФРОВОЕ ВОЗРОЖДЕНИЕ</h3>
+                                <p class="text-light-blue leading-relaxed text-sm md:text-base">
                                     Используем технологии для сохранения наследия. Оцифровка,
                                     интерактивные реконструкции, AI-анализ правил. Превращаем
                                     устные традиции в вечные цифровые артефакты.
@@ -160,12 +177,12 @@
                     </div>
 
                     <!-- Блок 3 -->
-                    <div class="flex items-center">
-                        <div class="w-1/2 pr-8 text-right">
-                            <div class="bg-gradient-to-l from-ocean-blue/30 to-electric-blue/10 p-6 rounded-2xl border border-electric-blue/20 relative">
-                                <div class="absolute -right-2 top-1/2 transform -translate-y-1/2 w-4 h-4 bg-electric-blue rounded-full border-4 border-deep-blue"></div>
-                                <h3 class="text-2xl font-black mb-3 text-electric-blue">ЦЕЛЬ ПРОЕКТА</h3>
-                                <ul class="text-light-blue space-y-2">
+                    <div class="flex flex-col md:flex-row items-center">
+                        <div class="w-full md:w-1/2 md:pr-8 text-center md:text-right order-2 md:order-1">
+                            <div class="bg-gradient-to-l from-ocean-blue/30 to-electric-blue/10 p-4 md:p-6 rounded-2xl border border-electric-blue/20 relative">
+                                <div class="hidden md:block absolute -right-2 top-1/2 transform -translate-y-1/2 w-4 h-4 bg-electric-blue rounded-full border-4 border-deep-blue"></div>
+                                <h3 class="text-xl md:text-2xl font-black mb-3 text-electric-blue">ЦЕЛЬ ПРОЕКТА</h3>
+                                <ul class="text-light-blue space-y-2 text-sm md:text-base">
                                     <li>• Сохранить 1000+ народных игр к 2030 году</li>
                                     <li>• Создать крупнейший цифровой архив</li>
                                     <li>• Разработать образовательную платформу</li>
@@ -173,8 +190,8 @@
                                 </ul>
                             </div>
                         </div>
-                        <div class="w-1/2 pl-8">
-                            <div class="text-electric-blue text-4xl text-center">🎯</div>
+                        <div class="w-full md:w-1/2 md:pl-8 order-1 md:order-2 mb-4 md:mb-0">
+                            <div class="text-electric-blue text-3xl md:text-4xl text-center">🎯</div>
                         </div>
                     </div>
                 </div>
@@ -183,64 +200,64 @@
     </section>
 
     <!-- Артефакты на темно-синем с голубым оттенком -->
-    <section id="artifacts" class="py-16 px-4 bg-medium-blue">
+    <section id="artifacts" class="py-8 md:py-16 px-4 bg-medium-blue">
         <div class="container mx-auto max-w-4xl">
-            <h2 class="text-5xl font-black mb-4 text-center text-white">
+            <h2 class="text-3xl md:text-5xl font-black mb-4 text-center text-white">
                 <span class="text-electric-blue">🗃️</span>
                 <span class="text-white">АРТЕФАКТЫ</span>
             </h2>
-            <p class="text-light-blue text-center mb-8 text-xl">Сохраненные игровые традиции</p>
+            <p class="text-light-blue text-center mb-6 md:mb-8 text-lg md:text-xl">Сохраненные игровые традиции</p>
 
             <!-- 3 игры в компактном виде -->
-            <div class="grid md:grid-cols-3 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
                 <!-- Игра 1 - СТУНВИНДИСЕП -->
-                <div class="bg-deep-blue rounded-xl p-6 border border-electric-blue/20 hover:border-electric-blue/50 transition duration-300 shadow-lg hover:shadow-xl cursor-pointer game-card"
+                <div class="bg-deep-blue rounded-xl p-4 md:p-6 border border-electric-blue/20 hover:border-electric-blue/50 transition duration-300 shadow-lg hover:shadow-xl cursor-pointer game-card"
                      onclick="window.location.href='sever/sever.html'">
-                    <div class="text-electric-blue text-3xl mb-4">🌲</div>
-                    <h3 class="text-xl font-black mb-2 text-white">СТУНВИНДИСЕП</h3>
+                    <div class="text-electric-blue text-2xl md:text-3xl mb-3 md:mb-4">🌲</div>
+                    <h3 class="text-lg md:text-xl font-black mb-2 text-white">СТУНВИНДИСЕП</h3>
                     <div class="bg-electric-blue/20 px-2 py-1 rounded-full inline-block mb-3">
                         <span class="text-electric-blue text-xs font-bold">КОМИ • СТРАТЕГИЯ</span>
                     </div>
-                    <p class="text-light-blue text-sm mb-4 leading-relaxed">
+                    <p class="text-light-blue text-xs md:text-sm mb-4 leading-relaxed">
                         Древняя игра охотников. Тактическое противостояние оленя и преследователей.
                     </p>
                     <div class="flex items-center justify-between">
-                        <span class="text-electric-blue font-black text-sm">В АРХИВЕ</span>
-                        <span class="text-electric-blue text-xl">⟫</span>
+                        <span class="text-electric-blue font-black text-xs md:text-sm">В АРХИВЕ</span>
+                        <span class="text-electric-blue text-lg md:text-xl">⟫</span>
                     </div>
                 </div>
 
                 <!-- Игра 2 - АСАЛТХАН -->
-                <div class="bg-deep-blue rounded-xl p-6 border border-electric-blue/20 hover:border-electric-blue/50 transition duration-300 shadow-lg hover:shadow-xl cursor-pointer game-card"
+                <div class="bg-deep-blue rounded-xl p-4 md:p-6 border border-electric-blue/20 hover:border-electric-blue/50 transition duration-300 shadow-lg hover:shadow-xl cursor-pointer game-card"
                      onclick="window.location.href='asalthan/asalthan.html'">
-                    <div class="text-electric-blue text-3xl mb-4">⚔️</div>
-                    <h3 class="text-xl font-black mb-2 text-white">АСАЛТХАН</h3>
+                    <div class="text-electric-blue text-2xl md:text-3xl mb-3 md:mb-4">⚔️</div>
+                    <h3 class="text-lg md:text-xl font-black mb-2 text-white">АСАЛТХАН</h3>
                     <div class="bg-electric-blue/20 px-2 py-1 rounded-full inline-block mb-3">
                         <span class="text-electric-blue text-xs font-bold">АДЫГЕЯ • ЧЕСТЬ</span>
                     </div>
-                    <p class="text-light-blue text-sm mb-4 leading-relaxed">
+                    <p class="text-light-blue text-xs md:text-sm mb-4 leading-relaxed">
                         Догонялки с кодексом чести. Физическая ловкость сочетается с моральными принципами.
                     </p>
                     <div class="flex items-center justify-between">
-                        <span class="text-electric-blue font-black text-sm">ОЦИФРОВКА</span>
-                        <span class="text-electric-blue text-xl">⟫</span>
+                        <span class="text-electric-blue font-black text-xs md:text-sm">ОЦИФРОВКА</span>
+                        <span class="text-electric-blue text-lg md:text-xl">⟫</span>
                     </div>
                 </div>
 
                 <!-- Игра 3 - ЧХЕСОК -->
-                <div class="bg-deep-blue rounded-xl p-6 border border-electric-blue/20 hover:border-electric-blue/50 transition duration-300 shadow-lg hover:shadow-xl cursor-pointer game-card"
+                <div class="bg-deep-blue rounded-xl p-4 md:p-6 border border-electric-blue/20 hover:border-electric-blue/50 transition duration-300 shadow-lg hover:shadow-xl cursor-pointer game-card"
                      onclick="window.location.href='chessok/chessok.html'">
-                    <div class="text-electric-blue text-3xl mb-4">🎋</div>
-                    <h3 class="text-xl font-black mb-2 text-white">МИКАДО</h3>
+                    <div class="text-electric-blue text-2xl md:text-3xl mb-3 md:mb-4">🎋</div>
+                    <h3 class="text-lg md:text-xl font-black mb-2 text-white">МИКАДО</h3>
                     <div class="bg-electric-blue/20 px-2 py-1 rounded-full inline-block mb-3">
                         <span class="text-electric-blue text-xs font-bold">КОРЕЯ • МЕДИТАЦИЯ</span>
                     </div>
-                    <p class="text-light-blue text-sm mb-4 leading-relaxed">
+                    <p class="text-light-blue text-xs md:text-sm mb-4 leading-relaxed">
                         Игра в палочки как искусство терпения. Каждое движение — философия.
                     </p>
                     <div class="flex items-center justify-between">
-                        <span class="text-electric-blue font-black text-sm">АНАЛИЗ</span>
-                        <span class="text-electric-blue text-xl">⟫</span>
+                        <span class="text-electric-blue font-black text-xs md:text-sm">АНАЛИЗ</span>
+                        <span class="text-electric-blue text-lg md:text-xl">⟫</span>
                     </div>
                 </div>
             </div>
@@ -248,22 +265,22 @@
     </section>
 
     <!-- Форма - сразу после заголовка -->
-    <section id="form" class="py-16 px-4 bg-deep-blue min-h-[600px] flex items-center">
+    <section id="form" class="py-8 md:py-16 px-4 bg-deep-blue min-h-[400px] md:min-h-[600px] flex items-center">
         <div class="container mx-auto max-w-2xl w-full">
-            <h2 class="text-5xl font-black mb-4 text-center">
+            <h2 class="text-3xl md:text-5xl font-black mb-4 text-center">
                 <span class="text-electric-blue"></span>
                 <span class="text-white">СДЕЛАЙТЕ СВОЙ ВКЛАД</span>
             </h2>
 
             <!-- Форма сразу после заголовка -->
-            <div class="bg-gradient-to-br from-ocean-blue/40 to-electric-blue/20 rounded-2xl p-8 border border-electric-blue/30 backdrop-blur-lg mt-8">
-                <div class="text-center mb-6">
-                    <div class="text-electric-blue text-4xl mb-3">📥</div>
-                    <h3 class="text-xl font-black text-electric-blue">ФОРМА ДЛЯ ПОПОЛНЕНИЯ АРХИВА</h3>
+            <div class="bg-gradient-to-br from-ocean-blue/40 to-electric-blue/20 rounded-2xl p-4 md:p-8 border border-electric-blue/30 backdrop-blur-lg mt-4 md:mt-8">
+                <div class="text-center mb-4 md:mb-6">
+                    <div class="text-electric-blue text-3xl md:text-4xl mb-3">📥</div>
+                    <h3 class="text-lg md:text-xl font-black text-electric-blue">ФОРМА ДЛЯ ПОПОЛНЕНИЯ АРХИВА</h3>
                 </div>
 
-                <!-- Фиксированная высота для формы -->
-                <div class="h-[500px]">
+                <!-- Адаптивная высота для формы -->
+                <div class="h-[300px] md:h-[500px]">
                     <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdnfOWUIgOaJ3Rasd1xnzt-5mUV7712qIKE-1J1H0aGLm642g/viewform"
                             width="100%" height="100%" frameborder="0" marginheight="0" marginwidth="0"
                             class="rounded-xl border border-electric-blue/20">
@@ -272,8 +289,8 @@
                 </div>
 
                 <div class="text-center mt-4">
-                    <p class="text-light-blue text-sm">Альтернативный канал связи:</p>
-                    <a href="#" class="text-electric-blue hover:text-light-blue font-bold transition duration-300">
+                    <p class="text-light-blue text-xs md:text-sm">Альтернативный канал связи:</p>
+                    <a href="#" class="text-electric-blue hover:text-light-blue font-bold transition duration-300 text-sm md:text-base">
                         <i class="fab fa-telegram mr-1"></i>@storage_archive_bot
                     </a>
                 </div>
@@ -282,17 +299,48 @@
     </section>
 
     <!-- Футер -->
-    <footer class="bg-navy py-12 px-4 border-t border-electric-blue/20">
+    <footer class="bg-navy py-8 md:py-12 px-4 border-t border-electric-blue/20">
         <div class="container mx-auto text-center">
-            <div class="text-2xl font-black mb-4">
+            <div class="text-xl md:text-2xl font-black mb-4">
                 <span class="text-electric-blue">⟁</span>
                 <span class="text-white">STORAGE</span>
             </div>
-            <p class="text-light-blue mb-2">Цифровой ковчег игровой культуры человечества</p>
-            <p class="text-electric-blue/60 text-sm">© 2025 STORAGE PROJECT • Сохраняя прошлое, создаём будущее</p>
+            <p class="text-light-blue mb-2 text-sm md:text-base">Цифровой ковчег игровой культуры человечества</p>
+            <p class="text-electric-blue/60 text-xs md:text-sm">© 2025 STORAGE PROJECT • Сохраняя прошлое, создаём будущее</p>
         </div>
     </footer>
 
     <script src="script.js"></script>
+    <script>
+        // Мобильное меню
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const mobileMenu = document.getElementById('mobileMenu');
+            
+            if (mobileMenuBtn && mobileMenu) {
+                mobileMenuBtn.addEventListener('click', function() {
+                    mobileMenu.classList.toggle('hidden');
+                    
+                    // Меняем иконку
+                    const icon = mobileMenuBtn.querySelector('i');
+                    if (mobileMenu.classList.contains('hidden')) {
+                        icon.className = 'fas fa-bars text-xl';
+                    } else {
+                        icon.className = 'fas fa-times text-xl';
+                    }
+                });
+                
+                // Закрываем меню при клике на ссылку
+                const menuLinks = mobileMenu.querySelectorAll('a');
+                menuLinks.forEach(link => {
+                    link.addEventListener('click', function() {
+                        mobileMenu.classList.add('hidden');
+                        const icon = mobileMenuBtn.querySelector('i');
+                        icon.className = 'fas fa-bars text-xl';
+                    });
+                });
+            }
+        });
+    </script>
 </body>
 </html>
