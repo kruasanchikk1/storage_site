@@ -348,36 +348,22 @@
             if (missionBtn) {
                 missionBtn.addEventListener('click', function(e) {
                     console.log('Кнопка "О проекте" нажата');
-                    // Плавная прокрутка к секции миссии с точным позиционированием
+                    // Плавная прокрутка к секции миссии
                     e.preventDefault();
-                    const targetElement = document.getElementById('mission');
-                    if (targetElement) {
-                        const headerHeight = 80; // Высота фиксированного хедера
-                        const targetPosition = targetElement.offsetTop - headerHeight;
-                        
-                        window.scrollTo({
-                            top: targetPosition,
-                            behavior: 'smooth'
-                        });
-                    }
+                    document.getElementById('mission').scrollIntoView({
+                        behavior: 'smooth'
+                    });
                 });
             }
             
             if (artifactsBtn) {
                 artifactsBtn.addEventListener('click', function(e) {
                     console.log('Кнопка "Исследовать артефакты" нажата');
-                    // Плавная прокрутка к секции артефактов с точным позиционированием
+                    // Плавная прокрутка к секции артефактов
                     e.preventDefault();
-                    const targetElement = document.getElementById('artifacts');
-                    if (targetElement) {
-                        const headerHeight = 80; // Высота фиксированного хедера
-                        const targetPosition = targetElement.offsetTop - headerHeight;
-                        
-                        window.scrollTo({
-                            top: targetPosition,
-                            behavior: 'smooth'
-                        });
-                    }
+                    document.getElementById('artifacts').scrollIntoView({
+                        behavior: 'smooth'
+                    });
                 });
             }
         });
