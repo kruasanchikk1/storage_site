@@ -144,7 +144,7 @@
                         <button id="resetBtn" class="w-full bg-electric-blue hover:bg-light-blue text-deep-blue px-4 md:px-6 py-2 md:py-3 rounded-lg font-bold transition duration-300 border-2 border-electric-blue uppercase tracking-widest text-sm md:text-base">
                             <i class="fas fa-redo mr-2"></i>Новая игра
                         </button>
-                        <button id="rulesBtn" class="w-full bg-transparent hover:bg-electric-blue/20 text-electric-blue px-4 md:px-6 py-2 md:py-3 rounded-lg font-bold transition duration-300 border-2 border-electric-blue uppercase tracking-widest text-sm md:text-base">
+                        <button id="rulesBtn" onclick="toggleRulesModal()" class="w-full bg-transparent hover:bg-electric-blue/20 text-electric-blue px-4 md:px-6 py-2 md:py-3 rounded-lg font-bold transition duration-300 border-2 border-electric-blue uppercase tracking-widest text-sm md:text-base">
                             <i class="fas fa-book mr-2"></i>Правила
                         </button>
                     </div>
@@ -623,13 +623,21 @@
                 });
             }
             
-            // Плавная прокрутка с точным позиционированием
+            // Плавная прокрутка для ссылок на главную страницу
             const scrollLinks = document.querySelectorAll('.scroll-link');
             scrollLinks.forEach(link => {
                 link.addEventListener('click', function(e) {
                     e.preventDefault();
                     const href = this.getAttribute('href');
-                    if (href.includes('#')) {
+                    
+                    // Если ссылка ведет на главную страницу с якорем
+                    if (href.includes('../main.html#')) {
+                        const targetId = href.split('#')[1];
+                        // Переходим на главную страницу с якорем
+                        window.location.href = href;
+                    }
+                    // Если ссылка ведет на текущую страницу с якорем
+                    else if (href.includes('#')) {
                         const targetId = href.split('#')[1];
                         const targetElement = document.getElementById(targetId);
                         if (targetElement) {
@@ -645,6 +653,24 @@
                     }
                 });
             });
+            
+            // Функция для открытия/закрытия модального окна правил
+            window.toggleRulesModal = function() {
+                const modal = document.getElementById('rulesModal');
+                if (modal) {
+                    modal.classList.remove('hidden');
+                    modal.classList.add('flex');
+                }
+            };
+            
+            // Функция для закрытия модального окна правил
+            window.closeRulesModal = function() {
+                const modal = document.getElementById('rulesModal');
+                if (modal) {
+                    modal.classList.add('hidden');
+                    modal.classList.remove('flex');
+                }
+            };
         });
     </script>
 </body>
